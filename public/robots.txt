@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://brand-name.pages.dev/sitemap-index.xml
+Sitemap: https://studio-site-8gn.pages.dev/sitemap-index.xml

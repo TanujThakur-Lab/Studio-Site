@@ -30,7 +30,7 @@ npm run preview
 - Framework preset: **Astro**
 - Build command: `npm run build`
 - Output directory: `dist`
-- Environment variable: `NODE_VERSION` = `22`
+- Environment variable: `NODE_VERSION` = `24`
 
 Every push to `main` then redeploys the site.
 
@@ -53,11 +53,11 @@ The first run asks you to log in to Cloudflare. `public/_headers` sets the secur
 | Where | Placeholder | What to put there |
 |---|---|---|
 | `src/config.ts` | `BRAND` = `[BRAND NAME]` | The studio name (nav, title, footer, Open Graph tags) |
-| `src/config.ts` | `SITE_URL` = `https://brand-name.pages.dev` | The real address (used for the canonical URL, Open Graph and the sitemap) |
+| `src/config.ts` | `SITE_URL` = `https://studio-site-8gn.pages.dev` | Change only if you add a custom domain (used for the canonical URL, Open Graph and the sitemap) |
 | `src/config.ts` | `BOOKING_URL` = `#contact`, `BOOKING_LABEL` | Your Cal.com, Calendly or Google booking link. Every "Book a call" button uses it |
 | `src/config.ts` | `WHATSAPP_URL` = `https://wa.me/910000000000`, `WHATSAPP_LABEL` | Your WhatsApp number (digits only, with country code) |
 | `src/config.ts` | `EMAIL` = `hello@example.com`, `EMAIL_LABEL` | Your contact email |
-| `public/robots.txt` | `brand-name.pages.dev` | The real address |
+| `public/robots.txt` | `studio-site-8gn.pages.dev` | Change only if you add a custom domain |
 | `public/og.png` | `[BRAND NAME]` in the image | Edit the name in `tools/og.html`, open it in Chrome at 1200×630 and save a screenshot over `public/og.png` |
 | `src/components/ThisPage.astro` | `[Your first case study goes here]` | Your first real case study: the task, the time it took by hand, what the workflow does now, and the client's words (with permission) |
 | `src/components/Tiers.astro` | `[notice period]` | The notice period for the monthly plan |

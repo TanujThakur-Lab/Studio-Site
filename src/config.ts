@@ -2,7 +2,7 @@
 // See README.md for the full list.
 
 /** The public address once deployed (used for canonical, Open Graph and the sitemap). */
-export const SITE_URL = 'https://brand-name.pages.dev';
+export const SITE_URL = 'https://studio-site-8gn.pages.dev';
 
 /** Studio name. Shown in the nav, title, footer and Open Graph tags. */
 export const BRAND = '[BRAND NAME]';
