@@ -1,0 +1,68 @@
+---
+import Tick from './Tick.astro';
+import { BRAND, BOOKING_URL } from '../config';
+---
+<header class="nav wrap">
+  <a class="nav__mark" href="#top" aria-label={`${BRAND}, back to top`}>
+    <span class="nav__tick"><Tick /></span>
+    <span>{BRAND}</span>
+  </a>
+  <nav class="nav__links" aria-label="Sections">
+    <a href="#how">How it works</a>
+    <a href="#build">What we build</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+  </nav>
+  <div class="nav__end">
+    <button class="nav__theme" type="button" data-theme-toggle aria-label="Switch colour theme">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg>
+    </button>
+    <a class="btn btn--small" href={BOOKING_URL} data-magnetic>Book a call</a>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    height: 68px; background: var(--bg);
+    transition: transform var(--dur-ui) var(--ease-out);
+  }
+  .nav__mark { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; font-weight: 800; letter-spacing: -0.02em; text-decoration: none; font-size: var(--step-body); white-space: nowrap; min-width: 0; }
+  @media (max-width: 420px) { .nav__mark { font-size: var(--step-small); } .nav { gap: 8px; } }
+  .nav__tick { display: grid; place-items: center; width: 28px; height: 28px; background: var(--accent); color: var(--on-accent); }
+  .nav__tick :global(.tick) { width: 18px; height: 18px; }
+  .nav__links { display: flex; gap: clamp(16px, 2vw, 32px); font-weight: 600; font-size: var(--step-small); }
+  .nav__links a { position: relative; text-decoration: none; padding-block: 12px; }
+  .nav__links a::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 6px; height: 2px; background: var(--ink);
+    transform: scaleX(0); transform-origin: left; transition: transform var(--dur-ui) var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .nav__links a:hover::after { transform: scaleX(1); }
+  }
+  .nav__end { display: flex; align-items: center; gap: 8px; }
+  .nav__theme { display: grid; place-items: center; width: 44px; height: 44px; border: 0; background: transparent; padding: 0; }
+  .nav__theme svg { width: 20px; height: 20px; transition: transform var(--dur-ui) var(--ease-out); }
+  @media (hover: hover) and (pointer: fine) {
+    .nav__theme:hover svg { transform: rotate(180deg); }
+  }
+  @media (max-width: 899px) { .nav__links { display: none; } }
+</style>
+
+<script>
+  import { magnetic, switchTheme } from '../lib/motion';
+  document.querySelectorAll<HTMLElement>('[data-magnetic]').forEach((el) => magnetic(el));
+
+  const root = document.documentElement;
+  const toggle = document.querySelector<HTMLElement>('[data-theme-toggle]')!;
+  toggle.addEventListener('click', () => switchTheme(() => {
+    const dark = root.dataset.theme
+      ? root.dataset.theme === 'dark'
+      : window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const next = dark ? 'light' : 'dark';
+    root.dataset.theme = next;
+    toggle.setAttribute('aria-label', `Switch to ${dark ? 'dark' : 'light'} theme`);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+  }, toggle));
+</script>

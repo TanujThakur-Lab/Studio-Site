@@ -1,0 +1,58 @@
+---
+const faqs = [
+  {
+    q: 'What does it cost?',
+    a: 'It depends on the task, so we quote after the free call, not before. The audit is a small fixed fee. The build is a fixed price agreed in writing before we start, and the monthly plan is a flat fee. No hourly billing and no surprise invoices.',
+  },
+  {
+    q: 'How soon can we start?',
+    a: 'Usually within [two weeks] of the first call. The audit needs one or two short sessions with whoever does the task today; you don’t need to prepare anything beyond that.',
+  },
+  {
+    q: 'Is our data safe?',
+    a: 'We only connect to the systems and folders you choose, with access you can see and switch off. We write down exactly what data a workflow touches before we build it. The workflows run on Claude through Anthropic’s business API, and on the call we’ll walk you through what those terms say about how your data is handled.',
+  },
+  {
+    q: 'Can’t we just use ChatGPT or Claude ourselves?',
+    a: 'For one-off questions, yes, and you should. The difference is everything around it: pulling the right data in automatically, writing in your format every single week, checking the result, and putting it in front of the right person to approve. A chat window does none of that on its own, and it depends on someone remembering to open it.',
+  },
+  {
+    q: 'What happens if it makes a mistake?',
+    a: 'Nothing reaches a client until a person approves it, so a mistake is something you catch in a draft, not something you apologise for. When it does get something wrong, we find out why and change the workflow so it doesn’t happen again. That’s what the monthly plan is for.',
+  },
+  {
+    q: 'Who maintains it?',
+    a: 'We do, on the monthly plan: monitoring, fixes, and changes when your process changes. If you’d rather run it yourselves, we hand it over with documentation and it’s yours.',
+  },
+];
+---
+<section id="faq" class="faq" aria-labelledby="faq-title">
+  <div class="faq__head wrap" data-reveal-group>
+    <h2 class="display" id="faq-title" data-reveal="clip">Fair questions</h2>
+  </div>
+  {faqs.map((f, i) => (
+    <div class:list={['faq__band', { 'faq__band--alt': i % 2 === 1 }]} data-reveal-group>
+      <div class="wrap grid">
+        <h3 class="title faq__q" data-reveal>{f.q}</h3>
+        <p class="faq__a" data-reveal>{f.a}</p>
+      </div>
+    </div>
+  ))}
+</section>
+
+<style>
+  .faq__head { display: flex; align-items: flex-end; min-height: 26svh; padding-bottom: 40px; background: var(--field); color: var(--on-field); }
+  .faq__band { padding-block: 56px; background: var(--bg); }
+  .faq__band--alt { background: var(--surface); }
+  .faq__q { grid-column: 1 / 6; }
+  .faq__a { grid-column: 6 / -1; max-width: 58ch; line-height: 1.55; }
+  @media (max-width: 1099px) {
+    .faq__q, .faq__a { grid-column: 1 / -1; }
+    .faq__a { margin-top: 14px; }
+  }
+  @media (max-width: 767px) {
+    .faq__head { min-height: 20svh; }
+    .faq__band { padding-block: 32px; }
+    .faq__a { margin-top: 12px; }
+  }
+</style>

@@ -1,0 +1,93 @@
+---
+import { BOOKING_URL } from '../config';
+const facts = [
+  { label: 'The opening scene', value: 'Scripted, with sample data. No AI calls, no keys.', href: '#top' },
+  { label: 'How it works', value: 'Filled by your scrolling, frame by frame.', href: '#how' },
+  { label: 'What we build', value: 'Four demos you can click, edit and approve.', href: '#build' },
+  { label: 'The buttons', value: 'They lean towards your cursor and give when pressed.', href: '#top' },
+  { label: 'Reduced motion', value: 'Switch it on: every scene still makes sense, standing still.', href: '#top' },
+  { label: 'Trackers', value: 'None. No analytics, no third-party requests.', href: '#faq' },
+];
+---
+<section id="demo" class="demo field-page" aria-labelledby="demo-title">
+  <div class="wrap">
+    <div class="demo__row" data-reveal-group>
+      <h2 class="headline demo__title" id="demo-title" data-reveal="clip">This page is the demo.</h2>
+      <p class="lead demo__para" data-reveal>
+        We designed and built everything you’ve scrolled past, with the care we give client workflows. None of it is a template.
+      </p>
+    </div>
+
+    <div class="demo__row demo__row--facts" data-reveal-group>
+      <h3 class="title demo__label" data-reveal>Look again</h3>
+      <ul class="facts" data-reveal>
+        {facts.map((f) => (
+          <li>
+            <a href={f.href} data-show>
+              <span class="facts__label">{f.label}</span>
+              <span class="facts__value">{f.value}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="demo__row demo__row--case" data-reveal-group>
+      <h3 class="title demo__label" data-reveal>Case studies</h3>
+      <div class="case" data-reveal>
+        <p class="title">[Your first case study goes here]</p>
+        <p class="case__hint">The task, how long it took by hand, what the workflow does now, and what the client said. Short and real.</p>
+      </div>
+    </div>
+
+    <div class="demo__close" data-reveal-group>
+      <h3 class="headline demo__ask" data-reveal>Want a site and workflows this good for your business?</h3>
+      <a class="btn" href={BOOKING_URL} data-magnetic data-reveal>Book a free 20-minute call</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .demo__row { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); }
+  .demo__row > :nth-child(2) { grid-column: 6 / -1; }
+  .demo__label { grid-column: 1 / 6; }
+  .demo__title { grid-column: 1 / -1; margin-bottom: clamp(32px, 4vw, 56px); }
+  .demo__para { max-width: 40ch; }
+  @media (max-width: 1099px) { .demo__para { max-width: none; font-size: var(--step-body); } }
+  .demo__row--facts, .demo__row--case { margin-top: clamp(72px, 8vw, 120px); }
+  .demo__label { padding-top: 2px; }
+  .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 28px var(--gutter); }
+  .facts a { display: flex; flex-direction: column; gap: 2px; text-decoration: none; }
+  .facts__label { font-weight: 800; letter-spacing: -0.01em; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.25em; text-decoration-color: var(--field-muted); transition: text-decoration-color var(--dur-ui) ease; }
+  .facts__value { color: var(--field-muted); max-width: 34ch; }
+  @media (hover: hover) and (pointer: fine) {
+    .facts a:hover .facts__label { text-decoration-color: var(--accent); }
+  }
+  .case { padding: 28px; background: color-mix(in srgb, var(--on-field) 7%, var(--field)); }
+  .case__hint { margin-top: 10px; color: var(--field-muted); max-width: 52ch; }
+  .demo__close { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 32px; margin-top: clamp(96px, 10vw, 160px); }
+  .demo__ask { max-width: 30ch; }
+  @media (max-width: 1099px) { .demo__ask { font-size: var(--step-title); } }
+  @media (max-width: 767px) {
+    .demo__row { grid-template-columns: 1fr; }
+    .demo__row > * { grid-column: 1 / -1 !important; }
+    .demo__label { margin-bottom: 12px; }
+    .facts { grid-template-columns: 1fr; }
+    .demo__close .btn { width: 100%; justify-content: center; }
+  }
+  :global(.is-pointed) { animation: pointed 1.6s var(--ease-out) 1; }
+  @keyframes pointed { 0%, 30% { outline: 6px solid var(--accent); outline-offset: -6px; } 100% { outline: 6px solid transparent; outline-offset: -6px; } }
+  @media (prefers-reduced-motion: reduce) { :global(.is-pointed) { animation: none; } }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLAnchorElement>('[data-show]').forEach((a) => {
+    a.addEventListener('click', () => {
+      const target = document.querySelector<HTMLElement>(a.getAttribute('href')!);
+      if (!target) return;
+      target.classList.remove('is-pointed');
+      void target.offsetWidth;
+      target.classList.add('is-pointed');
+    });
+  });
+</script>

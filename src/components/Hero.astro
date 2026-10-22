@@ -1,0 +1,310 @@
+---
+import Tick from './Tick.astro';
+import { heroNotes, heroReport } from '../data/sample';
+import { BOOKING_URL } from '../config';
+---
+<section id="top" class="hero" aria-labelledby="hero-title">
+  <div class="desk" data-desk>
+    <div class="desk__notes" aria-hidden="true">
+      {heroNotes.map((n, i) => (
+        <div class="note-pos" style={`left:${n.x}%;top:${n.y}%`} data-depth={(0.4 + (i % 4) * 0.2).toFixed(1)} data-m={i % 3 === 1 ? 'hide' : undefined}>
+          <p class:list={['note', { 'note--ticket': n.text.startsWith('#') }]} style={`transform:rotate(${n.r}deg)`} data-note={n.line ?? ''} data-r={n.r}>{n.text}</p>
+        </div>
+      ))}
+      <div class="log" data-log>
+        <p class="log__head">Read {heroNotes.length} notes. Used {heroNotes.filter((n) => n.line).length}, left out {heroNotes.filter((n) => !n.line).length}.</p>
+        <ul>
+          {heroNotes.map((n) => (
+            <li class:list={{ 'log--out': !n.line }}>
+              <span>{n.text}</span>
+              <b>{n.line ? { d: 'Done', w: 'Waiting' }[n.line[0] as 'd' | 'w'] : 'Left out'}</b>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <article class="sheet" aria-labelledby="sheet-title" data-sheet data-ui>
+      <div class="sheet__bar">
+        <p class="sheet__state" data-state aria-live="polite">Draft ready. Nothing is sent until you approve.</p>
+        <button class="btn btn--small sheet__approve" type="button" data-approve>
+          <Tick /> Approve
+        </button>
+        <span class="sheet__after" data-after hidden>
+          <a class="sheet__book" href={BOOKING_URL}>Get this for real</a>
+          <button class="sheet__again" type="button" data-again>Run it again</button>
+        </span>
+      </div>
+      <div class="sheet__page">
+        <p class="sample">Sample data</p>
+        <h2 class="sheet__title" id="sheet-title">Weekly report: {heroReport.client}</h2>
+        <p class="sheet__meta">{heroReport.week} · {heroReport.summary}</p>
+        {heroReport.sections.map((s) => (
+          <div class="sheet__group">
+            <h3>{s.title}</h3>
+            <ul>{s.lines.map((l) => <li data-line={l.id}>{l.text}</li>)}</ul>
+          </div>
+        ))}
+        <div class="stamp" data-stamp aria-hidden="true"><Tick /> Approved</div>
+      </div>
+    </article>
+  </div>
+
+  <div class="hero__text wrap grid">
+    <h1 class="display hero__title" id="hero-title">Get your <br />Fridays back.</h1>
+    <p class="hero__note small muted">
+      The scene above is scripted with sample data. No AI runs on this page, and nothing you click is sent anywhere.
+    </p>
+    <div class="axis hero__row">
+      <p class="hero__standfirst">
+        We turn the admin your team repeats every week (client reports, ticket follow-ups, document updates, routine replies) into an AI workflow that drafts the work and waits for a person to approve it.
+      </p>
+      <a class="btn" href={BOOKING_URL} data-magnetic>Book a free 20-minute call</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .desk {
+    position: relative; overflow: hidden;
+    display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter);
+    padding-inline: var(--margin);
+    height: clamp(360px, 48svh, 500px);
+    background: var(--surface);
+  }
+  .desk__notes { position: relative; grid-column: 1 / 7; margin-block: 28px 36px; }
+  .note-pos { position: absolute; }
+  .note {
+    max-width: 23ch; padding: 8px 11px;
+    background: var(--bg); color: var(--ink);
+    font-size: 0.875rem; line-height: 1.3; font-variation-settings: 'wdth' 82; font-weight: 500;
+    transform-origin: 30% 50%;
+  }
+  .note--ticket { background: var(--field); color: var(--on-field); }
+
+  .log { position: absolute; inset: 0; visibility: hidden; font-size: 0.875rem; line-height: 1.3; font-variation-settings: 'wdth' 82; }
+  .log.is-shown { visibility: visible; }
+  .log__head { font-weight: 700; font-size: 1rem; font-variation-settings: 'wdth' 100; margin-bottom: 12px; }
+  .log li { display: flex; justify-content: space-between; gap: 16px; padding-block: 5px; }
+  .log { right: 0; font-size: var(--step-small); }
+  .log li:nth-child(odd) { background: color-mix(in srgb, var(--surface-2) 55%, transparent); }
+  .log li > * { padding-inline: 8px; }
+  .log span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .log b { flex: none; font-weight: 700; }
+  .log--out { color: var(--muted); }
+  .log--out span { text-decoration: line-through; }
+  .js .log > * { opacity: 0; }
+  @media (max-width: 899px) {
+    .log { display: none; }
+    .log__head { font-size: 0.9375rem; margin-bottom: 6px; }
+    .log li { padding-block: 2px; }
+    .log li:nth-child(n + 6) { display: none; }
+  }
+
+  .sheet {
+    grid-column: 7 / -1; align-self: start; margin-top: 28px;
+    width: min(100%, 600px); justify-self: end;
+    background: var(--paper); color: var(--paper-ink);
+  }
+  .sheet__bar {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 10px 10px 10px 18px; background: var(--surface-2); color: var(--ink);
+    min-height: 64px;
+  }
+  .sheet__state { font-size: var(--step-small); line-height: 1.3; font-weight: 600; }
+  .sheet__approve[aria-disabled='true'] { background: var(--surface); color: var(--muted); pointer-events: none; }
+  .sheet__after { display: flex; gap: 4px; flex: none; }
+  .sheet__book {
+    display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px;
+    background: var(--accent); color: var(--on-accent); font-weight: 700; font-size: var(--step-small); text-decoration: none; white-space: nowrap;
+  }
+  .sheet__again {
+    min-height: 44px; padding: 0 14px; border: 0; background: var(--ink); color: var(--bg);
+    font-weight: 700; font-size: 0.9375rem; white-space: nowrap;
+    transition: transform var(--dur-state) var(--ease-out);
+  }
+  .sheet__again:active { transform: scale(0.97); }
+  .sheet__page { position: relative; padding: 18px 22px 28px; font-family: var(--font-doc); }
+  .sheet__page .sample { margin-bottom: 10px; }
+  .sheet__title { font-family: var(--font-doc); font-weight: 600; font-size: 1.375rem; line-height: 1.15; letter-spacing: -0.01em; }
+  .sheet__meta { margin-top: 4px; font-size: 0.9375rem; color: var(--paper-muted); }
+  .sheet__group { margin-top: 12px; }
+  .sheet__group h3 { font-family: var(--font-sans); font-size: 0.8125rem; font-weight: 700; }
+  .sheet__group li { font-size: 0.9375rem; line-height: 1.35; padding-left: 14px; position: relative; }
+  .sheet__group li::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 6px; height: 6px; background: var(--paper-ink); }
+  .is-scripted [data-line] { opacity: 0; }
+
+  .stamp {
+    position: absolute; right: 22px; top: 18px;
+    display: flex; align-items: center; gap: 6px; padding: 8px 14px 8px 10px;
+    background: var(--accent); color: var(--on-accent);
+    font-family: var(--font-sans); font-weight: 800; font-size: 1.125rem; letter-spacing: -0.01em;
+    opacity: 0; transform: rotate(-6deg) scale(0.92);
+  }
+  .stamp :global(.tick) { width: 22px; height: 22px; }
+  .is-approved .stamp { opacity: 1; transform: rotate(-6deg); }
+
+  .hero__text { padding-top: clamp(28px, 3.4vw, 52px); padding-bottom: var(--section); row-gap: 0; }
+  .hero__title { grid-column: 1 / -1; }
+  @media (max-width: 1099px) { .hero__note { order: 3; margin-top: 20px; } }
+  .hero__note { grid-column: 1 / 5; align-self: end; max-width: 32ch; padding-bottom: 6px; }
+  .hero__row { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px 32px; margin-top: 28px; flex-wrap: wrap; }
+  .hero__standfirst { max-width: 40ch; line-height: 1.45; }
+
+  @media (max-width: 899px) {
+    .desk { display: block; height: 450px; }
+    .desk__notes { position: absolute; inset: 16px var(--margin) auto; height: 150px; margin: 0; }
+    .note-pos[data-m='hide'] { display: none; }
+    .note { font-size: 0.8125rem; max-width: 19ch; padding: 6px 9px; }
+    .sheet { position: absolute; left: var(--margin); right: var(--margin); top: 176px; width: auto; margin: 0; }
+    .sheet { max-width: 600px; }
+    .sheet__bar { flex-wrap: wrap; row-gap: 8px; padding-left: 14px; }
+    .sheet__bar .sheet__state { flex: 1 1 100%; }
+    .sheet__bar > .btn, .sheet__after { flex: 1 1 auto; }
+    .sheet__after > * { flex: 1; justify-content: center; }
+    .stamp { top: 10px; right: 14px; font-size: var(--step-small); padding: 6px 10px 6px 8px; }
+    .stamp :global(.tick) { width: 16px; height: 16px; }
+    .log { max-width: 600px; }
+  }
+  @media (max-width: 767px) {
+    .hero__text { padding-top: 44px; }
+    .hero__note { order: 3; margin-top: 20px; }
+    .hero__row { margin-top: 18px; }
+    .hero__row .btn { width: 100%; justify-content: center; }
+  }
+</style>
+
+<script>
+  import { animate } from 'motion';
+  import { spring, stagger, reducedMotion, finePointer } from '../lib/motion';
+
+  const desk = document.querySelector<HTMLElement>('[data-desk]')!;
+  const sheet = desk.querySelector<HTMLElement>('[data-sheet]')!;
+  const state = desk.querySelector<HTMLElement>('[data-state]')!;
+  const approve = desk.querySelector<HTMLButtonElement>('[data-approve]')!;
+  const again = desk.querySelector<HTMLButtonElement>('[data-again]')!;
+  const after = desk.querySelector<HTMLElement>('[data-after]')!;
+  const narrow = window.matchMedia('(max-width: 899px)');
+  const lift = () => (narrow.matches ? -(sheet.offsetTop - 16) : 0);
+  const stamp = desk.querySelector<HTMLElement>('[data-stamp]')!;
+  const log = desk.querySelector<HTMLElement>('[data-log]')!;
+  const positions = [...desk.querySelectorAll<HTMLElement>('.note-pos')];
+  const notes = [...desk.querySelectorAll<HTMLElement>('[data-note]')];
+  const lines = [...sheet.querySelectorAll<HTMLElement>('[data-line]')];
+  const visible = (el: HTMLElement) => el.offsetParent !== null;
+
+  let phase: 'idle' | 'drafting' | 'ready' | 'approved' = 'idle';
+  const setReady = (text: string) => {
+    phase = 'ready';
+    state.textContent = text;
+    approve.removeAttribute('aria-disabled');
+  };
+
+  async function draft(lead = 1.1) {
+    phase = 'drafting';
+    approve.setAttribute('aria-disabled', 'true');
+    state.textContent = 'Drafting this week’s report from the notes…';
+    sheet.classList.add('is-scripted');
+    positions.forEach((p) => animate(p, { transform: 'translate(0px, 0px)' }, spring.smooth));
+
+    const shown = new Set<HTMLElement>();
+    const flights = notes.filter(visible).map((note, i) => {
+      const target = lines.find((l) => l.dataset.line === note.dataset.note);
+      const delay = lead + i * stagger.part;
+      if (!target) {
+        return animate(note, { opacity: 0, transform: `rotate(${note.dataset.r}deg) translateY(12px) scale(0.95)` }, { ...spring.smooth, delay })
+          .then(() => { note.style.visibility = 'hidden'; });
+      }
+      const a = note.getBoundingClientRect();
+      const b = target.getBoundingClientRect();
+      const floor = desk.getBoundingClientRect().bottom - 24;
+      if (b.top > floor) {
+        return animate(note, { opacity: 0, transform: `rotate(${note.dataset.r}deg) scale(0.95)` }, { ...spring.smooth, delay })
+          .then(() => { note.style.visibility = 'hidden'; target.style.opacity = '1'; });
+      }
+      const dx = b.left - a.left;
+      const dy = b.top + b.height / 2 - (a.top + a.height / 2);
+      return animate(note, { transform: `translate(${dx}px, ${dy}px) rotate(0deg) scale(0.94)` }, { ...spring.gentle, delay })
+        .then(() => Promise.all([
+          animate(note, { opacity: 0 }, { duration: 0.16 }).then(() => { note.style.visibility = 'hidden'; }),
+          shown.has(target) ? null : (shown.add(target), animate(target, { opacity: [0, 1], transform: ['translateY(6px)', 'translateY(0px)'] }, spring.smooth)),
+        ]));
+    });
+    // a cap, so the scene can never stall waiting on an interrupted animation
+    await Promise.race([Promise.all(flights), new Promise((r) => setTimeout(r, 4500))]);
+    lines.forEach((l) => (l.style.opacity = '1'));
+    log.classList.add('is-shown');
+    // On small screens the filed notes make room: the report slides up so more of it shows.
+    if (narrow.matches) animate(sheet, { transform: `translateY(${lift()}px)` }, spring.smooth);
+    [log.firstElementChild!, ...log.querySelectorAll('li')].forEach((el, i) =>
+      animate(el, { opacity: [0, 1], transform: ['translateY(8px)', 'translateY(0px)'] }, { ...spring.smooth, delay: i * stagger.line }));
+    setReady('Draft ready. Nothing is sent until you approve.');
+  }
+
+  function approveDraft() {
+    if (phase !== 'ready') return;
+    phase = 'approved';
+    sheet.classList.add('is-approved');
+    if (!reducedMotion()) {
+      animate(stamp, { opacity: [0, 1], transform: ['rotate(-14deg) scale(1.25)', 'rotate(-6deg) scale(1)'] }, spring.snappy);
+    }
+    state.textContent = 'Approved by you. In real life it would now go to Sample Freight Ltd.';
+    approve.hidden = true;
+    after.hidden = false;
+    after.querySelector<HTMLElement>('a')!.focus();
+  }
+
+  async function replay() {
+    sheet.classList.remove('is-approved');
+    stamp.removeAttribute('style');
+    approve.hidden = false;
+    after.hidden = true;
+    approve.focus();
+    if (narrow.matches && !reducedMotion()) animate(sheet, { transform: 'translateY(0px)' }, spring.smooth);
+    if (reducedMotion()) return setReady('Draft ready. Nothing is sent until you approve.');
+    log.classList.remove('is-shown');
+    [log.firstElementChild!, ...log.querySelectorAll('li')].forEach((el) => ((el as HTMLElement).style.opacity = '0'));
+    lines.forEach((l) => { l.style.opacity = '0'; l.style.transform = ''; });
+    notes.forEach((n) => (n.style.visibility = ''));
+    await Promise.all(notes.map((n, i) =>
+      animate(n, { opacity: [0, 1], transform: [`rotate(${n.dataset.r}deg) scale(0.9)`, `rotate(${n.dataset.r}deg) scale(1)`] }, { ...spring.smooth, delay: i * stagger.line })));
+    draft(0.25);
+  }
+
+  approve.addEventListener('click', approveDraft);
+  again.addEventListener('click', replay);
+
+  if (reducedMotion()) {
+    setReady('Draft ready. Nothing is sent until you approve.');
+  } else {
+    approve.setAttribute('aria-disabled', 'true');
+    sheet.classList.add('is-scripted');
+    const start = () => (document.fonts?.ready ?? Promise.resolve()).then(() => draft());
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) { io.disconnect(); start(); }
+    }, { threshold: 0.3 });
+    io.observe(desk);
+
+    // Notes lean towards the cursor while they are still a mess.
+    if (finePointer() && !narrow.matches) {
+      let frame = 0;
+      desk.addEventListener('pointermove', (e) => {
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(() => {
+          const r = desk.getBoundingClientRect();
+          const nx = (e.clientX - r.left) / r.width - 0.5;
+          const ny = (e.clientY - r.top) / r.height - 0.5;
+          animate(sheet, { transform: `perspective(1400px) rotateY(${nx * 3}deg) rotateX(${-ny * 2}deg)` }, spring.gentle);
+          if (phase !== 'idle') return;
+          positions.forEach((p) => {
+            const d = Number(p.dataset.depth);
+            animate(p, { transform: `translate(${nx * 24 * d}px, ${ny * 16 * d}px)` }, spring.gentle);
+          });
+        });
+      });
+      desk.addEventListener('pointerleave', () => {
+        animate(sheet, { transform: 'perspective(1400px) rotateY(0deg) rotateX(0deg)' }, spring.smooth);
+      });
+    }
+  }
+</script>

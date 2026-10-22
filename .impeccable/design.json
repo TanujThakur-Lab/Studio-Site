@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-22T00:00:00Z",
+  "title": "Design System: [BRAND NAME]",
+  "extensions": {
+    "colorMeta": {
+      "accent": { "role": "primary", "displayName": "Approval Chartreuse", "canonical": "#C8F03C", "tonalRamp": ["#2A3505", "#46590A", "#667F12", "#87A81C", "#A8D02A", "#C8F03C", "#DDF68A", "#F1FBD0"] },
+      "on-accent": { "role": "neutral", "displayName": "Ink on Chartreuse", "canonical": "#131417" },
+      "bg": { "role": "neutral", "displayName": "Desk Grey", "canonical": "#F0F0ED", "note": "Pending amendment; user-approved value was #F2F1EC.", "tonalRamp": ["#232321", "#3D3D3B", "#5A5A57", "#7A7A76", "#9C9C98", "#C0C0BC", "#E4E4E0", "#F0F0ED"] },
+      "surface": { "role": "neutral", "displayName": "Desk Surface", "canonical": "#E4E4E0" },
+      "surface-2": { "role": "neutral", "displayName": "Desk Surface Deep", "canonical": "#D6D6D1" },
+      "ink": { "role": "neutral", "displayName": "Graphite Ink", "canonical": "#131417", "tonalRamp": ["#131417", "#25272B", "#3B3D42", "#55575C", "#74767B", "#97989C", "#BDBEC1", "#E3E3E5"] },
+      "muted": { "role": "neutral", "displayName": "Graphite Muted", "canonical": "#55575C" },
+      "field": { "role": "neutral", "displayName": "Ink Colour Page", "canonical": "#131417" },
+      "on-field": { "role": "neutral", "displayName": "Text on Ink Page", "canonical": "#F0F0ED" },
+      "field-muted": { "role": "neutral", "displayName": "Muted on Ink Page", "canonical": "#B1B2AC" },
+      "paper": { "role": "neutral", "displayName": "Paper White", "canonical": "#FFFFFF" },
+      "paper-ink": { "role": "neutral", "displayName": "Paper Ink", "canonical": "#131417" },
+      "paper-muted": { "role": "neutral", "displayName": "Paper Muted", "canonical": "#5C5E63" },
+      "paper-chrome": { "role": "neutral", "displayName": "Paper Chrome", "canonical": "#EBEBE8" },
+      "paper-tint": { "role": "neutral", "displayName": "Paper Tint", "canonical": "#F3F3F1" },
+      "alert": { "role": "tertiary", "displayName": "Correction Red", "canonical": "#9B2C13", "tonalRamp": ["#2B0C05", "#4E1609", "#73200E", "#9B2C13", "#C24A2E", "#DA7B63", "#ECAE9E", "#F8E0D9"] },
+      "mark": { "role": "tertiary", "displayName": "Highlighter", "canonical": "#E9F8B4" },
+      "del": { "role": "tertiary", "displayName": "Struck Rose", "canonical": "#F6D7CF" },
+      "bg-dark": { "role": "neutral", "displayName": "Night Desk", "canonical": "#111214" },
+      "surface-dark": { "role": "neutral", "displayName": "Night Surface", "canonical": "#1C1D20" },
+      "surface-2-dark": { "role": "neutral", "displayName": "Night Surface Deep", "canonical": "#27282C" },
+      "ink-dark": { "role": "neutral", "displayName": "Pale Ink", "canonical": "#E6E6E3", "note": "Pending amendment; user-approved value was #ECEBE5. Also the dark field fill." },
+      "muted-dark": { "role": "neutral", "displayName": "Pale Muted", "canonical": "#A3A49E" },
+      "paper-dark": { "role": "neutral", "displayName": "Night Paper", "canonical": "#F5F5F2" },
+      "field-muted-dark": { "role": "neutral", "displayName": "Muted on Pale Page", "canonical": "#4A4B4F" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The hero h1 only." },
+      "headline": { "displayName": "Headline", "purpose": "Section headings, from the left margin." },
+      "title": { "displayName": "Title", "purpose": "Sub-headings, workflow index, stage times, tier names, KPI figures; lead paragraphs at 400." },
+      "body": { "displayName": "Body", "purpose": "Running text and button labels (700)." },
+      "label": { "displayName": "Small", "purpose": "Labels, captions, meta, small buttons, the sample-data label." },
+      "document-title": { "displayName": "Document Title", "purpose": "Newsreader title inside a document sheet only." },
+      "document-body": { "displayName": "Document Body", "purpose": "Newsreader text inside a document sheet only." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "spring-snappy", "value": "spring stiffness 420, damping 32 (~220ms)", "purpose": "Presses, toggles, the tick and stamp landing, magnetic pull." },
+      { "name": "spring-smooth", "value": "spring stiffness 220, damping 28 (~420ms)", "purpose": "Reveals, content swaps, magnetic release." },
+      { "name": "spring-gentle", "value": "spring stiffness 120, damping 22 (~650ms)", "purpose": "Hero note-to-report assembly, headline clip reveals." },
+      { "name": "stagger-line", "value": "60ms", "purpose": "Between lines." },
+      { "name": "stagger-part", "value": "90ms", "purpose": "Between parts of a section, in reading order." },
+      { "name": "rise", "value": "24px", "purpose": "Reveal travel." },
+      { "name": "ease-out", "value": "cubic-bezier(0.23, 1, 0.32, 1)", "purpose": "CSS state and UI transitions." },
+      { "name": "ease-in-out", "value": "cubic-bezier(0.77, 0, 0.175, 1)", "purpose": "Looping illustrations." },
+      { "name": "dur-state", "value": "120ms", "purpose": "Press feedback." },
+      { "name": "dur-ui", "value": "240ms", "purpose": "Hover, colour and underline transitions." },
+      { "name": "dur-reveal", "value": "420ms", "purpose": "Reveal timing in CSS." },
+      { "name": "theme-wipe", "value": "520ms cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Circular theme switch from the toggle via View Transitions." },
+      { "name": "reduced-motion", "value": "prefers-reduced-motion: reduce", "purpose": "Skip reveals, magnetic pull, drift, smooth scroll and theme wipe; show finished hero report, stopped loops and a fully filled stage bar; keep every demo interactive." }
+    ],
+    "breakpoints": [
+      { "name": "mobile", "value": "max-width: 767px", "purpose": "Grid collapses to one column." },
+      { "name": "compact", "value": "max-width: 899px", "purpose": "Nav links hide; hero desk stacks." },
+      { "name": "tablet", "value": "max-width: 1099px", "purpose": "Axis column spans full width; stage bar stacks; no pinning." }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The single action: chartreuse fill, ink text, square, 56px.",
+      "html": "<a class=\"ds-btn\" href=\"#\"><svg class=\"ds-tick\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" aria-hidden=\"true\"><path d=\"M4 12.5l5 5L20 6.5\"/></svg>Book a free 20-minute call</a>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; gap: 0.6em; min-height: 56px; padding: 0 26px; background: var(--accent, #c8f03c); color: var(--on-accent, #131417); border: 0; border-radius: 0; font-family: 'Archivo Variable', 'Archivo', system-ui, sans-serif; font-weight: 700; font-size: clamp(1.0625rem, 1rem + 0.25vw, 1.25rem); letter-spacing: -0.01em; text-decoration: none; white-space: nowrap; transition: transform 240ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-btn .ds-tick { width: 1.05em; height: 1.05em; } .ds-btn:active { transform: scale(0.97); transition-duration: 120ms; } .ds-btn:focus-visible { outline: 3px solid var(--ink, #131417); outline-offset: 3px; }"
+    },
+    {
+      "name": "Small and Ink Buttons",
+      "kind": "button",
+      "refersTo": "button-primary-small",
+      "description": "44px small primary for nav and document bars; ink variant for secondary actions.",
+      "html": "<div class=\"ds-row\"><a class=\"ds-btn-sm\" href=\"#\">Book a call</a><button class=\"ds-btn-sm ds-btn-ink\" type=\"button\">Run it again</button></div>",
+      "css": ".ds-row { display: flex; gap: 8px; } .ds-btn-sm { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; background: var(--accent, #c8f03c); color: var(--on-accent, #131417); border: 0; border-radius: 0; font-family: 'Archivo Variable', 'Archivo', system-ui, sans-serif; font-weight: 700; font-size: 0.875rem; text-decoration: none; transition: transform 120ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-btn-ink { background: var(--ink, #131417); color: var(--bg, #f0f0ed); } .ds-btn-sm:active { transform: scale(0.97); } .ds-btn-sm:focus-visible { outline: 3px solid var(--ink, #131417); outline-offset: 3px; }"
+    },
+    {
+      "name": "Paper Document Sheet",
+      "kind": "card",
+      "refersTo": "document-sheet",
+      "description": "A workflow's output at true size: paper white, Newsreader, square bullets, chrome foot with Approve.",
+      "html": "<article class=\"ds-doc\"><div class=\"ds-doc__page\"><p class=\"ds-sample\">Sample data</p><h3 class=\"ds-doc__title\">Weekly report: Sample Freight Ltd</h3><p class=\"ds-doc__meta\">Week 42 · 4 done, 3 waiting on you</p><h4 class=\"ds-doc__h\">Done</h4><ul class=\"ds-doc__list\"><li>Customs hold cleared; documents re-sent on Tuesday.</li><li>Invoice mismatch corrected and closed.</li></ul></div><div class=\"ds-doc__foot\"><span>Draft ready. Nothing is sent until you approve.</span><button class=\"ds-approve\" type=\"button\">Approve</button></div></article>",
+      "css": ".ds-doc { max-width: 560px; background: var(--paper, #ffffff); color: var(--paper-ink, #131417); border-radius: 0; } .ds-doc__page { padding: 18px 22px 8px; font-family: 'Newsreader Variable', 'Newsreader', Georgia, serif; font-size: 1.0625rem; line-height: 1.45; } .ds-sample { display: inline-flex; margin: 0 0 10px; padding: 3px 8px; background: var(--accent, #c8f03c); color: var(--on-accent, #131417); font-family: 'Archivo Variable', 'Archivo', system-ui, sans-serif; font-size: 0.875rem; font-weight: 700; } .ds-doc__title { margin: 0; font-weight: 600; font-size: 1.375rem; line-height: 1.15; letter-spacing: -0.01em; } .ds-doc__meta { margin: 4px 0 0; color: var(--paper-muted, #5c5e63); } .ds-doc__h { margin: 16px 0 0; font-family: 'Archivo Variable', 'Archivo', system-ui, sans-serif; font-size: 0.875rem; font-weight: 700; } .ds-doc__list { margin: 0; padding: 0; list-style: none; } .ds-doc__list li { position: relative; padding-left: 14px; } .ds-doc__list li::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 6px; height: 6px; background: var(--paper-ink, #131417); } .ds-doc__foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 12px; padding: 10px 10px 10px 22px; background: var(--paper-chrome, #ebebe8); font-family: 'Archivo Variable', 'Archivo', system-ui, sans-serif; font-size: 0.875rem; font-weight: 600; } .ds-approve { min-height: 44px; padding: 0 14px; border: 0; border-radius: 0; background: var(--accent, #c8f03c); color: var(--on-accent, #131417); font: inherit; font-weight: 700; cursor: pointer; transition: transform 120ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-approve:active { transform: scale(0.97); } .ds-approve:focus-visible { outline: 3px solid var(--paper-ink, #131417); outline-offset: 3px; }"
+    },
+    {
+      "name": "Sample-Data Label",
+      "kind": "chip",
+      "refersTo": "sample-label",
+      "description": "Marks every document that shows sample data; chartreuse fill, small 700.",
+      "html": "<p class=\"ds-sample-label\">Sample data</p>",
+      "css": ".ds-sample-label { display: inline-flex; align-items: center; gap: 6px; margin: 0; padding: 3px 8px; background: var(--accent, #c8f03c); color: var(--on-accent, #131417); font-family: 'Archivo Variable', 'Archivo', system-ui, sans-serif; font-size: 0.875rem; font-weight: 700; letter-spacing: 0; border-radius: 0; }"
+    },
+    {
+      "name": "Segmented Control",
+      "kind": "chip",
+      "refersTo": "segment",
+      "description": "44px square segments 4px apart on paper chrome; pressed flips to paper ink.",
+      "html": "<div class=\"ds-seg\" role=\"group\" aria-label=\"Week\"><button class=\"ds-seg__btn\" type=\"button\" aria-pressed=\"false\">Week 41</button><button class=\"ds-seg__btn\" type=\"button\" aria-pressed=\"true\">Week 42</button><button class=\"ds-seg__btn\" type=\"button\" aria-pressed=\"false\">Week 43</button></div>",
+      "css": ".ds-seg { display: flex; flex-wrap: wrap; gap: 4px; padding: 10px; background: var(--paper, #ffffff); } .ds-seg__btn { min-height: 44px; padding: 0 12px; border: 0; border-radius: 0; background: var(--paper-chrome, #ebebe8); color: var(--paper-ink, #131417); font-family: 'Archivo Variable', 'Archivo', system-ui, sans-serif; font-weight: 600; font-size: 0.875rem; cursor: pointer; transition: background-color 240ms ease, transform 120ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-seg__btn[aria-pressed='true'] { background: var(--paper-ink, #131417); color: var(--paper, #ffffff); } .ds-seg__btn:active { transform: scale(0.97); } .ds-seg__btn:focus-visible { outline: 3px solid var(--paper-ink, #131417); outline-offset: 3px; }"
+    },
+    {
+      "name": "Stage Bar",
+      "kind": "custom",
+      "refersTo": "stage-segment",
+      "description": "Three proportional square segments that fill muted, ink, then chartreuse as the visitor scrolls; shown fully filled here.",
+      "html": "<div class=\"ds-bar\"><div class=\"ds-bar__seg ds-bar__seg--1\" style=\"flex-grow:1\"><span>Two weeks</span></div><div class=\"ds-bar__seg ds-bar__seg--2\" style=\"flex-grow:2\"><span>Four weeks</span></div><div class=\"ds-bar__seg ds-bar__seg--3\" style=\"flex-grow:3\"><span>Every week after</span></div></div>",
+      "css": ".ds-bar { display: flex; gap: 6px; } .ds-bar__seg { flex-basis: 0; min-width: 12%; height: 210px; padding: 18px 20px; background: var(--surface, #e4e4e0); font-family: 'Archivo Variable', 'Archivo', system-ui, sans-serif; font-size: 1.375rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.05; transition: color 240ms ease; } .ds-bar__seg span { display: block; max-width: 12ch; } .ds-bar__seg--1 { background: var(--muted, #55575c); color: var(--on-field, #f0f0ed); } .ds-bar__seg--2 { background: var(--field, #131417); color: var(--on-field, #f0f0ed); } .ds-bar__seg--3 { background: var(--accent, #c8f03c); color: var(--on-accent, #131417); }"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "refersTo": "button-primary-small",
+      "description": "Sticky 68px bar: tick wordmark, small links with a growing 2px underline, small primary button.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav__mark\" href=\"#\"><span class=\"ds-nav__tick\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" aria-hidden=\"true\"><path d=\"M4 12.5l5 5L20 6.5\"/></svg></span>[BRAND NAME]</a><div class=\"ds-nav__links\"><a href=\"#\">How it works</a><a href=\"#\">What we build</a><a href=\"#\">Pricing</a></div><a class=\"ds-nav__cta\" href=\"#\">Book a call</a></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 68px; padding-inline: 24px; background: var(--bg, #f0f0ed); color: var(--ink, #131417); font-family: 'Archivo Variable', 'Archivo', system-ui, sans-serif; } .ds-nav a { color: inherit; } .ds-nav__mark { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: -0.02em; text-decoration: none; } .ds-nav__tick { display: grid; place-items: center; width: 28px; height: 28px; background: var(--accent, #c8f03c); color: var(--on-accent, #131417); } .ds-nav__tick svg { width: 18px; height: 18px; } .ds-nav__links { display: flex; gap: 24px; font-weight: 600; font-size: 0.875rem; } .ds-nav__links a { position: relative; padding-block: 12px; text-decoration: none; } .ds-nav__links a::after { content: ''; position: absolute; left: 0; right: 0; bottom: 6px; height: 2px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform 240ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-nav__links a:hover::after, .ds-nav__links a:focus-visible::after { transform: scaleX(1); } .ds-nav__cta { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; background: var(--accent, #c8f03c); color: var(--on-accent, #131417) !important; font-weight: 700; font-size: 0.875rem; text-decoration: none; } .ds-nav a:focus-visible { outline: 3px solid var(--ink, #131417); outline-offset: 3px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Sign-Off Desk",
+    "overview": "The site is set as the finished, edited weekly client report that the studio's workflows produce. A grey desk holds loose notes; paper-white documents sit on it at true size; a single chartreuse marks the one thing that matters on any surface, which is approval. Nothing is lifted, glowing or blended. Everything is a flat sheet of colour cut square, and hierarchy comes from weight, size and fill contrast alone.\n\nTwo typefaces split the world cleanly. Archivo, heavy and tight, builds every structural element: headings, navigation, buttons, labels, tables. Newsreader appears only inside finished documents, so a serif on screen always means \"this is the output a person approves\". Text hangs on a 42% axis: headlines start at the left margin, and the reading column and actions sit on the axis to their right.\n\nMotion is physical and brief. Springs move parts into place, a 60 or 90ms stagger walks them in reading order, and longer sequences are scrubbed by scroll. Only transform, opacity and clip-path animate. With reduced motion every finished state is shown at once and every interaction still works.",
+    "keyCharacteristics": [
+      "Flat paper, ink and one approval chartreuse, used as fills, never as text on light grounds.",
+      "Square corners everywhere (0px).",
+      "Archivo for structure, Newsreader only inside documents.",
+      "A 12-column grid with the reading axis at column 6 (about 42% across).",
+      "Depth from fill steps only: no lines, shadows or gradients.",
+      "Spring motion on transform and opacity; full parity under reduced motion."
+    ],
+    "rules": [
+      { "name": "The One Tick Rule", "body": "Chartreuse means \"approve\" or \"act\". It is a fill for the single action, the approval stamp and the sample-data label; it never decorates.", "section": "colors" },
+      { "name": "The Paper Stays Paper Rule", "body": "Documents are light in both themes. Dark mode darkens the desk, never the sheet.", "section": "colors" },
+      { "name": "The Serif Means Output Rule", "body": "Newsreader appears only inside a document sheet or a document artefact. Never use it for a page heading, a button or navigation.", "section": "typography" },
+      { "name": "The No Eyebrow Rule", "body": "A heading stands alone. No small label, kicker or category line sits above a heading; the sample-data label belongs to the document's data, inside the sheet, and is not a heading device.", "section": "typography" },
+      { "name": "The Flat Desk Rule", "body": "Every surface is a flat, square-cut fill. To separate two things, change the fill step (bg, surface, surface-2, paper, ink) or the space between them; never add a shadow, border or gradient.", "section": "elevation" }
+    ],
+    "dos": [
+      "**Do** separate groups with fill steps (bg, surface, surface-2, paper, ink) and space.",
+      "**Do** keep chartreuse to fills for the single action, approval and the sample-data label, with ink text on it.",
+      "**Do** set structure in Archivo 800 with tight tracking, and set document content in Newsreader.",
+      "**Do** hang reading text and actions on the 42% axis (column 6 of 12), with headlines from the left margin.",
+      "**Do** label every sample-data document with the chartreuse sample-data label.",
+      "**Do** keep every interactive target at least 44px and every animation to transform, opacity or clip-path."
+    ],
+    "donts": [
+      "**Don't** draw lines: no borders, hairlines, dividers or rules. Link underlines, focus outlines and the edit outline are the only lines.",
+      "**Don't** use shadows of any kind for depth.",
+      "**Don't** use gradients, glows or blends.",
+      "**Don't** put eyebrows or kickers above headings.",
+      "**Don't** round corners.",
+      "**Don't** set Newsreader outside a document, or chartreuse as text on a light ground.",
+      "**Don't** darken the paper sheet in dark mode."
+    ]
+  }
+}

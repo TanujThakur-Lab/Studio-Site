@@ -1,0 +1,81 @@
+---
+import Tick from './Tick.astro';
+import { BRAND, BOOKING_URL, BOOKING_LABEL, WHATSAPP_URL, WHATSAPP_LABEL, EMAIL, EMAIL_LABEL } from '../config';
+const year = new Date().getFullYear();
+// Until a real booking link is set, the footer's "Book a call" opens an email instead of linking to itself.
+const bookHref = BOOKING_URL.startsWith('#')
+  ? `mailto:${EMAIL}?subject=${encodeURIComponent('Book a free 20-minute call')}`
+  : BOOKING_URL;
+---
+<section class="close field-page" aria-labelledby="close-title">
+  <div class="wrap close__inner" data-reveal-group>
+    <h2 class="display close__title" id="close-title" data-reveal="clip">Start with one task.</h2>
+    <div class="close__row">
+      <p class="close__line" data-reveal>Book a free 20-minute call. Bring the job you’d most like to stop doing, and we’ll tell you honestly whether it’s worth automating.</p>
+      <a class="btn" href={BOOKING_URL} data-magnetic data-reveal><Tick /> Book a free 20-minute call</a>
+    </div>
+  </div>
+</section>
+
+<footer id="contact" class="foot field-page" aria-labelledby="contact-title">
+  <div class="wrap">
+    <p class="foot__mark" aria-hidden="true">{BRAND}</p>
+    <div class="foot__row">
+      <div>
+        <h2 class="title foot__h" id="contact-title">Get in touch</h2>
+        <ul class="foot__ways">
+          <li><a href={bookHref}>Book a call <span>{BOOKING_LABEL}</span></a></li>
+          <li><a href={WHATSAPP_URL} rel="noopener">WhatsApp <span>{WHATSAPP_LABEL}</span></a></li>
+          <li><a href={`mailto:${EMAIL}`}>Email <span>{EMAIL_LABEL}</span></a></li>
+        </ul>
+      </div>
+      <nav class="foot__links" aria-label="Footer">
+        <a href="#how">How it works</a>
+        <a href="#build">What we build</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#safety">Your data</a>
+        <a href="#faq">Questions</a>
+      </nav>
+    </div>
+    <div class="foot__legal">
+      <p>© {year} {BRAND}. Demo data on this page is made up. Photograph: “Head Office typists room, New Zealand Railways, 1959”, Archives New Zealand, <a href="https://creativecommons.org/licenses/by-sa/2.0" rel="license noopener">CC BY-SA 2.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Head_Office_typists_room,_New_Zealand_Railways,_1959_(25557790294).jpg" rel="noopener">Wikimedia Commons</a>.</p>
+      <a href="#top">Back to top</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .close { padding-bottom: 0; }
+  .close__inner { display: flex; flex-direction: column; gap: clamp(28px, 3.4vw, 48px); }
+  .close__title { max-width: 10ch; }
+  @media (max-width: 1099px) { .close__title { max-width: none; } }
+  .close__row { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px 40px; flex-wrap: wrap; }
+  .close__line { max-width: 40ch; line-height: 1.45; }
+  .foot { padding-top: clamp(120px, 12vw, 200px); padding-bottom: 32px; }
+  .foot__mark {
+    font-weight: 900; letter-spacing: -0.05em; line-height: 0.85; font-variation-settings: 'wdth' 125;
+    font-size: clamp(2rem, 8.4vw, 7rem); overflow-wrap: anywhere;
+  }
+  .foot__row { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); margin-top: 72px; }
+  .foot__row > div { grid-column: 1 / 6; }
+  .foot__row > nav { grid-column: 6 / -1; }
+  .foot__h { margin-bottom: 16px; }
+  .foot__ways a { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 0 14px; padding-block: 6px; font-size: var(--step-title); font-weight: 800; letter-spacing: -0.02em; text-decoration: none; }
+  .foot__ways span { font-size: var(--step-small); font-weight: 600; letter-spacing: 0; color: var(--field-muted); }
+  .foot__links { display: grid; grid-template-columns: repeat(2, max-content); gap: 6px 48px; align-content: start; padding-top: 32px; }
+  .foot__links a { padding-block: 11px; text-decoration: none; font-weight: 600; }
+  .foot__legal { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-top: 96px; font-size: var(--step-small); color: var(--field-muted); }
+  .foot__legal p { max-width: 68ch; }
+  .foot__legal > a { padding-block: 12px; }
+  .foot__legal a { color: var(--on-field); }
+  @media (hover: hover) and (pointer: fine) {
+    .foot__ways a:hover, .foot__links a:hover { text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 3px; }
+  }
+  @media (max-width: 767px) {
+    .close__row .btn { width: 100%; justify-content: center; }
+    .foot__row { grid-template-columns: 1fr; margin-top: 48px; row-gap: 32px; }
+    .foot__row > * { grid-column: 1 / -1 !important; }
+    .foot__row > nav { padding-top: 0; }
+    .foot__legal { flex-direction: column; align-items: flex-start; margin-top: 56px; }
+  }
+</style>

@@ -1,0 +1,68 @@
+---
+const cols = ['Done by hand', 'A chat window', 'A workflow from us'];
+const rows = [
+  ['Who checks it before a client sees it', 'Whoever is in a hurry', 'Whoever pasted it in', 'A named person approves every one'],
+  ['What data it can see', 'Whatever is open on screen', 'Whatever someone pastes in', 'Only the systems and folders you allow'],
+  ['Where the rules live', 'In one person’s head', 'In each person’s prompts', 'In a written spec you sign off'],
+  ['What you sign', 'Nothing', 'The tool’s standard terms', 'A plain contract: scope, price, data, exit'],
+  ['When your process changes', 'Retrain the person', 'Everyone rewrites their prompts', 'We update the workflow'],
+  ['If something goes wrong', 'Often found by the client', 'Hard to trace', 'Caught at approval, logged and fixed'],
+  ['Who owns it', 'The person who knows how', 'No one in particular', 'You do, with full documentation'],
+];
+---
+<section id="safety" class="safety" aria-labelledby="safety-title">
+  <div class="wrap grid safety__head" data-reveal-group>
+    <h2 class="headline" id="safety-title" data-reveal="clip">How we work, and keep your data safe</h2>
+    <div class="safety__promises" data-reveal>
+      <p><strong>A person approves everything</strong> before it reaches a client. The workflow drafts; your team decides.</p>
+      <p><strong>Clear contracts.</strong> Scope, price, what data we touch and how you leave, written down before we start.</p>
+      <p><strong>Only the data you allow.</strong> Access you grant, can see and can switch off at any time.</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <table class="compare" data-reveal-group>
+      <caption class="sr-only">How a workflow from us compares with doing the task by hand or in a chat window</caption>
+      <thead>
+        <tr><td></td>{cols.map((c, i) => <th scope="col" class:list={{ featured: i === 2 }}>{c}</th>)}</tr>
+      </thead>
+      <tbody>
+        {rows.map(([name, ...answers]) => (
+          <tr data-reveal>
+            <th scope="row">{name}</th>
+            {answers.map((a, i) => <td class:list={{ featured: i === 2 }} data-col={cols[i]}>{a}</td>)}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<style>
+  .safety { padding-block: var(--section); }
+  .safety__head { row-gap: 32px; margin-bottom: clamp(48px, 5vw, 80px); align-items: end; }
+  .safety__head h2 { grid-column: 1 / -1; max-width: 22ch; }
+  .safety__promises { grid-column: 6 / -1; display: grid; gap: 14px; max-width: 46ch; }
+  .compare { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  .compare th, .compare td { text-align: left; vertical-align: top; padding: 20px 18px; }
+  .compare thead th { font-weight: 700; padding-top: 28px; }
+  .compare thead td { width: 28%; }
+  .compare tbody th { font-weight: 700; letter-spacing: -0.01em; line-height: 1.25; }
+  .compare tbody tr:nth-child(odd) > * { background: var(--surface); }
+  .compare .featured { background: var(--field) !important; color: var(--on-field); }
+  .compare tbody tr:nth-child(odd) .featured { background: color-mix(in srgb, var(--on-field) 9%, var(--field)) !important; }
+  .compare thead .featured { padding-top: 52px; }
+  @media (max-width: 1099px) {
+    .safety__promises { grid-column: 1 / -1; }
+  }
+  @media (max-width: 767px) {
+    .compare, .compare tbody, .compare tr, .compare th, .compare td { display: block; width: auto; }
+    .compare thead { display: none; }
+    .compare tbody tr { padding: 20px 16px; margin-inline: calc(var(--margin) * -1); }
+    .compare tbody tr:nth-child(odd) { background: var(--surface); }
+    .compare tbody tr > * { background: none !important; padding: 0; }
+    .compare tbody th { margin-bottom: 10px; }
+    .compare td { padding: 4px 0; }
+    .compare td::before { content: attr(data-col) ': '; font-weight: 700; }
+    .compare tbody tr > td.featured { margin-top: 8px; padding: 10px 12px; background: var(--field) !important; color: var(--on-field); }
+  }
+</style>

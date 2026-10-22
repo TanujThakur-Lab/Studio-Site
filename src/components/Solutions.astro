@@ -1,0 +1,379 @@
+---
+import Tick from './Tick.astro';
+import { reportWeeks, reminderClients, docRows, dashboard } from '../data/sample';
+
+const outputs = [
+  { id: 'report', name: 'Weekly status reports', what: 'Pulls the week’s tickets from your helpdesk and drafts the client update in your format.' },
+  { id: 'reminder', name: 'Client reminders', what: 'Spots what a client still owes you and drafts the chaser before it’s late, not after.' },
+  { id: 'doc', name: 'Document updates', what: 'Finds every place an old figure lives and proposes the change, marked up for you to check.' },
+  { id: 'dash', name: 'Internal dashboards', what: 'One page your team actually looks at: what’s open, what’s late, who’s waiting.' },
+];
+const wk = reportWeeks[1];
+const rc = reminderClients[0];
+---
+<section id="build" class="build" aria-labelledby="build-title">
+  <div class="wrap grid build__grid">
+    <div class="build__index" data-reveal-group>
+      <h2 class="headline" id="build-title" data-reveal="clip">What we build</h2>
+      <p class="build__intro" data-reveal>Four workflows we build most. Pick one and try it: each runs on sample data.</p>
+      <div class="index" role="tablist" aria-label="Example workflows" data-reveal>
+        {outputs.map((o, i) => (
+          <button class="index__item" role="tab" type="button" id={`tab-${o.id}`} aria-controls={`panel-${o.id}`}
+            aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>{o.name}</button>
+        ))}
+      </div>
+    </div>
+
+    <div class="stage" data-stage>
+      {outputs.map((o, i) => (
+        <div class="panel" role="tabpanel" id={`panel-${o.id}`} aria-labelledby={`tab-${o.id}`} hidden={i !== 0} data-panel={o.id}>
+          <p class="panel__what">{o.what}</p>
+
+          {o.id === 'report' && (
+            <div class="doc" data-ui data-demo="report">
+              <div class="doc__controls" role="group" aria-label="Choose a week">
+                {reportWeeks.map((w, j) => <button type="button" class="seg-btn" aria-pressed={j === 1 ? 'true' : 'false'} data-week={j}>{w.week}</button>)}
+              </div>
+              <div class="doc__body" data-body aria-live="polite">
+                <p class="sample">Sample data</p>
+                <h3 class="doc__title">IT support report: {wk.client}</h3>
+                <p class="doc__meta">{wk.week} · {wk.opened} tickets opened, {wk.closed} closed</p>
+                <h4>Done this week</h4>
+                <ul>{wk.items.map((t) => <li>{t}</li>)}</ul>
+                <h4>Waiting on you</h4>
+                <ul>{wk.waiting.map((t) => <li>{t}</li>)}</ul>
+              </div>
+              <div class="doc__foot">
+                <span data-foot>Draft · waiting for your approval</span>
+                <button type="button" class="mini-approve" data-mini-approve><Tick /> Approve</button>
+              </div>
+            </div>
+          )}
+
+          {o.id === 'reminder' && (
+            <div class="doc doc--mail" data-ui data-demo="reminder">
+              <div class="doc__controls" role="group" aria-label="Choose a client">
+                {reminderClients.map((c, j) => <button type="button" class="seg-btn" aria-pressed={j === 0 ? 'true' : 'false'} data-client={j}>{c.name.replace(/ (Ltd|Pvt Ltd|LLP)$/, '')}</button>)}
+              </div>
+              <div class="doc__controls" role="group" aria-label="Choose a tone">
+                <button type="button" class="seg-btn" aria-pressed="true" data-tone="friendly">Friendly</button>
+                <button type="button" class="seg-btn" aria-pressed="false" data-tone="firm">Firm</button>
+              </div>
+              <div class="doc__body" data-body aria-live="polite">
+                <p class="sample">Sample data</p>
+                <p class="mail__meta">To: {rc.contact}, {rc.name}</p>
+                <p class="mail__meta">Subject: Reminder: {rc.item}</p>
+                <div class="mail__text" data-text>
+                  <p>Hi {rc.contact},</p>
+                  <p>A quick reminder that we still need the {rc.item} by {rc.due}. Once we have them, we can move straight on to the next step.</p>
+                  <p>Thanks very much,<br />The team</p>
+                </div>
+              </div>
+              <div class="doc__foot">
+                <span data-foot>Draft · nothing is sent until you approve</span>
+                <span class="doc__actions">
+                  <button type="button" class="mini-edit" data-edit>Edit</button>
+                  <button type="button" class="mini-approve" data-mini-approve><Tick /> Approve</button>
+                </span>
+              </div>
+            </div>
+          )}
+
+          {o.id === 'doc' && (
+            <div class="doc" data-ui data-demo="doc">
+              <div class="doc__controls" role="group" aria-label="Choose a view">
+                <button type="button" class="seg-btn" aria-pressed="false" data-view="before">Before</button>
+                <button type="button" class="seg-btn" aria-pressed="false" data-view="after">After</button>
+                <button type="button" class="seg-btn" aria-pressed="true" data-view="changes">Changes</button>
+              </div>
+              <div class="doc__body" data-view-root data-mode="changes">
+                <p class="sample">Sample data</p>
+                <h3 class="doc__title">Rate sheet: Nhava Sheva to Jebel Ali</h3>
+                <p class="doc__meta">Updated from the March rate notice · {docRows.filter((r) => r.before !== r.after).length} changes in {docRows.length} lines</p>
+                <table class="rates">
+                  <caption class="sr-only">Sample rate sheet with old and new values</caption>
+                  <thead><tr><th scope="col">Item</th><th scope="col">Rate</th></tr></thead>
+                  <tbody>
+                    {docRows.map((r) => (
+                      <tr>
+                        <th scope="row">{r.item}</th>
+                        <td class="tnum">
+                          {r.before === r.after ? r.after : (
+                            <>
+                              <del class="v-old"><span class="sr-only">Old: </span>{r.before}</del>
+                              <ins class="v-new"><span class="sr-only">New: </span>{r.after}</ins>
+                            </>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div class="doc__foot">
+                <span data-foot>Proposed changes · waiting for your approval</span>
+                <button type="button" class="mini-approve" data-mini-approve><Tick /> Approve</button>
+              </div>
+            </div>
+          )}
+
+          {o.id === 'dash' && (
+            <div class="doc doc--dash" data-ui data-demo="dash">
+              <div class="doc__controls" role="group" aria-label="Choose a team">
+                {['All', ...Object.keys(dashboard.teams)].map((t, j) => <button type="button" class="seg-btn" aria-pressed={j === 0 ? 'true' : 'false'} data-team={t}>{t}</button>)}
+              </div>
+              <div class="doc__body">
+                <p class="sample">Sample data</p>
+                <h3 class="doc__title">Ops board · this week</h3>
+                <dl class="kpis" data-kpis>
+                  <div><dt>Opened</dt><dd class="tnum" data-k="open">53</dd></div>
+                  <div><dt>Overdue</dt><dd class="tnum" data-k="late">5</dd></div>
+                  <div><dt>First reply</dt><dd class="tnum" data-k="reply">32 min</dd></div>
+                </dl>
+                <div class="bars" role="img" aria-label="Tickets opened per day" data-bars>
+                  {dashboard.days.map((d) => (
+                    <div class="bars__col"><span class="bars__val tnum" data-v></span><span class="bars__bar" data-b></span><span class="bars__day">{d}</span></div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .build { padding-block: var(--section); }
+  .build__grid { align-items: start; row-gap: 40px; }
+  .build__index { grid-column: 1 / 6; position: sticky; top: 108px; }
+  .build__intro { margin-top: 24px; max-width: 34ch; }
+  .index { display: flex; flex-direction: column; align-items: flex-start; margin-top: 36px; }
+  .index__item {
+    border: 0; background: none; padding: 6px 0; min-height: 44px; text-align: left;
+    font-size: var(--step-title); font-weight: 800; letter-spacing: -0.02em; line-height: 1.1;
+    color: var(--muted); transition: color var(--dur-ui) ease, transform var(--dur-ui) var(--ease-out);
+  }
+  .index__item[aria-selected='true'] { color: var(--ink); transform: translateX(14px); }
+  .index__item[aria-selected='true']::before { content: ''; display: inline-block; width: 0.42em; height: 0.42em; background: var(--accent); margin: 0 0.35em 0.12em -0.77em; vertical-align: middle; }
+  @media (hover: hover) and (pointer: fine) { .index__item:hover { color: var(--ink); } }
+
+  .stage { grid-column: 6 / -1; background: var(--surface); padding: clamp(20px, 3vw, 48px); min-height: 640px; }
+  .panel__what { max-width: 40ch; margin-bottom: 20px; }
+  .doc { background: var(--paper); color: var(--paper-ink); max-width: 560px; }
+  .doc__controls { display: flex; flex-wrap: wrap; gap: 4px; padding: 10px 10px 0; }
+  .doc__controls + .doc__controls { padding-top: 4px; }
+  .seg-btn {
+    min-height: 44px; padding: 0 12px; border: 0; background: var(--paper-chrome); color: var(--paper-ink);
+    font-weight: 600; font-size: var(--step-small); transition: background-color var(--dur-ui) ease, transform var(--dur-state) var(--ease-out);
+  }
+  .seg-btn[aria-pressed='true'] { background: var(--paper-ink); color: var(--paper); }
+  .seg-btn:active { transform: scale(0.97); }
+  .doc :focus-visible { outline-color: var(--paper-ink); }
+  .doc__body { padding: 18px 22px 8px; font-family: var(--font-doc); font-size: var(--step-body); line-height: 1.45; }
+  .doc__body .sample { margin-bottom: 10px; }
+  .doc__title { text-wrap: balance; font-family: var(--font-doc); font-weight: 600; font-size: var(--step-title); line-height: 1.15; }
+  .doc__meta { color: var(--paper-muted); margin-top: 4px; }
+  .doc__body h4 { font-family: var(--font-sans); font-size: var(--step-small); font-weight: 700; margin-top: 16px; }
+  .doc__body li { padding-left: 14px; position: relative; }
+  .doc__body li::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 6px; height: 6px; background: var(--paper-ink); }
+  .doc__foot {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    margin-top: 12px; padding: 10px 10px 10px 22px; background: var(--paper-chrome); font-size: var(--step-small); font-weight: 600;
+  }
+  .doc__actions { display: flex; gap: 4px; }
+  .mini-approve, .mini-edit {
+    display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px; border: 0;
+    font-weight: 700; font-size: var(--step-small); transition: transform var(--dur-state) var(--ease-out);
+  }
+  .mini-approve { background: var(--accent); color: var(--on-accent); }
+  .mini-approve :global(.tick) { width: 15px; height: 15px; }
+  .mini-edit { background: transparent; color: var(--paper-ink); text-decoration: underline; text-underline-offset: 0.2em; }
+  .mini-approve:active, .mini-edit:active { transform: scale(0.97); }
+  .is-approved .mini-approve { background: var(--paper-ink); color: var(--paper); }
+
+  .mail__meta { font-family: var(--font-sans); font-size: var(--step-small); color: var(--paper-muted); }
+  .mail__text { margin-top: 12px; display: grid; gap: 10px; outline-offset: 6px; }
+  .mail__text[contenteditable='true'] { background: var(--paper-tint); outline: 2px solid var(--paper-ink); }
+
+  .rates { width: 100%; border-collapse: collapse; margin-top: 14px; }
+  .rates th, .rates td { text-align: left; padding: 8px 6px; vertical-align: top; }
+  .rates thead th { font-family: var(--font-sans); font-size: var(--step-small); font-weight: 700; padding-top: 0; }
+  .rates tbody tr:nth-child(odd) { background: var(--paper-tint); }
+  .rates tbody th { font-weight: 400; }
+  .rates td { white-space: nowrap; text-align: right; }
+  .rates thead th:last-child { text-align: right; }
+  .v-old { color: var(--alert); background: var(--del); text-decoration-thickness: 1.5px; margin-right: 6px; }
+  .v-new { text-decoration: none; background: var(--mark); font-weight: 600; }
+  [data-mode='before'] .v-new, [data-mode='after'] .v-old { display: none; }
+  [data-mode='before'] .v-old, [data-mode='after'] .v-new { background: none; color: inherit; text-decoration: none; margin: 0; font-weight: inherit; }
+
+  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-top: 14px; font-family: var(--font-sans); }
+  .kpis div { background: var(--paper-tint); padding: 10px 12px; }
+  .kpis dt { font-size: var(--step-small); color: var(--paper-muted); font-weight: 600; }
+  .kpis dd { font-size: var(--step-title); font-weight: 800; letter-spacing: -0.02em; margin: 0; }
+  .bars { display: flex; align-items: flex-end; gap: 10px; height: 180px; margin-top: 18px; padding-bottom: 8px; font-family: var(--font-sans); }
+  .bars__col { flex: 1; display: flex; flex-direction: column; align-items: stretch; justify-content: flex-end; height: 100%; gap: 6px; }
+  .bars__bar { display: block; height: 120px; background: var(--paper-ink); transform-origin: bottom; transform: scaleY(0.5); }
+  .bars__val { font-size: var(--step-small); font-weight: 700; text-align: center; }
+  .bars__day { font-size: var(--step-small); text-align: center; color: var(--paper-muted); }
+
+  @media (max-width: 1099px) {
+    .build__index { grid-column: 1 / 6; }
+    .stage { grid-column: 6 / -1; }
+    .index__item { font-size: 1.375rem; }
+  }
+  @media (max-width: 767px) {
+    .build__index { position: static; }
+    .index { flex-direction: row; overflow-x: auto; scroll-snap-type: x mandatory; gap: 20px; margin-inline: calc(var(--margin) * -1); padding-inline: var(--margin); scrollbar-width: none; }
+    .index__item { flex: none; scroll-snap-align: start; font-size: 1.375rem; white-space: nowrap; }
+    .index__item[aria-selected='true'] { transform: none; }
+    .index__item[aria-selected='true']::before { margin-left: 0; }
+    .stage { margin-inline: calc(var(--margin) * -1); padding: 20px var(--margin) 28px; min-height: 0; }
+    .doc__body { padding-inline: 16px; }
+    .doc__foot { padding-left: 16px; }
+  }
+</style>
+
+<script>
+  import { animate } from 'motion';
+  import { spring, reducedMotion } from '../lib/motion';
+  import { reportWeeks, reminderClients, dashboard } from '../data/sample';
+
+  const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
+  const swapIn = (el: Element) => {
+    if (reducedMotion()) return;
+    animate(el, { opacity: [0, 1], transform: ['translateY(8px)', 'translateY(0px)'] }, spring.smooth);
+  };
+  const press = (group: Element, btn: HTMLElement) => {
+    group.querySelectorAll('[aria-pressed]').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+  };
+
+  // ── Tabs ──
+  const tabs = [...document.querySelectorAll<HTMLButtonElement>('.index__item')];
+  const select = (tab: HTMLButtonElement, focus = false) => {
+    tabs.forEach((t) => {
+      const on = t === tab;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      const panel = document.getElementById(t.getAttribute('aria-controls')!)!;
+      if (on && panel.hidden) { panel.hidden = false; swapIn(panel); }
+      else if (!on) panel.hidden = true;
+    });
+    if (focus) tab.focus();
+    if (window.matchMedia('(max-width: 767px)').matches) tab.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: reducedMotion() ? 'auto' : 'smooth' });
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => select(t));
+    t.addEventListener('keydown', (e) => {
+      const k = e.key;
+      const n = k === 'ArrowDown' || k === 'ArrowRight' ? 1 : k === 'ArrowUp' || k === 'ArrowLeft' ? -1 : 0;
+      if (n) { e.preventDefault(); select(tabs[(i + n + tabs.length) % tabs.length], true); }
+      if (k === 'Home') { e.preventDefault(); select(tabs[0], true); }
+      if (k === 'End') { e.preventDefault(); select(tabs[tabs.length - 1], true); }
+    });
+  });
+
+  // ── Approve buttons (all demos) ──
+  document.querySelectorAll<HTMLButtonElement>('[data-mini-approve]').forEach((btn) => {
+    const doc = btn.closest<HTMLElement>('.doc')!;
+    const foot = doc.querySelector<HTMLElement>('[data-foot]')!;
+    const original = foot.textContent;
+    btn.addEventListener('click', () => {
+      const done = doc.classList.toggle('is-approved');
+      foot.textContent = done ? 'Approved by you · in real life this would now go out' : original;
+      btn.lastChild!.textContent = done ? ' Approved' : ' Approve';
+      if (done && !reducedMotion()) animate(btn, { transform: ['scale(0.94)', 'scale(1)'] }, spring.snappy);
+    });
+  });
+  const unapprove = (doc: HTMLElement) => {
+    if (doc.classList.contains('is-approved')) doc.querySelector<HTMLButtonElement>('[data-mini-approve]')!.click();
+  };
+
+  // ── Report ──
+  const report = document.querySelector<HTMLElement>('[data-demo="report"]')!;
+  report.querySelectorAll<HTMLButtonElement>('[data-week]').forEach((b) => b.addEventListener('click', () => {
+    press(b.parentElement!, b);
+    unapprove(report);
+    const w = reportWeeks[Number(b.dataset.week)];
+    const body = report.querySelector<HTMLElement>('[data-body]')!;
+    body.innerHTML = `<p class="sample">Sample data</p>
+      <h3 class="doc__title">IT support report: ${esc(w.client)}</h3>
+      <p class="doc__meta">${w.week} · ${w.opened} tickets opened, ${w.closed} closed</p>
+      <h4>Done this week</h4><ul>${w.items.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>
+      <h4>Waiting on you</h4><ul>${w.waiting.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>`;
+    swapIn(body);
+  }));
+
+  // ── Reminder ──
+  const rem = document.querySelector<HTMLElement>('[data-demo="reminder"]')!;
+  let client = 0;
+  let tone: 'friendly' | 'firm' = 'friendly';
+  const draftMail = () => {
+    const c = reminderClients[client];
+    const body = rem.querySelector<HTMLElement>('[data-body]')!;
+    const text = tone === 'friendly'
+      ? `<p>Hi ${esc(c.contact)},</p><p>A quick reminder that we still need the ${esc(c.item)} by ${esc(c.due)}. Once we have them, we can move straight on to the next step.</p><p>Thanks very much,<br>The team</p>`
+      : `<p>Dear ${esc(c.contact)},</p><p>We have not yet received the ${esc(c.item)}. We need it by ${esc(c.due)} to avoid a delay on your side. Could you send it today, or tell us if anything is holding it up?</p><p>Regards,<br>The team</p>`;
+    body.innerHTML = `<p class="sample">Sample data</p>
+      <p class="mail__meta">To: ${esc(c.contact)}, ${esc(c.name)}</p>
+      <p class="mail__meta">Subject: ${tone === 'firm' ? 'Action needed' : 'Reminder'}: ${esc(c.item)}</p>
+      <div class="mail__text" data-text>${text}</div>`;
+    unapprove(rem);
+    swapIn(body);
+  };
+  rem.querySelectorAll<HTMLButtonElement>('[data-client]').forEach((b) => b.addEventListener('click', () => {
+    press(b.parentElement!, b); client = Number(b.dataset.client); draftMail();
+  }));
+  rem.querySelectorAll<HTMLButtonElement>('[data-tone]').forEach((b) => b.addEventListener('click', () => {
+    press(b.parentElement!, b); tone = b.dataset.tone as typeof tone; draftMail();
+  }));
+  rem.querySelector<HTMLButtonElement>('[data-edit]')!.addEventListener('click', (e) => {
+    const t = rem.querySelector<HTMLElement>('[data-text]')!;
+    const editing = t.contentEditable === 'true';
+    t.contentEditable = editing ? 'false' : 'true';
+    (e.currentTarget as HTMLElement).textContent = editing ? 'Edit' : 'Done';
+    if (!editing) t.focus();
+  });
+
+  // ── Document ──
+  const doc = document.querySelector<HTMLElement>('[data-demo="doc"]')!;
+  doc.querySelectorAll<HTMLButtonElement>('[data-view]').forEach((b) => b.addEventListener('click', () => {
+    press(b.parentElement!, b);
+    const root = doc.querySelector<HTMLElement>('[data-view-root]')!;
+    root.dataset.mode = b.dataset.view;
+    swapIn(root.querySelector('table')!);
+  }));
+
+  // ── Dashboard ──
+  const dash = document.querySelector<HTMLElement>('[data-demo="dash"]')!;
+  const teams = dashboard.teams as Record<string, number[]>;
+  const names = Object.keys(teams);
+  const series = (team: string) => (team === 'All' ? dashboard.days.map((_, i) => names.reduce((s, n) => s + teams[n][i], 0)) : teams[team]);
+  const max = Math.max(...series('All'));
+  const renderDash = (team: string, instant = false) => {
+    const vals = series(team);
+    const open = vals.reduce((a, b) => a + b, 0);
+    const late = team === 'All' ? names.reduce((s, n) => s + (dashboard.overdue as Record<string, number>)[n], 0) : (dashboard.overdue as Record<string, number>)[team];
+    const reply = team === 'All'
+      ? Math.round(names.reduce((s, n) => s + (dashboard.firstReplyMins as Record<string, number>)[n] * teams[n].reduce((a, b) => a + b, 0), 0) / open)
+      : (dashboard.firstReplyMins as Record<string, number>)[team];
+    dash.querySelector('[data-k="open"]')!.textContent = String(open);
+    dash.querySelector('[data-k="late"]')!.textContent = String(late);
+    dash.querySelector('[data-k="reply"]')!.textContent = `${reply} min`;
+    dash.querySelector('[data-bars]')!.setAttribute('aria-label', `Tickets opened per day, ${team}: ${dashboard.days.map((d, i) => `${d} ${vals[i]}`).join(', ')}`);
+    dash.querySelectorAll<HTMLElement>('[data-b]').forEach((bar, i) => {
+      const from = bar.dataset.s ?? '0.5';
+      const next = (vals[i] / max).toFixed(3);
+      bar.dataset.s = next;
+      if (instant || reducedMotion()) bar.style.transform = `scaleY(${next})`;
+      else animate(bar, { transform: [`scaleY(${from})`, `scaleY(${next})`] }, { ...spring.smooth, delay: i * 0.04 });
+    });
+    dash.querySelectorAll<HTMLElement>('[data-v]').forEach((v, i) => (v.textContent = String(vals[i])));
+  };
+  renderDash('All', true);
+  dash.querySelectorAll<HTMLButtonElement>('[data-team]').forEach((b) => b.addEventListener('click', () => {
+    press(b.parentElement!, b); renderDash(b.dataset.team!);
+  }));
+</script>
