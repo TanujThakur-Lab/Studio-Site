@@ -1,0 +1,374 @@
+---
+// Prototype of storyboard frame 1 ("The flood"). Not linked from the live homepage.
+import '@fontsource/syncopate/latin-700.css';
+import '@fontsource-variable/inter';
+---
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>OGC Studio · prototype: the flood</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <header class="bar">
+      <a class="brand" href="/prototype/flood">OGC STUDIO</a>
+      <button class="theme" type="button" aria-label="Theme switch (coming next)" disabled>Theme</button>
+      <a class="cta" href="/#contact">Book a call</a>
+    </header>
+
+    <main>
+      <section class="flood" data-flood aria-labelledby="flood-title">
+        <div class="stage">
+          <canvas data-canvas aria-hidden="true"></canvas>
+          <p class="count" aria-live="off"><b data-count>214</b><span>unread, and it’s 7:58 am</span></p>
+          <div class="copy" data-copy>
+            <h1 id="flood-title">Your week, before it’s even started.</h1>
+            <p>Reports, chasers, replies, updates. The same admin as last week, all arriving at once.</p>
+          </div>
+          <div class="copy copy--next" data-next aria-hidden="true">
+            <p class="next-title">Every hour, already spoken for.</p>
+            <p>The messages fall into place: a week drawn as a clock, carved into repeat work.</p>
+          </div>
+          <p class="hint" data-hint>Scroll</p>
+        </div>
+      </section>
+      <section class="after">
+        <p>Prototype of frame 1, “The flood”. Scrolling above flies you through the cloud and starts the turn into frame 2. The rest of the journey is built next.</p>
+      </section>
+    </main>
+
+    <style is:global>
+      :root {
+        --night: #0B0B10; --alarm: #EF4444; --paper: #F8FAFC; --mist: #CBD5E1;
+        --sync: 'Syncopate', sans-serif; --inter: 'Inter Variable', 'Inter', system-ui, sans-serif;
+        --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; background: var(--night); color: var(--paper); font-family: var(--inter); }
+      body { -webkit-font-smoothing: antialiased; }
+      :focus-visible { outline: 2px solid var(--paper); outline-offset: 3px; }
+
+      .bar {
+        position: fixed; inset: 0 0 auto; z-index: 10; display: flex; align-items: center; gap: 12px;
+        padding: 16px clamp(16px, 3vw, 40px);
+      }
+      .brand { font-family: var(--sync); font-weight: 700; font-size: 14px; letter-spacing: 0.08em; color: inherit; text-decoration: none; margin-right: auto; padding: 12px 0; }
+      .theme {
+        min-height: 40px; padding: 0 14px; border-radius: 99px; border: 1px solid rgba(248, 250, 252, 0.4);
+        background: transparent; color: var(--paper); font: 500 13px var(--inter); opacity: 0.7;
+      }
+      .cta {
+        display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 99px;
+        background: var(--paper); color: var(--night); font-weight: 600; font-size: 14px; text-decoration: none;
+        transition: transform 160ms var(--ease-out);
+      }
+      .cta:active { transform: scale(0.97); }
+
+      .flood { height: 320vh; position: relative; }
+      .stage { position: sticky; top: 0; height: 100svh; overflow: hidden;
+        background: radial-gradient(120% 90% at 50% 35%, #1B1B26 0%, var(--night) 62%); }
+      canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+      .count { position: absolute; right: clamp(16px, 5vw, 72px); top: clamp(84px, 16vh, 150px); margin: 0; text-align: right; z-index: 2; }
+      .count b { display: block; font-family: var(--sync); font-weight: 700; font-size: clamp(44px, 7vw, 104px); line-height: 1; color: var(--alarm); font-variant-numeric: tabular-nums; }
+      .count span { font-size: clamp(13px, 1.1vw, 16px); color: #FCA5A5; }
+
+      .copy { position: absolute; left: clamp(16px, 5vw, 72px); bottom: clamp(56px, 11vh, 120px); z-index: 2; max-width: min(640px, 88vw); }
+      /* a soft dark pool behind the copy so the cards never fight the text */
+      .stage::after {
+        content: ''; position: absolute; left: 0; bottom: 0; width: min(900px, 100%); height: 70%; z-index: 1; pointer-events: none;
+        background: radial-gradient(70% 60% at 25% 85%, rgba(11, 11, 16, 0.92) 0%, rgba(11, 11, 16, 0.6) 45%, rgba(11, 11, 16, 0) 100%);
+      }
+      .copy h1, .copy .next-title {
+        font-family: var(--sync); font-weight: 700; text-transform: none; margin: 0 0 14px;
+        font-size: clamp(28px, 4.2vw, 64px); line-height: 1.04; letter-spacing: -0.01em; text-wrap: balance;
+      }
+      .copy p { margin: 0; max-width: 46ch; font-size: clamp(16px, 1.25vw, 19px); line-height: 1.5; color: var(--mist); }
+      .copy--next { opacity: 0; }
+      .hint { position: absolute; left: 50%; bottom: 20px; translate: -50% 0; margin: 0; font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mist); z-index: 2; }
+
+      .after { min-height: 60vh; display: grid; place-items: center; padding: 64px 24px; background: #0E0E18; }
+      .after p { max-width: 52ch; color: var(--mist); text-align: center; }
+
+      @media (max-width: 700px) {
+        .count { top: 76px; }
+        .theme { display: none; }
+      }
+    </style>
+
+    <script>
+      import * as THREE from 'three';
+
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const small = window.matchMedia('(max-width: 700px)').matches;
+      const section = document.querySelector<HTMLElement>('[data-flood]')!;
+      const canvas = document.querySelector<HTMLCanvasElement>('[data-canvas]')!;
+      const copy = document.querySelector<HTMLElement>('[data-copy]')!;
+      const next = document.querySelector<HTMLElement>('[data-next]')!;
+      const hint = document.querySelector<HTMLElement>('[data-hint]')!;
+      const counter = document.querySelector<HTMLElement>('[data-count]')!;
+
+      // ── Messages (sample content) and the clock slice each one falls into ──
+      const SLICES = [
+        { name: 'Reports', color: '#EF4444' },
+        { name: 'Follow-ups', color: '#F97316' },
+        { name: 'Doc updates', color: '#A855F7' },
+        { name: 'Replies', color: '#64748B' },
+      ];
+      const MESSAGES: [string, number][] = [
+        ['Reminder: weekly report due', 0], ['Client: any update on the shipment?', 3], ['#4812 customs hold', 1],
+        ['3 missed calls', 3], ['Invoice mismatch, please check', 1], ['Re: Re: Re: documents', 3],
+        ['Update the rate sheet', 2], ['KYC documents overdue', 1], ['Slack: 27 new messages', 3],
+        ['Chase the supplier', 1], ['Meeting moved to 4 pm', 3], ['Monthly summary for Sample Co.', 0],
+        ['Can you resend the BL?', 3], ['Proposal template still says 2025', 2], ['ETA again??', 1],
+        ['Ticket #4821 reopened', 0], ['Sign-off needed on SOP v3', 2], ['Where are we with this?', 1],
+        ['Timesheets due today', 0], ['New starter details', 2],
+      ];
+
+      // ── Renderer, scene, camera ──
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, small ? 1.5 : 1.75));
+      renderer.setClearColor(0x0b0b10, 0); // transparent: the CSS gradient shows through
+      const scene = new THREE.Scene();
+      scene.fog = new THREE.Fog(0x0b0b10, 6, 26);
+      const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 80);
+      const world = new THREE.Group();
+      scene.add(world);
+
+      // ── A message card drawn to a canvas texture ──
+      function cardTexture(text: string, hot: boolean) {
+        const scale = 2;
+        const h = 44 * scale;
+        const ctx = document.createElement('canvas').getContext('2d')!;
+        ctx.font = `500 ${16 * scale}px "Inter Variable", Inter, sans-serif`;
+        const w = Math.ceil(ctx.measureText(text).width + 56 * scale);
+        ctx.canvas.width = w;
+        ctx.canvas.height = h;
+        ctx.font = `500 ${16 * scale}px "Inter Variable", Inter, sans-serif`;
+        ctx.fillStyle = hot ? 'rgba(239,68,68,0.22)' : 'rgba(248,250,252,0.10)';
+        ctx.strokeStyle = hot ? 'rgba(239,68,68,0.65)' : 'rgba(248,250,252,0.28)';
+        ctx.lineWidth = 2 * scale;
+        ctx.beginPath();
+        ctx.roundRect(2, 2, w - 4, h - 4, 12 * scale);
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = '#EF4444';
+        ctx.beginPath();
+        ctx.arc(22 * scale, h / 2, 4.5 * scale, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#E2E8F0';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(text, 36 * scale, h / 2 + scale);
+        const tex = new THREE.CanvasTexture(ctx.canvas);
+        tex.colorSpace = THREE.SRGBColorSpace;
+        tex.anisotropy = 4;
+        return { tex, aspect: w / h };
+      }
+
+      // ── The figure: a simple person, arms up ──
+      function makeFigure() {
+        const mat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.6, emissive: 0x1b1b26 });
+        const g = new THREE.Group();
+        const head = new THREE.Mesh(new THREE.SphereGeometry(0.2, 24, 16), mat);
+        head.position.y = 1.05;
+        const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.2, 0.6, 6, 16), mat);
+        body.position.y = 0.45;
+        const armGeo = new THREE.CapsuleGeometry(0.06, 0.45, 4, 8);
+        const armL = new THREE.Mesh(armGeo, mat);
+        armL.position.set(-0.3, 0.95, 0);
+        armL.rotation.z = 0.5;
+        const armR = armL.clone();
+        armR.position.x = 0.3;
+        armR.rotation.z = -0.5;
+        const legGeo = new THREE.CapsuleGeometry(0.08, 0.5, 4, 8);
+        const legL = new THREE.Mesh(legGeo, mat);
+        legL.position.set(-0.1, -0.15, 0);
+        const legR = legL.clone();
+        legR.position.x = 0.1;
+        g.add(head, body, armL, armR, legL, legR);
+        return { g, armL, armR };
+      }
+
+      const figure = makeFigure();
+      figure.g.position.set(0, -0.9, -2);
+      world.add(figure.g);
+      scene.add(new THREE.AmbientLight(0x8890b0, 0.9));
+      const redLight = new THREE.PointLight(0xef4444, 14, 12);
+      redLight.position.set(1.5, 1.5, 0);
+      scene.add(redLight);
+
+      // ── The cloud of cards ──
+      type Card = {
+        mesh: THREE.Mesh; base: THREE.Vector3; ring: THREE.Vector3; speed: number;
+        phase: number; slice: number; rot: THREE.Euler;
+      };
+      const cards: Card[] = [];
+      const COUNT = small ? 42 : 84;
+      const DEPTH = 34;
+      const textures = MESSAGES.map(([t], i) => [cardTexture(t, false), cardTexture(t, i % 4 === 0)]);
+      const RING_Z = -21;
+      const RING_R = small ? 2.1 : 3.1;
+      const RING_X = small ? 0 : 2.4;
+      const perSlice = [0, 0, 0, 0];
+
+      for (let i = 0; i < COUNT; i++) {
+        const m = i % MESSAGES.length;
+        const hot = Math.random() < 0.22;
+        const { tex, aspect } = textures[m][hot ? 1 : 0];
+        const height = 0.34;
+        const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false, side: THREE.DoubleSide });
+        const mesh = new THREE.Mesh(new THREE.PlaneGeometry(height * aspect, height), mat);
+        const base = new THREE.Vector3(
+          (Math.random() - 0.5) * (small ? 7 : 13),
+          (Math.random() - 0.5) * 7 + 0.3,
+          4 - Math.random() * DEPTH,
+        );
+        // its place on the week-clock ring, grouped by slice
+        const slice = MESSAGES[m][1];
+        const ring = new THREE.Vector3(); // placed after all cards exist, so each slice is spread evenly
+        perSlice[slice]++;
+        mesh.rotation.set((Math.random() - 0.5) * 0.4, (Math.random() - 0.5) * 0.6, (Math.random() - 0.5) * 0.3);
+        world.add(mesh);
+        cards.push({ mesh, base, ring, speed: 0.6 + Math.random() * 1.6, phase: Math.random() * Math.PI * 2, slice, rot: mesh.rotation.clone() });
+      }
+      // lay each slice's cards around its arc of the week-clock, in two tidy lanes
+      const seen = [0, 0, 0, 0];
+      const total = perSlice.reduce((a, b) => a + b, 0);
+      let start = 0;
+      const sliceStart = perSlice.map((n) => { const s0 = start; start += n / total; return s0; });
+      for (const c of cards) {
+        const k = seen[c.slice]++;
+        const share = perSlice[c.slice] / total;
+        const t = sliceStart[c.slice] + (share * (k + 0.5)) / perSlice[c.slice];
+        const angle = t * Math.PI * 2 - Math.PI / 2;
+        const r = RING_R + (k % 2) * 0.55;
+        c.ring.set(RING_X + Math.cos(angle) * r, Math.sin(angle) * r + 0.6, RING_Z);
+      }
+
+      // ── Layout and input ──
+      function resize() {
+        const w = canvas.clientWidth;
+        const h = canvas.clientHeight;
+        renderer.setSize(w, h, false);
+        camera.aspect = w / h;
+        camera.fov = w < 700 ? 68 : 55;
+        camera.updateProjectionMatrix();
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
+      if (!reduce) {
+        window.addEventListener('pointermove', (e) => {
+          pointer.tx = (e.clientX / window.innerWidth - 0.5) * 2;
+          pointer.ty = (e.clientY / window.innerHeight - 0.5) * 2;
+        });
+      }
+
+      let progress = 0;
+      function readScroll() {
+        const r = section.getBoundingClientRect();
+        const travel = section.offsetHeight - window.innerHeight;
+        progress = Math.min(1, Math.max(0, -r.top / travel));
+      }
+      window.addEventListener('scroll', readScroll, { passive: true });
+      readScroll();
+
+      const smooth = (a: number, b: number, x: number) => {
+        const t = Math.min(1, Math.max(0, (x - a) / (b - a)));
+        return t * t * (3 - 2 * t);
+      };
+      const tmp = new THREE.Vector3();
+      const sliceColors = SLICES.map((s) => new THREE.Color(s.color));
+      const white = new THREE.Color(0xffffff);
+
+      // ── Frame loop ──
+      let last = performance.now();
+      let time = 0;
+      function frame(now: number) {
+        const dt = Math.min(0.05, (now - last) / 1000);
+        last = now;
+        if (!reduce) time += dt;
+
+        // camera falls forward through the cloud as you scroll
+        const fly = smooth(0, 0.75, progress);
+        const settle = smooth(0.55, 1, progress); // cloud resolves into the clock ring
+        camera.position.set(0, 0.2 - fly * 0.3, 8 - fly * 16);
+        pointer.x += (pointer.tx - pointer.x) * 0.05;
+        pointer.y += (pointer.ty - pointer.y) * 0.05;
+        world.rotation.y = pointer.x * 0.08 * (1 - settle);
+        world.rotation.x = pointer.y * 0.05 * (1 - settle);
+        camera.lookAt(0, 0.1, camera.position.z - 10);
+
+        const camZ = camera.position.z;
+        for (const c of cards) {
+          // drift towards the viewer and wrap behind, so the flood never stops arriving
+          if (!reduce) {
+            c.base.z += c.speed * dt * (1 - settle);
+            if (c.base.z > camZ + 1.5) c.base.z -= DEPTH;
+          }
+          const jx = Math.sin(time * 1.7 + c.phase) * 0.04;
+          const jy = Math.cos(time * 2.1 + c.phase) * 0.05;
+          tmp.set(c.base.x + jx, c.base.y + jy, c.base.z);
+          tmp.lerp(c.ring, settle);
+          c.mesh.position.copy(tmp);
+          c.mesh.rotation.set(c.rot.x * (1 - settle), c.rot.y * (1 - settle), c.rot.z * (1 - settle));
+          c.mesh.scale.setScalar(1 - settle * 0.18);
+          // cards fade as they rush past the camera, so they never swamp the page
+          const near = camZ - tmp.z;
+          (c.mesh.material as THREE.MeshBasicMaterial).opacity = Math.min(1, Math.max(0, (near - 1.2) / 2.2));
+          // tint towards the slice colour as the clock forms
+          (c.mesh.material as THREE.MeshBasicMaterial).color.copy(white).lerp(sliceColors[c.slice], settle * 0.85);
+        }
+        // the figure lowers its arms as the scene starts to order itself
+        figure.armL.rotation.z = 0.5 + settle * 2.0;
+        figure.armR.rotation.z = -0.5 - settle * 2.0;
+        // the figure walks ahead of the camera, then stands beside the clock, smaller
+        figure.g.position.z = (-2 - fly * 12) * (1 - settle) + (RING_Z + 0.5) * settle;
+        figure.g.position.x = settle * (RING_X - RING_R - (small ? 1.2 : 1.9));
+        figure.g.position.y = -0.9 - settle * 0.6;
+        redLight.intensity = 14 * (1 - settle);
+        (scene.fog as THREE.Fog).far = 26 + settle * 16;
+
+        // copy hand-off between frame 1 and frame 2
+        const out = smooth(0.35, 0.6, progress);
+        copy.style.opacity = String(1 - out);
+        copy.style.transform = `translateY(${-out * 24}px)`;
+        next.style.opacity = String(smooth(0.65, 0.9, progress));
+        next.style.transform = `translateY(${(1 - smooth(0.65, 0.9, progress)) * 24}px)`;
+        hint.style.opacity = String(1 - smooth(0.02, 0.12, progress));
+        document.querySelector<HTMLElement>('.count')!.style.opacity = String(1 - smooth(0.3, 0.55, progress));
+
+        renderer.render(scene, camera);
+        if (!reduce) requestAnimationFrame(frame);
+      }
+
+      document.fonts.ready.then(() => {
+        // redraw textures once Inter has loaded
+        textures.flat().forEach(({ tex }) => (tex.needsUpdate = true));
+        if (reduce) {
+          frame(performance.now());
+          window.addEventListener('scroll', () => frame(performance.now()), { passive: true });
+        } else {
+          requestAnimationFrame(frame);
+        }
+      });
+
+      // the unread counter keeps climbing while the flood is on screen
+      if (!reduce) {
+        let n = 214;
+        const tick = () => {
+          if (progress < 0.4 && document.visibilityState === 'visible') {
+            n += 1 + Math.floor(Math.random() * 3);
+            counter.textContent = String(n);
+          }
+          setTimeout(tick, 700 + Math.random() * 900);
+        };
+        setTimeout(tick, 1200);
+      }
+    </script>
+  </body>
+</html>
