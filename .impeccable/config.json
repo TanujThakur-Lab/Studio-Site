@@ -14,6 +14,12 @@
         "value": "syncopate",
         "createdAt": "2026-10-25T07:23:23.106Z",
         "reason": "user approved storyboard 1 (2026-10-25): Syncopate + Inter for the OGC redesign; DESIGN.md still documents the old site"
+      },
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "createdAt": "2026-10-25T07:25:50.068Z",
+        "reason": "user approved storyboard 1 (2026-10-25): Syncopate + Inter body for the OGC redesign"
       }
     ]
   }
