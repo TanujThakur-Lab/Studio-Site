@@ -28,3 +28,8 @@ pnpm-debug.log*
 .impeccable/review/
 .impeccable/mocks/
 .impeccable/hook.cache.json
+
+# 3D person working files (large; regenerate with tools/glb-to-obj.mjs)
+design/person/mixamo-upload/
+design/person/*.zip
+design/person/*.glb

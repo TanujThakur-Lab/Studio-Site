@@ -6,9 +6,11 @@
 //   drained.fbx    wellbeing 0.35  e.g. Mixamo "Sad Idle"
 //   idle.fbx       wellbeing 0.7   e.g. Mixamo "Happy Idle"
 //   wave.fbx       wellbeing 1     e.g. Mixamo "Waving"
-// If the files are missing, the stand-in from character.ts is used instead.
+// Without the Mixamo files, the unrigged model (ogc-person.glb) is shown still;
+// without that, the stand-in from character.ts is used.
 import * as THREE from 'three';
 import { FBXLoader } from 'three/addons/loaders/FBXLoader.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { makeCharacter } from './character';
 
 const BASE = '/models/person/';
@@ -24,7 +26,7 @@ export type Person = {
   group: THREE.Group;
   setWellbeing: (w: number) => void;
   update: (dt: number) => void;
-  kind: 'model' | 'stand-in';
+  kind: 'model' | 'static' | 'stand-in';
 };
 
 export async function loadPerson(): Promise<Person> {
@@ -92,7 +94,48 @@ export async function loadPerson(): Promise<Person> {
     setWellbeing(0);
     return { group, setWellbeing, update: (dt) => mixer.update(dt), kind: 'model' };
   } catch {
-    const standIn = makeCharacter();
-    return { ...standIn, kind: 'stand-in' };
+    return loadStatic().catch(() => ({ ...makeCharacter(), kind: 'stand-in' as const }));
   }
+}
+
+/** The unrigged model from image-to-3D: right look, no skeleton, so it only breathes and sways. */
+async function loadStatic(): Promise<Person> {
+  const gltf = await new GLTFLoader().loadAsync(BASE + 'ogc-person.glb');
+  const model = gltf.scene;
+  const box = new THREE.Box3().setFromObject(model);
+  const scale = HEIGHT / (box.max.y - box.min.y);
+  model.scale.setScalar(scale);
+  model.position.set(-(box.min.x + box.max.x) / 2 * scale, -box.min.y * scale, -(box.min.z + box.max.z) / 2 * scale);
+  const group = new THREE.Group();
+  const lean = new THREE.Group(); // pivot at the feet, so he can slump forward and straighten up
+  lean.add(model);
+  group.add(lean);
+
+  const materials: THREE.MeshStandardMaterial[] = [];
+  model.traverse((o) => {
+    const m = (o as THREE.Mesh).material as THREE.MeshStandardMaterial | undefined;
+    if (m && m.color) materials.push(m);
+  });
+  const drained = new THREE.Color('#9AA4B4');
+  const white = new THREE.Color('#FFFFFF');
+  let w = 0;
+  let time = 0;
+  const setWellbeing = (v: number) => {
+    w = Math.min(1, Math.max(0, v));
+    const t = w * w * (3 - 2 * w);
+    materials.forEach((m) => m.color.copy(drained).lerp(white, t));
+  };
+  setWellbeing(0);
+  return {
+    group,
+    setWellbeing,
+    update(dt) {
+      time += dt;
+      const slump = (1 - w) * 0.12;
+      lean.rotation.x = slump + Math.sin(time * (3.2 - 2 * w)) * 0.006;
+      lean.rotation.z = Math.sin(time * 0.9) * 0.02 * w;
+      lean.scale.y = 1 - (1 - w) * 0.03 + Math.sin(time * (3.2 - 2 * w)) * 0.004;
+    },
+    kind: 'static',
+  };
 }
