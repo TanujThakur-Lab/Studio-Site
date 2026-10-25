@@ -1,0 +1,20 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-font",
+        "value": "inter variable",
+        "createdAt": "2026-10-25T07:23:22.914Z",
+        "reason": "user approved storyboard 1 (2026-10-25): Syncopate + Inter for the OGC redesign; DESIGN.md still documents the old site"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "syncopate",
+        "createdAt": "2026-10-25T07:23:23.106Z",
+        "reason": "user approved storyboard 1 (2026-10-25): Syncopate + Inter for the OGC redesign; DESIGN.md still documents the old site"
+      }
+    ]
+  }
+}

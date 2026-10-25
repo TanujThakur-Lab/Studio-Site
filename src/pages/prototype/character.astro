@@ -1,0 +1,155 @@
+---
+// Character study: the OGC Studio person from "buried in admin" to "living a good life". Not linked from the live site.
+import '@fontsource/syncopate/latin-700.css';
+import '@fontsource-variable/inter';
+const stops = [
+  { v: 0, label: 'Monday, 7:58 am' },
+  { v: 35, label: 'Drained' },
+  { v: 70, label: 'Getting there' },
+  { v: 100, label: 'A good life' },
+];
+---
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>OGC Studio · prototype: the person</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <main class="study" data-study>
+      <canvas data-canvas aria-hidden="true"></canvas>
+      <div class="panel">
+        <h1>The person</h1>
+        <p>One character carries the whole scroll. Drag the slider to move them from buried in admin to living a good life. Drag the figure to turn them round.</p>
+        <label class="slider">
+          <span class="sr-only">Wellbeing</span>
+          <input type="range" min="0" max="100" value="0" data-slider aria-valuetext="Monday, 7:58 am" />
+        </label>
+        <div class="stops">
+          {stops.map((s) => <button type="button" data-stop={s.v}>{s.label}</button>)}
+        </div>
+      </div>
+    </main>
+
+    <style is:global>
+      * { box-sizing: border-box; }
+      html, body { margin: 0; height: 100%; font-family: 'Inter Variable', Inter, system-ui, sans-serif; }
+      .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+      .study { position: relative; height: 100svh; overflow: hidden; color: var(--fg, #F8FAFC); background: var(--bg, #0B0B10); }
+      canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; touch-action: pan-y; }
+      canvas:active { cursor: grabbing; }
+      .panel { position: absolute; left: clamp(16px, 4vw, 56px); bottom: clamp(20px, 6vh, 64px); width: min(520px, calc(100% - 32px)); }
+      h1 { font-family: 'Syncopate', sans-serif; font-size: clamp(26px, 3.4vw, 44px); margin: 0 0 10px; }
+      .panel p { margin: 0 0 18px; line-height: 1.5; opacity: 0.85; }
+      .slider input { width: 100%; accent-color: #E07A5F; height: 44px; }
+      .stops { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+      .stops button {
+        min-height: 44px; padding: 0 14px; border-radius: 99px; border: 1px solid currentColor; background: transparent;
+        color: inherit; font: 500 14px inherit; font-family: inherit; cursor: pointer; opacity: 0.8;
+      }
+      .stops button[aria-pressed='true'] { opacity: 1; background: var(--fg, #F8FAFC); color: var(--bg, #0B0B10); }
+      :focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+    </style>
+
+    <script>
+      import * as THREE from 'three';
+      import { makeCharacter } from '../../lib/character';
+
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const study = document.querySelector<HTMLElement>('[data-study]')!;
+      const canvas = document.querySelector<HTMLCanvasElement>('[data-canvas]')!;
+      const slider = document.querySelector<HTMLInputElement>('[data-slider]')!;
+      const stopButtons = [...document.querySelectorAll<HTMLButtonElement>('[data-stop]')];
+
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 50);
+      const person = makeCharacter();
+      const turntable = new THREE.Group();
+      turntable.add(person.group);
+      scene.add(turntable);
+
+      const ambient = new THREE.AmbientLight('#9AA3C0', 0.9);
+      const key = new THREE.DirectionalLight('#FFFFFF', 1.6);
+      key.position.set(2, 3, 4);
+      const rim = new THREE.DirectionalLight('#EF4444', 1.2);
+      rim.position.set(-3, 2, -2);
+      scene.add(ambient, key, rim);
+
+      // the room follows the person: night and an alarm-red rim light, through to morning light
+      const BG = [new THREE.Color('#0B0B10'), new THREE.Color('#0E3A52'), new THREE.Color('#F5F5F0')];
+      const FG = ['#F8FAFC', '#F8FAFC', '#0F172A'];
+      const bg = new THREE.Color();
+      function setW(w: number) {
+        person.setWellbeing(w);
+        if (w < 0.5) bg.copy(BG[0]).lerp(BG[1], w / 0.5);
+        else bg.copy(BG[1]).lerp(BG[2], (w - 0.5) / 0.5);
+        study.style.setProperty('--bg', `#${bg.getHexString()}`);
+        study.style.setProperty('--fg', w > 0.62 ? FG[2] : FG[0]);
+        rim.color.set(w < 0.5 ? '#EF4444' : '#FDE7C3');
+        rim.intensity = w < 0.5 ? 1.2 * (1 - w * 1.4) : 0.9;
+        ambient.intensity = 0.9 + w * 0.8;
+        const label = [...stopButtons].reverse().find((b) => Number(b.dataset.stop) / 100 <= w + 0.001)!;
+        slider.setAttribute('aria-valuetext', label.textContent!);
+        stopButtons.forEach((b) => b.setAttribute('aria-pressed', String(Math.abs(Number(b.dataset.stop) / 100 - w) < 0.01)));
+        if (reduce) render();
+      }
+
+      // smooth travel to a target value when a stop is pressed
+      let w = 0;
+      let target = 0;
+      slider.addEventListener('input', () => { target = Number(slider.value) / 100; w = target; setW(w); });
+      stopButtons.forEach((b) => b.addEventListener('click', () => {
+        target = Number(b.dataset.stop) / 100;
+        slider.value = b.dataset.stop!;
+        if (reduce) { w = target; setW(w); }
+      }));
+
+      // drag to turn
+      let dragging = false;
+      let lastX = 0;
+      let spin = 0.35;
+      canvas.addEventListener('pointerdown', (e) => { dragging = true; lastX = e.clientX; canvas.setPointerCapture(e.pointerId); });
+      canvas.addEventListener('pointermove', (e) => { if (dragging) { spin += (e.clientX - lastX) * 0.01; lastX = e.clientX; if (reduce) render(); } });
+      const stopDrag = () => (dragging = false);
+      canvas.addEventListener('pointerup', stopDrag);
+      canvas.addEventListener('pointercancel', stopDrag);
+
+      function resize() {
+        const wdt = canvas.clientWidth;
+        const h = canvas.clientHeight;
+        renderer.setSize(wdt, h, false);
+        camera.aspect = wdt / h;
+        const narrow = wdt < 700;
+        camera.position.set(narrow ? 0 : -0.7, narrow ? 1.35 : 1.1, narrow ? 6.2 : 4.6);
+        camera.lookAt(narrow ? 0 : -0.7, narrow ? 1.35 : 0.95, 0);
+        camera.updateProjectionMatrix();
+        if (reduce) render();
+      }
+      window.addEventListener('resize', resize);
+
+      function render() {
+        turntable.rotation.y = spin;
+        renderer.render(scene, camera);
+      }
+
+      let last = performance.now();
+      function loop(now: number) {
+        const dt = Math.min(0.05, (now - last) / 1000);
+        last = now;
+        if (Math.abs(target - w) > 0.001) { w += (target - w) * Math.min(1, dt * 3.5); setW(w); }
+        person.update(dt);
+        render();
+        requestAnimationFrame(loop);
+      }
+
+      resize();
+      setW(0);
+      if (reduce) render(); else requestAnimationFrame(loop);
+    </script>
+  </body>
+</html>
