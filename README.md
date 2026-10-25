@@ -84,3 +84,19 @@ Every company, person, ticket and figure in the demos lives in `src/data/sample.
 - `src/styles/global.css`: colour, type, spacing and motion tokens, plus light and dark mode.
 - `src/lib/motion.ts`: the motion spec (springs, staggers, reveals, magnetic buttons, theme transition).
 - `PRODUCT.md`: product context. `DESIGN.md`: the design system as built.
+
+## The 3D person (redesign branch)
+
+The scroll's main character is loaded from `public/models/person/`. Until those files exist, a simpler built-in stand-in is shown.
+
+1. **Make the model.** Upload the reference image to an image-to-3D tool (Meshy, Tripo or Rodin all work), ask for a full-body character in a relaxed A or T pose, and download it as **FBX** (or OBJ).
+2. **Rig it.** At mixamo.com (free, Adobe account), choose Upload Character, upload the file, and place the auto-rigger markers (chin, wrists, elbows, knees, groin).
+3. **Download five files**, all as FBX, "30 fps", keyframe reduction "none", into `public/models/person/`:
+   - `character.fbx`: the rigged model itself (any pose, **With Skin**)
+   - `stressed.fbx`: wellbeing 0, for example "Texting While Standing" (**Without Skin**)
+   - `drained.fbx`: wellbeing 0.35, for example "Sad Idle" (Without Skin)
+   - `idle.fbx`: wellbeing 0.7, for example "Happy Idle" (Without Skin)
+   - `wave.fbx`: wellbeing 1, for example "Waving" (Without Skin)
+4. **Reload** `/prototype/character`. The page switches to the real model by itself. Any missing move is simply skipped.
+
+The colour shift (grey and drained to the model's own healthy colours) is done in code. Facial expressions come from the model as it was made; changing them (scowl to smile) needs a model with facial controls.

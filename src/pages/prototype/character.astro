@@ -56,7 +56,7 @@ const stops = [
 
     <script>
       import * as THREE from 'three';
-      import { makeCharacter } from '../../lib/character';
+      import { loadPerson } from '../../lib/personModel';
 
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const study = document.querySelector<HTMLElement>('[data-study]')!;
@@ -68,7 +68,8 @@ const stops = [
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 50);
-      const person = makeCharacter();
+      const person = await loadPerson();
+      canvas.dataset.person = person.kind;
       const turntable = new THREE.Group();
       turntable.add(person.group);
       scene.add(turntable);

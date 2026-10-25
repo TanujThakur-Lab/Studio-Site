@@ -101,7 +101,7 @@ import '@fontsource-variable/inter';
 
     <script>
       import * as THREE from 'three';
-      import { makeCharacter } from '../../lib/character';
+      import { loadPerson } from '../../lib/personModel';
 
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const small = window.matchMedia('(max-width: 700px)').matches;
@@ -170,7 +170,7 @@ import '@fontsource-variable/inter';
       }
 
       // ── The person: starts buried in admin (see src/lib/character.ts) ──
-      const person = makeCharacter();
+      const person = await loadPerson();
       const figure = { g: person.group };
       figure.g.position.set(0, -1.35, -2);
       figure.g.scale.setScalar(1.3);
