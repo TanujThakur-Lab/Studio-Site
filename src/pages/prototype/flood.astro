@@ -28,6 +28,11 @@ import '@fontsource-variable/inter';
             <h1 id="flood-title">Your week, before it’s even started.</h1>
             <p>Reports, chasers, replies, updates. The same admin as last week, all arriving at once.</p>
           </div>
+          <p class="slice-label" data-slice="0" style="color:#FCA5A5" aria-hidden="true">Reports</p>
+          <p class="slice-label" data-slice="1" style="color:#FDBA74" aria-hidden="true">Follow-ups</p>
+          <p class="slice-label" data-slice="2" style="color:#D8B4FE" aria-hidden="true">Doc updates</p>
+          <p class="slice-label" data-slice="3" style="color:#CBD5E1" aria-hidden="true">Replies</p>
+          <p class="hub" data-hub aria-hidden="true"><b>40 h</b><span>one working week</span></p>
           <div class="copy copy--next" data-next aria-hidden="true">
             <p class="next-title">Every hour, already spoken for.</p>
             <p>The messages fall into place: a week drawn as a clock, carved into repeat work.</p>
@@ -67,7 +72,13 @@ import '@fontsource-variable/inter';
       }
       .cta:active { transform: scale(0.97); }
 
-      .flood { height: 320vh; position: relative; }
+      .flood { height: 460vh; position: relative; }
+      /* frame 2: the week-clock's labels, placed over the 3D ring each frame */
+      .slice-label, .hub { position: absolute; left: 0; top: 0; z-index: 2; opacity: 0; pointer-events: none; will-change: transform; }
+      .slice-label { font-family: var(--sync); font-weight: 700; font-size: clamp(11px, 1vw, 14px); letter-spacing: 0.06em; white-space: nowrap; translate: -50% -50%; }
+      .hub { text-align: center; translate: -50% -50%; }
+      .hub b { display: block; font-family: var(--sync); font-size: clamp(28px, 3.4vw, 52px); line-height: 1; }
+      .hub span { font-size: 14px; color: var(--mist); }
       .stage { position: sticky; top: 0; height: 100svh; overflow: hidden;
         background: radial-gradient(120% 90% at 50% 35%, #1B1B26 0%, var(--night) 62%); }
       canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
@@ -262,6 +273,20 @@ import '@fontsource-variable/inter';
         return t * t * (3 - 2 * t);
       };
       const tmp = new THREE.Vector3();
+      const ringPos = new THREE.Vector3();
+      const ringCentre = new THREE.Vector3(RING_X, 0.6, RING_Z);
+      const zAxis = new THREE.Vector3(0, 0, 1);
+      const screen = new THREE.Vector3();
+      const sliceLabels = [...document.querySelectorAll<HTMLElement>('[data-slice]')];
+      const hub = document.querySelector<HTMLElement>('[data-hub]')!;
+      function place(el: HTMLElement, world: THREE.Vector3, opacity: number) {
+        world.project(camera);
+        const half = el.offsetWidth / 2 + 12; // keep labels fully on screen
+        const x = Math.min(canvas.clientWidth - half, Math.max(half, (world.x * 0.5 + 0.5) * canvas.clientWidth));
+        const y = (-world.y * 0.5 + 0.5) * canvas.clientHeight;
+        el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
+        el.style.opacity = String(opacity);
+      }
       const sliceColors = SLICES.map((s) => new THREE.Color(s.color));
       const white = new THREE.Color(0xffffff);
 
@@ -274,8 +299,12 @@ import '@fontsource-variable/inter';
         if (!reduce) time += dt;
 
         // camera falls forward through the cloud as you scroll
-        const fly = smooth(0, 0.75, progress);
-        const settle = smooth(0.55, 1, progress); // cloud resolves into the clock ring
+        // the first 65% of the scroll is frame 1 into the clock; the rest holds frame 2 while the clock turns
+        const p1 = Math.min(1, progress / 0.65);
+        const hold = smooth(0.66, 1, progress);
+        const fly = smooth(0, 0.75, p1);
+        const settle = smooth(0.55, 1, p1); // cloud resolves into the clock ring
+        const turn = hold * 0.9;
         camera.position.set(0, 0.2 - fly * 0.3, 8 - fly * 16);
         pointer.x += (pointer.tx - pointer.x) * 0.05;
         pointer.y += (pointer.ty - pointer.y) * 0.05;
@@ -293,7 +322,8 @@ import '@fontsource-variable/inter';
           const jx = Math.sin(time * 1.7 + c.phase) * 0.04;
           const jy = Math.cos(time * 2.1 + c.phase) * 0.05;
           tmp.set(c.base.x + jx, c.base.y + jy, c.base.z);
-          tmp.lerp(c.ring, settle);
+          ringPos.copy(c.ring).sub(ringCentre).applyAxisAngle(zAxis, -turn).add(ringCentre);
+          tmp.lerp(ringPos, settle);
           c.mesh.position.copy(tmp);
           c.mesh.rotation.set(c.rot.x * (1 - settle), c.rot.y * (1 - settle), c.rot.z * (1 - settle));
           c.mesh.scale.setScalar(1 - settle * 0.18);
@@ -314,13 +344,24 @@ import '@fontsource-variable/inter';
         (scene.fog as THREE.Fog).far = 26 + settle * 16;
 
         // copy hand-off between frame 1 and frame 2
-        const out = smooth(0.35, 0.6, progress);
+        const out = smooth(0.35, 0.6, p1);
         copy.style.opacity = String(1 - out);
         copy.style.transform = `translateY(${-out * 24}px)`;
-        next.style.opacity = String(smooth(0.65, 0.9, progress));
-        next.style.transform = `translateY(${(1 - smooth(0.65, 0.9, progress)) * 24}px)`;
-        hint.style.opacity = String(1 - smooth(0.02, 0.12, progress));
-        document.querySelector<HTMLElement>('.count')!.style.opacity = String(1 - smooth(0.3, 0.55, progress));
+        next.style.opacity = String(smooth(0.65, 0.9, p1));
+        next.style.transform = `translateY(${(1 - smooth(0.65, 0.9, p1)) * 24}px)`;
+        // frame 2 labels: each slice's name sits just outside its arc, and the hub in the middle
+        const labelsIn = smooth(0.85, 1, p1);
+        sliceLabels.forEach((el, i) => {
+          const t = sliceStart[i] + perSlice[i] / total / 2;
+          const a = t * Math.PI * 2 - Math.PI / 2 - turn;
+          const lr = RING_R + (small ? 0.95 : 1.5);
+          screen.set(RING_X + Math.cos(a) * lr, Math.sin(a) * lr + 0.6, RING_Z);
+          place(el, screen, labelsIn);
+        });
+        screen.copy(ringCentre);
+        place(hub, screen, labelsIn);
+        hint.style.opacity = String(1 - smooth(0.02, 0.12, p1));
+        document.querySelector<HTMLElement>('.count')!.style.opacity = String(1 - smooth(0.3, 0.55, p1));
 
         renderer.render(scene, camera);
         if (!reduce) requestAnimationFrame(frame);
