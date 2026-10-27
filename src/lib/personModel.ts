@@ -13,6 +13,8 @@ export type Person = {
   group: THREE.Group;
   setWellbeing: (w: number) => void;
   update: (dt: number) => void;
+  /** amount 0–1 blends in a walk; phase is the stride position (radians), so the caller can tie steps to distance */
+  setWalk?: (amount: number, phase: number) => void;
   kind: 'model' | 'stand-in';
 };
 
@@ -209,6 +211,8 @@ async function loadRigged(): Promise<Person> {
   let w = 0;
   let time = 0;
   let wave = 0;
+  let walk = 0;
+  let stride = 0;
   function apply() {
     const p = poseAt(w);
     const breath = Math.sin(time * (3.4 - 2.2 * w)) * (0.01 + 0.012 * w);
@@ -216,8 +220,20 @@ async function loadRigged(): Promise<Person> {
     bones.chest.rotation.x = p.chest - breath;
     bones.neck.rotation.x = p.neck + Math.sin(time * 7.3) * 0.012 * (1 - Math.min(1, w * 2.5));
     const rFore: V = [p.rFore[0] + Math.sin(time * 5) * 0.35 * wave, p.rFore[1], p.rFore[2]];
-    aim(bones.shoulderL, bones.elbowL, restL, p.lUp, p.lFore);
-    aim(bones.shoulderR, bones.elbowR, restR, p.rUp, rFore);
+    // walking: arms swing opposite the legs
+    const swing = Math.sin(stride) * 0.38 * walk;
+    const lUp: V = [p.lUp[0], p.lUp[1], p.lUp[2] - swing];
+    const rUp: V = [p.rUp[0], p.rUp[1], p.rUp[2] + swing];
+    aim(bones.shoulderL, bones.elbowL, restL, lUp, p.lFore);
+    aim(bones.shoulderR, bones.elbowR, restR, rUp, rFore);
+    // legs: hips swing forward and back, knees bend on the back swing
+    const legL = Math.sin(stride) * 0.5 * walk;
+    const legR = -legL;
+    bones.upLegL.rotation.x = -legL;
+    bones.upLegR.rotation.x = -legR;
+    bones.kneeL.rotation.x = Math.max(0, -Math.sin(stride)) * 0.75 * walk;
+    bones.kneeR.rotation.x = Math.max(0, Math.sin(stride)) * 0.75 * walk;
+    bones.hips.position.y = J.hips.y + Math.abs(Math.sin(stride)) * 0.02 * walk;
     phone.scale.setScalar(Math.max(0.0001, p.phone));
     glow.intensity = 0.6 * p.phone;
     group.rotation.z = Math.sin(time * 0.9) * 0.015 * smooth(Math.max(0, w - 0.6) / 0.4);
@@ -229,5 +245,10 @@ async function loadRigged(): Promise<Person> {
     apply();
   }
   setWellbeing(0);
-  return { group, setWellbeing, update(dt) { time += dt; apply(); }, kind: 'model' };
+  function setWalk(amount: number, phase: number) {
+    walk = Math.min(1, Math.max(0, amount));
+    stride = phase;
+    apply();
+  }
+  return { group, setWellbeing, setWalk, update(dt) { time += dt; apply(); }, kind: 'model' };
 }
