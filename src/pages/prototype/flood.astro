@@ -34,6 +34,28 @@ import '@fontsource-variable/inter';
           <p class="slice-label" data-slice="3" style="color:#CBD5E1" aria-hidden="true">Replies</p>
           <p class="hub" data-hub aria-hidden="true"><b>40 h</b><span>one working week</span></p>
           <p class="core-label" data-core aria-hidden="true">OGC</p>
+          <article class="approval" data-approval aria-labelledby="ap-title">
+            <p class="ap-sample">Sample data</p>
+            <h2 id="ap-title">Weekly report · Sample Freight Ltd</h2>
+            <ul>
+              <li>Customs hold cleared, documents re-sent</li>
+              <li>Invoice mismatch corrected</li>
+              <li>Bill of lading approved</li>
+              <li>3 items waiting on you</li>
+            </ul>
+            <div class="ap-foot">
+              <span data-ap-state aria-live="polite">Draft · nothing is sent until you approve</span>
+              <button type="button" data-ap-approve>
+                <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Approve
+              </button>
+            </div>
+            <span class="ap-stamp" aria-hidden="true">Approved</span>
+          </article>
+          <div class="copy copy--four" data-four aria-hidden="true">
+            <p class="next-title">Nothing leaves without your yes.</p>
+            <p>Out of the core comes one finished draft. You read it, press approve, and it goes. That’s the whole job now.</p>
+          </div>
           <div class="copy copy--three" data-three aria-hidden="true">
             <p class="next-title">Hand the repeat work over.</p>
             <p>We turn it into a workflow. The messages stop landing on you and flow into one place that drafts the work.</p>
@@ -77,7 +99,34 @@ import '@fontsource-variable/inter';
       }
       .cta:active { transform: scale(0.97); }
 
-      .flood { height: 640vh; position: relative; }
+      .flood { height: 820vh; position: relative; }
+      .copy--four { opacity: 0; }
+      /* frame 4: the one finished draft, waiting for a yes */
+      .approval {
+        position: absolute; left: 0; top: 0; z-index: 3; width: min(360px, calc(100vw - 32px)); visibility: hidden; opacity: 0;
+        padding: 22px 22px 18px; border-radius: 14px; background: #F8FAFC; color: #0F172A;
+        box-shadow: 0 40px 80px -30px rgba(2, 20, 26, 0.6); transform-origin: 50% 50%;
+      }
+      .approval h2 { font-family: var(--inter); font-size: 18px; font-weight: 600; line-height: 1.3; margin: 6px 0 10px; }
+      .approval ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; font-size: 15px; color: #334155; }
+      .approval li::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #059669; margin: 0 8px 2px 0; }
+      .ap-sample { margin: 0; font-size: 12px; font-weight: 600; color: #64748B; }
+      .ap-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; }
+      .ap-foot span { font-size: 13px; color: #475569; line-height: 1.35; }
+      .ap-foot button {
+        display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 18px; border: 0; border-radius: 99px; flex: none;
+        background: #0F172A; color: #fff; font: 600 15px var(--inter); cursor: pointer; transition: transform 160ms var(--ease-out);
+      }
+      .ap-foot button:active { transform: scale(0.96); }
+      .ap-foot button:focus-visible { outline: 2px solid #0F172A; outline-offset: 3px; }
+      .ap-stamp {
+        position: absolute; right: 14px; top: 12px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 8px;
+        background: #22D3EE; color: #06303A; font-family: var(--sync); font-weight: 700; font-size: 13px; letter-spacing: 0.06em;
+        opacity: 0; transform: rotate(-8deg) scale(1.4); transition: opacity 200ms ease, transform 420ms cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      .approval.is-approved .ap-stamp { opacity: 1; transform: rotate(-8deg) scale(1); }
+      .approval.is-approved .ap-foot button { background: #E2E8F0; color: #0F172A; }
+      @media (prefers-reduced-motion: reduce) { .ap-stamp { transition: none; } }
       .copy--three { opacity: 0; }
       .core-label { position: absolute; left: 0; top: 0; z-index: 2; opacity: 0; pointer-events: none; translate: -50% -50%; font-family: var(--sync); font-weight: 700; font-size: clamp(16px, 1.6vw, 24px); letter-spacing: 0.14em; color: #ECFEFF; }
       /* frame 2: the week-clock's labels, placed over the 3D ring each frame */
@@ -338,8 +387,20 @@ import '@fontsource-variable/inter';
       const stage = document.querySelector<HTMLElement>('.stage')!;
       const teal = new THREE.Color('#22D3EE');
       // background: night (frame 1), indigo (frame 2), deep teal (frame 3)
-      const BG_A = ['#1B1B26', '#1E1B4B', '#0E5160'].map((c) => new THREE.Color(c));
-      const BG_B = ['#0B0B10', '#0E0E18', '#062B33'].map((c) => new THREE.Color(c));
+      // night (frame 1), indigo (2), deep teal (3), sea glass (4)
+      const BG_A = ['#1B1B26', '#1E1B4B', '#0E5160', '#2A8C8C'].map((c) => new THREE.Color(c));
+      const BG_B = ['#0B0B10', '#0E0E18', '#062B33', '#0B4F5C'].map((c) => new THREE.Color(c));
+      const card = document.querySelector<HTMLElement>('[data-approval]')!;
+      const four = document.querySelector<HTMLElement>('[data-four]')!;
+      const apState = document.querySelector<HTMLElement>('[data-ap-state]')!;
+      const apButton = document.querySelector<HTMLButtonElement>('[data-ap-approve]')!;
+      apButton.addEventListener('click', () => {
+        const done = card.classList.toggle('is-approved');
+        apState.textContent = done
+          ? 'Approved by you. In real life it would now go to Sample Freight Ltd.'
+          : 'Draft · nothing is sent until you approve';
+        apButton.lastChild!.textContent = done ? ' Undo' : ' Approve';
+      });
       const bgA = new THREE.Color();
       const bgB = new THREE.Color();
       const sliceColors = SLICES.map((s) => new THREE.Color(s.color));
@@ -354,10 +415,11 @@ import '@fontsource-variable/inter';
         if (!reduce) time += dt;
 
         // camera falls forward through the cloud as you scroll
-        // scroll: 0–42% frame 1 into the clock, 42–60% frame 2 holds while it turns, 60–100% frame 3 drains it
-        const p1 = Math.min(1, progress / 0.42);
-        const hold = smooth(0.43, 0.6, progress);
-        const flow = smooth(0.6, 0.95, progress);
+        // scroll: 0–34% frame 1 into the clock, 34–48% frame 2 turns, 48–76% frame 3 drains it, 76–100% frame 4 resolves it
+        const p1 = Math.min(1, progress / 0.34);
+        const hold = smooth(0.35, 0.48, progress);
+        const flow = smooth(0.48, 0.74, progress);
+        const resolve = smooth(0.76, 0.9, progress);
         const fly = smooth(0, 0.75, p1);
         const settle = smooth(0.55, 1, p1); // cloud resolves into the clock ring
         const turn = hold * 0.9;
@@ -403,13 +465,15 @@ import '@fontsource-variable/inter';
           (c.mesh.material as THREE.MeshBasicMaterial).color.copy(white).lerp(sliceColors[c.slice], settle * 0.85).lerp(teal, e);
         }
         // the person lets go of their head as the scene starts to order itself, but is still drained
-        person.setWellbeing(settle * 0.32 + flow * 0.14);
+        person.setWellbeing(settle * 0.32 + flow * 0.14 + resolve * 0.24);
+        figure.g.rotation.y = resolve * (small ? 0.35 : 0.55); // he turns towards the draft
         const life = smooth(0.1, 0.9, flow);
         coreMat.uniforms.uLife.value = life;
         coreMat.uniforms.uTime.value = time;
-        core.scale.setScalar(Math.max(0.0001, RING_R * 0.48 * life * (1 + Math.sin(time * 1.4) * 0.03)));
+        core.scale.setScalar(Math.max(0.0001, RING_R * 0.48 * life * (1 - resolve) * (1 + Math.sin(time * 1.4) * 0.03)));
         coreLight.intensity = 9 * life;
-        if (flow > 0) { bgA.copy(BG_A[1]).lerp(BG_A[2], flow); bgB.copy(BG_B[1]).lerp(BG_B[2], flow); }
+        if (resolve > 0) { bgA.copy(BG_A[2]).lerp(BG_A[3], resolve); bgB.copy(BG_B[2]).lerp(BG_B[3], resolve); }
+        else if (flow > 0) { bgA.copy(BG_A[1]).lerp(BG_A[2], flow); bgB.copy(BG_B[1]).lerp(BG_B[2], flow); }
         else { bgA.copy(BG_A[0]).lerp(BG_A[1], hold); bgB.copy(BG_B[0]).lerp(BG_B[1], hold); }
         stage.style.setProperty('--bg-a', '#' + bgA.getHexString());
         stage.style.setProperty('--bg-b', '#' + bgB.getHexString());
@@ -429,7 +493,9 @@ import '@fontsource-variable/inter';
         copy.style.transform = `translateY(${-out * 24}px)`;
         const outTwo = 1 - smooth(0, 0.25, flow);
         next.style.opacity = String(smooth(0.65, 0.9, p1) * outTwo);
-        three.style.opacity = String(smooth(0.3, 0.6, flow));
+        three.style.opacity = String(smooth(0.3, 0.6, flow) * (1 - smooth(0, 0.35, resolve)));
+        four.style.opacity = String(smooth(0.4, 0.8, resolve));
+        four.style.transform = `translateY(${(1 - smooth(0.4, 0.8, resolve)) * 24}px)`;
         three.style.transform = `translateY(${(1 - smooth(0.3, 0.6, flow)) * 24}px)`;
         next.style.transform = `translateY(${(1 - smooth(0.65, 0.9, p1)) * 24}px)`;
         // frame 2 labels: each slice's name sits just outside its arc, and the hub in the middle
@@ -444,7 +510,15 @@ import '@fontsource-variable/inter';
         screen.copy(ringCentre);
         place(hub, screen, labelsIn);
         screen.copy(ringCentre);
-        place(coreEl, screen, smooth(0.5, 0.9, flow));
+        place(coreEl, screen, smooth(0.5, 0.9, flow) * (1 - smooth(0, 0.4, resolve)));
+        // the card grows out of the core and lifts towards you
+        screen.copy(ringCentre).project(camera);
+        const cx = Math.min(canvas.clientWidth - card.offsetWidth / 2 - 16, Math.max(card.offsetWidth / 2 + 16, (screen.x * 0.5 + 0.5) * canvas.clientWidth));
+        const cy = Math.min(canvas.clientHeight * (small ? 0.34 : 0.62), Math.max(card.offsetHeight / 2 + 80, (-screen.y * 0.5 + 0.5) * canvas.clientHeight));
+        const cardIn = smooth(0.2, 0.75, resolve);
+        card.style.visibility = cardIn > 0.05 ? 'visible' : 'hidden';
+        card.style.opacity = String(cardIn);
+        card.style.transform = `translate(${(cx - card.offsetWidth / 2).toFixed(1)}px, ${(cy - card.offsetHeight / 2).toFixed(1)}px) scale(${((0.55 + 0.45 * cardIn) * (small ? 0.88 : 1)).toFixed(3)})`;
         hint.style.opacity = String(1 - smooth(0.02, 0.12, p1));
         document.querySelector<HTMLElement>('.count')!.style.opacity = String(1 - smooth(0.3, 0.55, p1));
 
