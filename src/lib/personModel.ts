@@ -73,6 +73,9 @@ async function loadRigged(): Promise<Person> {
   geo.translate(-(bb.min.x + bb.max.x) / 2, -bb.min.y, -(bb.min.z + bb.max.z) / 2);
   const s = HEIGHT / (bb.max.y - bb.min.y);
   geo.scale(s, s, s);
+  // smooth shading: the 3D tool's normals are faceted, which reads as blocky at small sizes
+  geo.deleteAttribute('normal');
+  geo.computeVertexNormals();
   const pos = geo.attributes.position as THREE.BufferAttribute;
   const H = HEIGHT;
   const n = pos.count;
@@ -165,6 +168,8 @@ async function loadRigged(): Promise<Person> {
   geo.setAttribute('skinWeight', new THREE.Float32BufferAttribute(skinWeight, 4));
 
   const material = (Array.isArray(src.material) ? src.material[0] : src.material) as THREE.MeshStandardMaterial;
+  material.fog = false; // he stays clear and in colour, whatever the scene's haze
+  if (material.map) { material.map.anisotropy = 8; material.map.needsUpdate = true; }
   const mesh = new THREE.SkinnedMesh(geo, material);
   mesh.add(bones.hips);
   mesh.bind(new THREE.Skeleton(list));
@@ -198,7 +203,8 @@ async function loadRigged(): Promise<Person> {
     elbow.quaternion.setFromUnitVectors(rest, d2);
   }
 
-  const drained = new THREE.Color('#9AA4B4');
+  // tired, not grey: a light cool cast that keeps his own colours readable
+  const drained = new THREE.Color('#C9D0DA');
   const white = new THREE.Color('#FFFFFF');
   let w = 0;
   let time = 0;
