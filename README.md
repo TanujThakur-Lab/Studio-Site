@@ -87,16 +87,6 @@ Every company, person, ticket and figure in the demos lives in `src/data/sample.
 
 ## The 3D person (redesign branch)
 
-The scroll's main character is loaded from `public/models/person/`. Until those files exist, a simpler built-in stand-in is shown.
+The scroll's main character is `public/models/person/ogc-person.glb`: a textured model made from the owner's reference image (full-body image by Nano Banana Pro, 3D by Meshy V6, both run through Figma Weave). It has no skeleton of its own; `src/lib/personModel.ts` fits one in code and poses it from the "wellbeing" dial (0 = buried in admin, 1 = a good life). The poses are the `POSES` table at the top of that file. If the model fails to load, the toy stand-in from `src/lib/character.ts` is shown.
 
-1. **Make the model.** Upload the reference image to an image-to-3D tool (Meshy, Tripo or Rodin all work), ask for a full-body character in a relaxed A or T pose, and download it as **FBX** (or OBJ).
-2. **Rig it.** At mixamo.com (free, Adobe account), choose Upload Character, upload the file, and place the auto-rigger markers (chin, wrists, elbows, knees, groin).
-3. **Download five files**, all as FBX, "30 fps", keyframe reduction "none", into `public/models/person/`:
-   - `character.fbx`: the rigged model itself (any pose, **With Skin**)
-   - `stressed.fbx`: wellbeing 0, for example "Texting While Standing" (**Without Skin**)
-   - `drained.fbx`: wellbeing 0.35, for example "Sad Idle" (Without Skin)
-   - `idle.fbx`: wellbeing 0.7, for example "Happy Idle" (Without Skin)
-   - `wave.fbx`: wellbeing 1, for example "Waving" (Without Skin)
-4. **Reload** `/prototype/character`. The page switches to the real model by itself. Any missing move is simply skipped.
-
-The colour shift (grey and drained to the model's own healthy colours) is done in code. Facial expressions come from the model as it was made; changing them (scowl to smile) needs a model with facial controls.
+`/prototype/character?render=0.5&spin=0.3` shows only the person on a transparent page; the storyboard stills in `design/storyboard/` were captured that way.

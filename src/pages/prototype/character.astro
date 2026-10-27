@@ -113,7 +113,15 @@ const stops = [
       // drag to turn
       let dragging = false;
       let lastX = 0;
-      let spin = 0.35;
+      // ?render=0.4&spin=0.3 shows only the person on a transparent page, for storyboard stills
+      const params = new URLSearchParams(location.search);
+      const renderAt = params.has('render') ? Number(params.get('render')) : null;
+      let spin = params.has('spin') ? Number(params.get('spin')) : 0.35;
+      if (renderAt !== null) {
+        document.querySelector<HTMLElement>('.panel')!.style.display = 'none';
+        study.style.background = 'transparent';
+        document.body.style.background = 'transparent';
+      }
       canvas.addEventListener('pointerdown', (e) => { dragging = true; lastX = e.clientX; canvas.setPointerCapture(e.pointerId); });
       canvas.addEventListener('pointermove', (e) => { if (dragging) { spin += (e.clientX - lastX) * 0.01; lastX = e.clientX; if (reduce) render(); } });
       const stopDrag = () => (dragging = false);
@@ -126,8 +134,9 @@ const stops = [
         renderer.setSize(wdt, h, false);
         camera.aspect = wdt / h;
         const narrow = wdt < 700;
-        camera.position.set(narrow ? 0 : -0.7, narrow ? 1.35 : 1.1, narrow ? 6.2 : 4.6);
-        camera.lookAt(narrow ? 0 : -0.7, narrow ? 1.35 : 0.95, 0);
+        const centred = narrow || renderAt !== null;
+        camera.position.set(centred ? 0 : -0.7, centred ? 1.0 : 1.1, centred ? 4.4 : 4.6);
+        camera.lookAt(centred ? 0 : -0.7, centred ? 0.9 : 0.95, 0);
         camera.updateProjectionMatrix();
         if (reduce) render();
       }
@@ -149,7 +158,8 @@ const stops = [
       }
 
       resize();
-      setW(0);
+      w = target = renderAt ?? 0;
+      setW(w);
       if (reduce) render(); else requestAnimationFrame(loop);
     </script>
   </body>

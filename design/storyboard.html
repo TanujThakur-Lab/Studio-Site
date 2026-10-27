@@ -42,7 +42,7 @@
   .headline p { margin: 0; font-size: clamp(10px, 1.1vw, 14px); opacity: 0.85; max-width: 42ch; }
   .clock { position: absolute; right: 5%; bottom: 9%; z-index: 4; font-family: var(--sync); font-size: clamp(10px, 1.2vw, 15px); letter-spacing: 0.08em; text-align: right; opacity: 0.9; }
   .clock big { display: block; font-size: clamp(20px, 3.4vw, 46px); font-weight: 700; letter-spacing: 0; }
-  .person { position: absolute; z-index: 3; }
+  .who { position: absolute; z-index: 3; bottom: -14%; height: 128%; width: auto; pointer-events: none; }
 
   /* 1. the flood */
   .s1 { background: radial-gradient(120% 90% at 50% 35%, #1B1B26 0%, var(--night) 60%); }
@@ -73,7 +73,7 @@
 
   /* 4. approve */
   .s4 { background: linear-gradient(180deg, #0B4F5C 0%, #11707A 60%, #2A8C8C 100%); }
-  .card { position: absolute; right: 9%; top: 18%; width: 34%; background: var(--paper); color: var(--ink); border-radius: 10px; padding: 3% 3.2%; z-index: 3; font-size: clamp(7px, 0.9vw, 12px); box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.45); }
+  .card { position: absolute; right: 4%; top: 18%; width: 30%; background: var(--paper); color: var(--ink); border-radius: 10px; padding: 3% 3.2%; z-index: 3; font-size: clamp(7px, 0.9vw, 12px); box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.45); }
   .card b { display: block; font-size: clamp(9px, 1.15vw, 15px); margin-bottom: 6px; }
   .card .row { display: flex; gap: 6px; align-items: center; margin: 3px 0; color: #334155; }
   .card .row::before { content: ''; width: 5px; height: 5px; background: var(--mint); border-radius: 50%; }
@@ -110,7 +110,8 @@
 </head>
 <body>
 <header class="sb">
-  <h1>OGC Studio · storyboard 1</h1>
+  <h1>OGC Studio · storyboard 2</h1>
+  <p><strong>Now with the real person.</strong> Every figure below is a still of the actual 3D model, rigged and posed by the scroll position, not a drawing.</p>
   <p><strong>One scroll, one person, one week.</strong> The page is a 3D space you fall through from top to bottom. At the top a person is buried in messages, tasks and alerts. Each scroll step hands a piece of that work to OGC, and the scene gets quieter, slower and lighter until there is open time and a calm horizon. The thing we sell is <strong>time back</strong>.</p>
   <p>These are stills of six scroll positions. Between them everything moves continuously: the camera travels down through the scene, pieces drift and change, colour shifts from night to morning.</p>
   <div class="legend">
@@ -140,8 +141,8 @@
       <div class="ping far" style="left:62%;top:26%">Slack: 27 new messages</div>
       <div class="ping" style="left:24%;top:66%">Chase the supplier</div>
       <div class="ping far" style="left:52%;top:70%">Meeting moved to 4 pm</div>
-      <svg class="person" style="left:58%;top:30%;width:5%" viewBox="0 0 20 44" aria-hidden="true"><circle cx="10" cy="6" r="5" fill="#E2E8F0"/><path d="M3 44V20c0-4 3-7 7-7s7 3 7 7v24" fill="#E2E8F0"/><path d="M3 22l-3-6M17 22l3-6" stroke="#E2E8F0" stroke-width="2.5" stroke-linecap="round"/></svg>
       <div class="badge">214<small>unread, and it’s 7:58 am</small></div>
+      <img class="who" src="storyboard/person-1.png" alt="" style="left:34%">
       <div class="headline"><h3>Your week, before it’s even started.</h3><p>Reports, chasers, replies, updates. The same admin as last week, all arriving at once.</p></div>
     </div>
     <div class="notes">
@@ -166,6 +167,7 @@
         <text x="74" y="22">Reports</text><text x="80" y="62">Follow-ups</text><text x="44" y="96">Doc updates</text><text x="2" y="58">Replies</text>
         <text x="50" y="53" text-anchor="middle" style="font-size:8px;font-family:Syncopate;font-weight:700">40 h</text>
       </svg>
+      <img class="who" src="storyboard/person-2.png" alt="" style="left:30%">
       <div class="headline"><h3>Every hour, already spoken for.</h3><p>The week is a clock, and most of its slices are repeat work: the report, the chaser, the update, the reply.</p></div>
     </div>
     <div class="notes">
@@ -189,6 +191,7 @@
         <rect x="35" y="56" width="18" height="5" rx="2" fill="rgba(248,250,252,0.16)"/><text x="36.5" y="59.6">Rate sheet</text></g>
       </svg>
       <div class="core"></div>
+      <img class="who" src="storyboard/person-3.png" alt="" style="left:40%">
       <div class="headline"><h3>Hand the repeat work over.</h3><p>We turn it into a workflow. The messages stop landing on you and flow into one place that drafts the work.</p></div>
     </div>
     <div class="notes">
@@ -207,7 +210,7 @@
       <div class="card"><span class="tag">Sample data</span><b>Weekly report · Sample Freight Ltd</b>
         <div class="row">Customs hold cleared</div><div class="row">Invoice mismatch fixed</div><div class="row">Bill of lading approved</div>
         <span class="ok">✓ Approve</span></div>
-      <svg class="person" style="left:52%;top:40%;width:4.5%" viewBox="0 0 20 44" aria-hidden="true"><circle cx="10" cy="6" r="5" fill="#ECFEFF"/><path d="M3 44V20c0-4 3-7 7-7s7 3 7 7v24" fill="#ECFEFF"/></svg>
+      <img class="who" src="storyboard/person-4.png" alt="" style="left:33%">
       <div class="headline"><h3>Nothing leaves without your yes.</h3><p>Out of the core comes one finished draft. You read it, press approve, and it goes. That’s the whole job now.</p></div>
     </div>
     <div class="notes">
@@ -225,6 +228,7 @@
       <div class="nav"><b>OGC STUDIO</b><span class="theme">Theme ◐</span><span class="cta">Book a call</span></div>
       <div class="blob"><span>Friday<br>3 pm<br>is yours</span></div>
       <div class="clock">Time back this week<big>[ x h ]</big></div>
+      <img class="who" src="storyboard/person-5.png" alt="" style="left:30%">
       <div class="headline"><h3>The hours come back.</h3><p>The clock from frame 2 returns, but empty and soft. The slices that were admin are now open time.</p></div>
     </div>
     <div class="notes">
@@ -241,7 +245,7 @@
     <div class="screen s6">
       <div class="nav"><b>OGC STUDIO</b><span class="theme">Theme ◐</span><span class="cta">Book a call</span></div>
       <div class="sun"></div>
-      <svg class="person" style="left:63%;top:36%;width:2.2%" viewBox="0 0 20 44" aria-hidden="true"><circle cx="10" cy="6" r="5" fill="#0F172A"/><path d="M3 44V20c0-4 3-7 7-7s7 3 7 7v24" fill="#0F172A"/></svg>
+      <img class="who" src="storyboard/person-6.png" alt="" style="left:44%;height:52%;bottom:40%">
       <div class="headline"><h3>Get your time back.</h3><p>Start with one task. A free 20-minute call, and we’ll tell you honestly whether it’s worth automating.</p><span class="bigcta">Book a free 20-minute call</span></div>
     </div>
     <div class="notes">
