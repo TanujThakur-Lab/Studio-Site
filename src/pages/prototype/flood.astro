@@ -374,6 +374,8 @@ import { BOOKING_URL } from '../../config';
       // ── page → scene: which section is in view sets the target; the scene eases towards it ──
       // each frame's resting point on the old single timeline
       const REST = [0, 0.3, 0.5, 0.62, 0.82, 1];
+      // seconds each change takes: 1→2, 2→3, 3→4, 4→5, 5→6
+      const TRANSITION = [3.2, 1.8, 1.5, 1.8, 2.6];
       let target = 0;
       let scene01 = 0; // 0–5, the scene's current position between frames
       let within = 0; // how far through the current section (for a gentle parallax)
@@ -525,9 +527,15 @@ import { BOOKING_URL } from '../../config';
         const dt = Math.min(0.05, (now - last) / 1000);
         last = now;
         time += dt;
-        // ease towards the section in view: about a second per frame, whatever the scroll speed
-        scene01 += (target - scene01) * (1 - Math.exp(-dt * 2.6));
-        if (Math.abs(target - scene01) < 0.0005) scene01 = target;
+        // travel towards the section in view at each transition's own pace (seconds per frame change);
+        // flood → clock is the big one, so it gets the longest. Catch up faster if several sections behind.
+        const gap = Math.abs(target - scene01);
+        if (gap > 0) {
+          const forward = target > scene01;
+          const seg = Math.min(4, Math.max(0, forward ? Math.floor(scene01 + 1e-6) : Math.ceil(scene01 - 1e-6) - 1));
+          const step = (dt / TRANSITION[seg]) * (gap > 1 ? 1 + (gap - 1) * 1.5 : 1);
+          scene01 = forward ? Math.min(target, scene01 + step) : Math.max(target, scene01 - step);
+        }
         render(dt);
         requestAnimationFrame(loop);
       }
