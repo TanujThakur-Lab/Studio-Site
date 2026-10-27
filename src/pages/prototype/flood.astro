@@ -1,5 +1,8 @@
 ---
-// Prototype of the full scroll journey, storyboard frames 1–6. Not linked from the live homepage.
+// Prototype of the full OGC Studio journey, storyboard frames 1–6, as a real scrolling page:
+// six sections of content scroll normally over a fixed 3D world, and each section that arrives
+// sets the scene's target, which the scene then eases to over about a second.
+// Not linked from the live homepage.
 import '@fontsource/syncopate/latin-700.css';
 import '@fontsource-variable/inter';
 import { BOOKING_URL } from '../../config';
@@ -10,213 +13,178 @@ import { BOOKING_URL } from '../../config';
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex" />
-    <title>OGC Studio · prototype: the flood</title>
+    <title>OGC Studio · prototype: the journey</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body>
     <header class="bar">
-      <a class="brand" href="/prototype/flood">OGC STUDIO</a>
-      <button class="theme" type="button" aria-label="Theme switch (coming next)" disabled>Theme</button>
-      <a class="cta" href="/#contact">Book a call</a>
+      <a class="brand" href="#f1">OGC STUDIO</a>
+      <button class="theme" type="button" aria-label="Theme switch (coming soon)" disabled>Theme</button>
+      <a class="cta" href={BOOKING_URL}>Book a call</a>
     </header>
 
+    <!-- the fixed world behind the page -->
+    <div class="world" aria-hidden="true">
+      <div class="horizon" data-horizon></div>
+      <div class="sun" data-sun></div>
+      <canvas data-canvas></canvas>
+      <p class="slice-label" data-slice="0" style="color:#FCA5A5">Reports</p>
+      <p class="slice-label" data-slice="1" style="color:#FDBA74">Follow-ups</p>
+      <p class="slice-label" data-slice="2" style="color:#D8B4FE">Doc updates</p>
+      <p class="slice-label" data-slice="3" style="color:#CBD5E1">Replies</p>
+      <p class="hub" data-hub><b>40 h</b><span>one working week</span></p>
+      <p class="core-label" data-core>OGC</p>
+      <p class="time-word" data-time-word>Friday<br />3 pm<br />is yours</p>
+    </div>
+
     <main>
-      <section class="flood" data-flood aria-labelledby="flood-title">
-        <div class="stage">
-          <div class="horizon" data-horizon aria-hidden="true"></div>
-          <div class="sun" data-sun aria-hidden="true"></div>
-          <canvas data-canvas aria-hidden="true"></canvas>
-          <p class="count" aria-live="off"><b data-count>214</b><span>unread, and it’s 7:58 am</span></p>
-          <div class="copy" data-copy>
-            <h1 id="flood-title">Your week, before it’s even started.</h1>
-            <p>Reports, chasers, replies, updates. The same admin as last week, all arriving at once.</p>
-          </div>
-          <p class="slice-label" data-slice="0" style="color:#FCA5A5" aria-hidden="true">Reports</p>
-          <p class="slice-label" data-slice="1" style="color:#FDBA74" aria-hidden="true">Follow-ups</p>
-          <p class="slice-label" data-slice="2" style="color:#D8B4FE" aria-hidden="true">Doc updates</p>
-          <p class="slice-label" data-slice="3" style="color:#CBD5E1" aria-hidden="true">Replies</p>
-          <p class="hub" data-hub aria-hidden="true"><b>40 h</b><span>one working week</span></p>
-          <p class="core-label" data-core aria-hidden="true">OGC</p>
-          <p class="time-word" data-time-word aria-hidden="true">Friday<br />3 pm<br />is yours</p>
-          <p class="time-back" data-time-back aria-hidden="true">Time back this week<b>[ x h ]</b></p>
-          <div class="copy copy--six" data-six>
-            <h2 class="next-title">Get your time back.</h2>
-            <p>Start with one task. A free 20-minute call, and we’ll tell you honestly whether it’s worth automating.</p>
-            <a class="cta-big" href={BOOKING_URL}>Book a free 20-minute call</a>
-          </div>
-          <div class="copy copy--five" data-five aria-hidden="true">
-            <p class="next-title">The hours come back.</p>
-            <p>The clock returns, but empty and soft. The slices that were admin are now open time.</p>
-          </div>
-          <article class="approval" data-approval aria-labelledby="ap-title">
-            <p class="ap-sample">Sample data</p>
-            <h2 id="ap-title">Weekly report · Sample Freight Ltd</h2>
-            <ul>
-              <li>Customs hold cleared, documents re-sent</li>
-              <li>Invoice mismatch corrected</li>
-              <li>Bill of lading approved</li>
-              <li>3 items waiting on you</li>
-            </ul>
-            <div class="ap-foot">
-              <span data-ap-state aria-live="polite">Draft · nothing is sent until you approve</span>
-              <button type="button" data-ap-approve>
-                <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                Approve
-              </button>
-            </div>
-            <span class="ap-stamp" aria-hidden="true">Approved</span>
-          </article>
-          <div class="copy copy--four" data-four aria-hidden="true">
-            <p class="next-title">Nothing leaves without your yes.</p>
-            <p>Out of the core comes one finished draft. You read it, press approve, and it goes. That’s the whole job now.</p>
-          </div>
-          <div class="copy copy--three" data-three aria-hidden="true">
-            <p class="next-title">Hand the repeat work over.</p>
-            <p>We turn it into a workflow. The messages stop landing on you and flow into one place that drafts the work.</p>
-          </div>
-          <div class="copy copy--next" data-next aria-hidden="true">
-            <p class="next-title">Every hour, already spoken for.</p>
-            <p>The messages fall into place: a week drawn as a clock, carved into repeat work.</p>
-          </div>
-          <p class="hint" data-hint>Scroll</p>
+      <section class="frame" id="f1" data-frame aria-labelledby="t1">
+        <p class="count"><b data-count>214</b><span>unread, and it’s 7:58 am</span></p>
+        <div class="panel">
+          <h1 id="t1">Your week, before it’s even started.</h1>
+          <p>Reports, chasers, replies, updates. The same admin as last week, all arriving at once.</p>
+        </div>
+        <p class="hint">Scroll</p>
+      </section>
+
+      <section class="frame" id="f2" data-frame aria-labelledby="t2">
+        <div class="panel">
+          <h2 id="t2">Every hour, already spoken for.</h2>
+          <p>The messages fall into place: a week drawn as a clock, carved into the same four kinds of repeat work.</p>
         </div>
       </section>
-      <section class="after">
-        <p>Prototype of the whole journey: from the 7:58 am flood to a calm morning. Next comes the polish of the interface around it.</p>
+
+      <section class="frame" id="f3" data-frame aria-labelledby="t3">
+        <div class="panel">
+          <h2 id="t3">Hand the repeat work over.</h2>
+          <p>We turn it into a workflow. The messages stop landing on you and flow into one place that drafts the work.</p>
+        </div>
+      </section>
+
+      <section class="frame frame--split" id="f4" data-frame aria-labelledby="t4">
+        <div class="panel">
+          <h2 id="t4">Nothing leaves without your yes.</h2>
+          <p>Out of it comes one finished draft. You read it, press approve, and it goes. That’s the whole job now.</p>
+        </div>
+        <article class="approval" data-approval aria-labelledby="ap-title">
+          <p class="ap-sample">Sample data</p>
+          <h3 id="ap-title">Weekly report · Sample Freight Ltd</h3>
+          <ul>
+            <li>Customs hold cleared, documents re-sent</li>
+            <li>Invoice mismatch corrected</li>
+            <li>Bill of lading approved</li>
+            <li>3 items waiting on you</li>
+          </ul>
+          <div class="ap-foot">
+            <span data-ap-state aria-live="polite">Draft · nothing is sent until you approve</span>
+            <button type="button" data-ap-approve>
+              <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              Approve
+            </button>
+          </div>
+          <span class="ap-stamp" aria-hidden="true">Approved</span>
+        </article>
+      </section>
+
+      <section class="frame frame--light" id="f5" data-frame aria-labelledby="t5">
+        <div class="panel">
+          <h2 id="t5">The hours come back.</h2>
+          <p>The clock returns, but empty and soft. The slices that were admin are now open time.</p>
+          <p class="time-back">Time back this week <b>[ x h ]</b></p>
+        </div>
+      </section>
+
+      <section class="frame frame--light frame--last" id="f6" data-frame aria-labelledby="t6">
+        <div class="panel">
+          <h2 id="t6">Get your time back.</h2>
+          <p>Start with one task. A free 20-minute call, and we’ll tell you honestly whether it’s worth automating.</p>
+          <a class="cta-big" href={BOOKING_URL}>Book a free 20-minute call</a>
+        </div>
       </section>
     </main>
 
     <style is:global>
       :root {
-        --night: #0B0B10; --alarm: #EF4444; --paper: #F8FAFC; --mist: #CBD5E1;
+        --paper: #F8FAFC; --mist: #CBD5E1; --ink: #0F172A;
         --sync: 'Syncopate', sans-serif; --inter: 'Inter Variable', 'Inter', system-ui, sans-serif;
         --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+        --bg-a: #1B1B26; --bg-b: #0B0B10;
       }
       * { box-sizing: border-box; }
-      html, body { margin: 0; background: var(--night); color: var(--paper); font-family: var(--inter); }
-      body { -webkit-font-smoothing: antialiased; }
-      :focus-visible { outline: 2px solid var(--paper); outline-offset: 3px; }
+      html { background: #0B0B10; }
+      body { margin: 0; color: var(--paper); font-family: var(--inter); -webkit-font-smoothing: antialiased; }
+      :focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
 
-      .bar {
-        position: fixed; inset: 0 0 auto; z-index: 10; display: flex; align-items: center; gap: 12px;
-        padding: 16px clamp(16px, 3vw, 40px);
-      }
+      /* nav */
+      .bar { position: fixed; inset: 0 0 auto; z-index: 10; display: flex; align-items: center; gap: 12px; padding: 16px clamp(16px, 3vw, 40px); color: var(--bar, var(--paper)); transition: color 400ms ease; }
       .brand { font-family: var(--sync); font-weight: 700; font-size: 14px; letter-spacing: 0.08em; color: inherit; text-decoration: none; margin-right: auto; padding: 12px 0; }
-      .theme {
-        min-height: 40px; padding: 0 14px; border-radius: 99px; border: 1px solid rgba(248, 250, 252, 0.4);
-        background: transparent; color: var(--paper); font: 500 13px var(--inter); opacity: 0.7;
-      }
-      .cta {
-        display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 99px;
-        background: var(--paper); color: var(--night); font-weight: 600; font-size: 14px; text-decoration: none;
-        transition: transform 160ms var(--ease-out);
-      }
+      .theme { min-height: 40px; padding: 0 14px; border-radius: 99px; border: 1px solid currentColor; background: transparent; color: inherit; font: 500 13px var(--inter); opacity: 0.6; }
+      .cta { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 99px; background: var(--cta-bg, var(--paper)); color: var(--cta-fg, #0B0B10); font-weight: 600; font-size: 14px; text-decoration: none; transition: transform 160ms var(--ease-out), background-color 400ms ease, color 400ms ease; }
       .cta:active { transform: scale(0.97); }
+      @media (max-width: 700px) { .theme { display: none; } }
 
-      .flood { height: 1260vh; position: relative; }
-      /* frame 6: a calm morning horizon behind the 3D scene */
-      .horizon { position: absolute; left: 0; right: 0; bottom: 0; top: 50%; z-index: 0; opacity: 0; background: linear-gradient(#E1E8E1, #EEF1EC); }
-      .sun {
-        position: absolute; left: 50%; top: 50%; z-index: 0; width: min(46vw, 520px); aspect-ratio: 1; translate: -50% -62%; border-radius: 50%; opacity: 0;
-        background: radial-gradient(circle, rgba(253, 231, 195, 0.95) 0%, rgba(253, 231, 195, 0.35) 40%, rgba(253, 231, 195, 0) 70%);
-        animation: sun-breathe 6s ease-in-out infinite;
-      }
+      /* the fixed 3D world */
+      .world { position: fixed; inset: 0; z-index: 0; overflow: hidden; background: radial-gradient(120% 90% at 50% 35%, var(--bg-a) 0%, var(--bg-b) 62%); }
+      .world canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+      .horizon { position: absolute; left: 0; right: 0; bottom: 0; top: 50%; opacity: 0; background: linear-gradient(#A9CDB7, #D9E9DE); }
+      .sun { position: absolute; left: 50%; top: 50%; width: min(52vw, 600px); aspect-ratio: 1; translate: -50% -60%; border-radius: 50%; opacity: 0;
+        background: radial-gradient(circle, rgba(255, 196, 120, 0.95) 0%, rgba(255, 196, 120, 0.4) 38%, rgba(255, 196, 120, 0) 70%); animation: sun-breathe 6s ease-in-out infinite; }
       @keyframes sun-breathe { 0%, 100% { scale: 1; } 50% { scale: 1.06; } }
-      .copy--six { opacity: 0; visibility: hidden; }
-      .copy--six .cta-big {
-        display: inline-flex; align-items: center; gap: 10px; min-height: 56px; margin-top: 22px; padding: 0 26px; border-radius: 99px;
-        background: #0F172A; color: #F8FAFC; font-weight: 600; font-size: 17px; text-decoration: none;
-        transition: transform 160ms var(--ease-out), background-color 200ms ease;
-      }
-      .copy--six .cta-big:active { transform: scale(0.97); }
-      .copy--six .cta-big:focus-visible { outline: 2px solid #0F172A; outline-offset: 4px; }
-      @media (hover: hover) and (pointer: fine) { .copy--six .cta-big:hover { background: #1E293B; } }
-      @media (prefers-reduced-motion: reduce) { .sun { animation: none; } }
-      .copy--five { opacity: 0; }
-      .time-word, .time-back { position: absolute; left: 0; top: 0; z-index: 2; opacity: 0; pointer-events: none; color: #0F172A; }
-      .time-word { translate: -50% -50%; text-align: center; font-family: var(--sync); font-weight: 700; font-size: clamp(18px, 2vw, 30px); line-height: 1.15; }
-      .time-back { right: clamp(16px, 5vw, 72px); left: auto; top: auto; bottom: clamp(56px, 11vh, 120px); text-align: right; font-family: var(--sync); font-size: 13px; letter-spacing: 0.08em; }
-      .time-back b { display: block; font-size: clamp(28px, 3vw, 44px); letter-spacing: 0; }
-      /* morning: from frame 5 on, the page is light and the text turns to ink */
-      body.is-light .bar { color: #0F172A; }
-      body.is-light .theme { color: #0F172A; border-color: rgba(15, 23, 42, 0.4); }
-      body.is-light .cta { background: #0F172A; color: #F8FAFC; }
-      .stage.is-light .copy .next-title { color: #0F172A; }
-      .stage.is-light .copy p { color: #334155; }
-      .bar, .theme, .cta, .copy .next-title, .copy p { transition: color 400ms ease, background-color 400ms ease, border-color 400ms ease; }
-      .copy--four { opacity: 0; }
-      /* frame 4: the one finished draft, waiting for a yes */
-      .approval {
-        position: absolute; left: 0; top: 0; z-index: 3; width: min(360px, calc(100vw - 32px)); visibility: hidden; opacity: 0;
-        padding: 22px 22px 18px; border-radius: 14px; background: #F8FAFC; color: #0F172A;
-        box-shadow: 0 40px 80px -30px rgba(2, 20, 26, 0.6); transform-origin: 50% 50%;
-      }
-      .approval h2 { font-family: var(--inter); font-size: 18px; font-weight: 600; line-height: 1.3; margin: 6px 0 10px; }
+      .slice-label, .hub, .core-label, .time-word { position: absolute; left: 0; top: 0; margin: 0; opacity: 0; pointer-events: none; translate: -50% -50%; will-change: transform; }
+      .slice-label { font-family: var(--sync); font-weight: 700; font-size: clamp(11px, 1vw, 14px); letter-spacing: 0.06em; white-space: nowrap; }
+      .hub { text-align: center; }
+      .hub b { display: block; font-family: var(--sync); font-size: clamp(28px, 3.4vw, 52px); line-height: 1; }
+      .hub span { font-size: 14px; color: var(--mist); }
+      .core-label { font-family: var(--sync); font-weight: 700; font-size: clamp(16px, 1.6vw, 24px); letter-spacing: 0.14em; color: #ECFEFF; }
+      .time-word { text-align: center; font-family: var(--sync); font-weight: 700; font-size: clamp(18px, 2vw, 30px); line-height: 1.15; color: var(--ink); }
+
+      /* the page that scrolls over it */
+      main { position: relative; z-index: 1; }
+      .frame { position: relative; min-height: 115vh; display: flex; align-items: flex-end; gap: 32px; padding: 120px clamp(16px, 5vw, 72px) clamp(64px, 14vh, 140px); }
+      #f1 { min-height: 100svh; }
+      .frame--split { justify-content: space-between; align-items: center; flex-wrap: wrap; }
+      .frame--last { min-height: 100svh; }
+      .panel { max-width: min(600px, 100%); padding: 24px 26px; border-radius: 18px; background: rgba(11, 11, 16, 0.5); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+      .frame--light .panel { background: rgba(250, 248, 242, 0.72); color: var(--ink); }
+      .panel h1, .panel h2 { font-family: var(--sync); font-weight: 700; margin: 0 0 14px; font-size: clamp(28px, 4vw, 60px); line-height: 1.04; letter-spacing: -0.01em; text-wrap: balance; }
+      .panel p { margin: 0; max-width: 46ch; font-size: clamp(16px, 1.25vw, 19px); line-height: 1.5; color: var(--mist); }
+      .frame--light .panel p { color: #334155; }
+      .count { position: absolute; right: clamp(16px, 5vw, 72px); top: clamp(84px, 16vh, 150px); margin: 0; text-align: right; }
+      .count b { display: block; font-family: var(--sync); font-weight: 700; font-size: clamp(44px, 7vw, 104px); line-height: 1; color: #EF4444; font-variant-numeric: tabular-nums; }
+      .count span { font-size: clamp(13px, 1.1vw, 16px); color: #FCA5A5; }
+      .hint { position: absolute; left: 50%; bottom: 20px; translate: -50% 0; margin: 0; font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mist); }
+      .time-back { margin-top: 18px !important; font-family: var(--sync); font-size: 12px !important; letter-spacing: 0.08em; color: var(--ink) !important; }
+      .time-back b { display: block; font-size: clamp(24px, 2.6vw, 36px); letter-spacing: 0; }
+      .cta-big { display: inline-flex; align-items: center; min-height: 56px; margin-top: 22px; padding: 0 26px; border-radius: 99px; background: var(--ink); color: #F8FAFC; font-weight: 600; font-size: 17px; text-decoration: none; transition: transform 160ms var(--ease-out), background-color 200ms ease; }
+      .cta-big:active { transform: scale(0.97); }
+      @media (hover: hover) and (pointer: fine) { .cta-big:hover { background: #1E293B; } }
+
+      /* the approval card (a real part of the page) */
+      .approval { position: relative; width: min(380px, 100%); padding: 22px 22px 18px; border-radius: 14px; background: #F8FAFC; color: var(--ink); box-shadow: 0 40px 80px -30px rgba(2, 20, 26, 0.6); }
+      .approval h3 { font-size: 18px; font-weight: 600; line-height: 1.3; margin: 6px 0 10px; }
       .approval ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; font-size: 15px; color: #334155; }
       .approval li::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #059669; margin: 0 8px 2px 0; }
       .ap-sample { margin: 0; font-size: 12px; font-weight: 600; color: #64748B; }
       .ap-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; }
       .ap-foot span { font-size: 13px; color: #475569; line-height: 1.35; }
-      .ap-foot button {
-        display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 18px; border: 0; border-radius: 99px; flex: none;
-        background: #0F172A; color: #fff; font: 600 15px var(--inter); cursor: pointer; transition: transform 160ms var(--ease-out);
-      }
+      .ap-foot button { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 18px; border: 0; border-radius: 99px; flex: none; background: var(--ink); color: #fff; font: 600 15px var(--inter); cursor: pointer; transition: transform 160ms var(--ease-out); }
       .ap-foot button:active { transform: scale(0.96); }
-      .ap-foot button:focus-visible { outline: 2px solid #0F172A; outline-offset: 3px; }
-      .ap-stamp {
-        position: absolute; right: 14px; top: 12px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 8px;
-        background: #22D3EE; color: #06303A; font-family: var(--sync); font-weight: 700; font-size: 13px; letter-spacing: 0.06em;
-        opacity: 0; transform: rotate(-8deg) scale(1.4); transition: opacity 200ms ease, transform 420ms cubic-bezier(0.34, 1.56, 0.64, 1);
-      }
+      .ap-stamp { position: absolute; right: 14px; top: 12px; padding: 6px 12px; border-radius: 8px; background: #22D3EE; color: #06303A; font-family: var(--sync); font-weight: 700; font-size: 13px; letter-spacing: 0.06em;
+        opacity: 0; transform: rotate(-8deg) scale(1.4); transition: opacity 200ms ease, transform 420ms cubic-bezier(0.34, 1.56, 0.64, 1); }
       .approval.is-approved .ap-stamp { opacity: 1; transform: rotate(-8deg) scale(1); }
-      .approval.is-approved .ap-foot button { background: #E2E8F0; color: #0F172A; }
-      @media (prefers-reduced-motion: reduce) { .ap-stamp { transition: none; } }
-      .copy--three { opacity: 0; }
-      .core-label { position: absolute; left: 0; top: 0; z-index: 2; opacity: 0; pointer-events: none; translate: -50% -50%; font-family: var(--sync); font-weight: 700; font-size: clamp(16px, 1.6vw, 24px); letter-spacing: 0.14em; color: #ECFEFF; }
-      /* frame 2: the week-clock's labels, placed over the 3D ring each frame */
-      .slice-label, .hub { position: absolute; left: 0; top: 0; z-index: 2; opacity: 0; pointer-events: none; will-change: transform; }
-      .slice-label { font-family: var(--sync); font-weight: 700; font-size: clamp(11px, 1vw, 14px); letter-spacing: 0.06em; white-space: nowrap; translate: -50% -50%; }
-      .hub { text-align: center; translate: -50% -50%; }
-      .hub b { display: block; font-family: var(--sync); font-size: clamp(28px, 3.4vw, 52px); line-height: 1; }
-      .hub span { font-size: 14px; color: var(--mist); }
-      .stage { position: sticky; top: 0; height: 100svh; overflow: hidden;
-        background: radial-gradient(120% 90% at 50% 35%, var(--bg-a, #1B1B26) 0%, var(--bg-b, #0B0B10) 62%); }
-      canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-
-      .count { position: absolute; right: clamp(16px, 5vw, 72px); top: clamp(84px, 16vh, 150px); margin: 0; text-align: right; z-index: 2; }
-      .count b { display: block; font-family: var(--sync); font-weight: 700; font-size: clamp(44px, 7vw, 104px); line-height: 1; color: var(--alarm); font-variant-numeric: tabular-nums; }
-      .count span { font-size: clamp(13px, 1.1vw, 16px); color: #FCA5A5; }
-
-      .copy { position: absolute; left: clamp(16px, 5vw, 72px); bottom: clamp(56px, 11vh, 120px); z-index: 2; max-width: min(640px, 88vw); }
-      /* a soft dark pool behind the copy so the cards never fight the text */
-      .stage::after {
-        content: ''; position: absolute; left: 0; bottom: 0; width: min(900px, 100%); height: 70%; z-index: 1; pointer-events: none;
-        background: radial-gradient(70% 60% at 25% 85%, rgba(11, 11, 16, 0.92) 0%, rgba(11, 11, 16, 0.6) 45%, rgba(11, 11, 16, 0) 100%);
-        opacity: var(--dark-pool, 1);
-      }
-      /* in the morning frames the pool behind the copy turns light, so ink text stays readable */
-      .stage::before {
-        content: ''; position: absolute; left: 0; bottom: 0; width: min(900px, 100%); height: 70%; z-index: 1; pointer-events: none;
-        background: radial-gradient(70% 60% at 25% 85%, rgba(245, 245, 240, 0.9) 0%, rgba(245, 245, 240, 0.55) 45%, rgba(245, 245, 240, 0) 100%);
-        opacity: var(--light-pool, 0);
-      }
-      @media (max-width: 700px) {
-        .time-back { top: 84px; bottom: auto; }
-      }
-      .copy h1, .copy .next-title {
-        font-family: var(--sync); font-weight: 700; text-transform: none; margin: 0 0 14px;
-        font-size: clamp(28px, 4.2vw, 64px); line-height: 1.04; letter-spacing: -0.01em; text-wrap: balance;
-      }
-      .copy p { margin: 0; max-width: 46ch; font-size: clamp(16px, 1.25vw, 19px); line-height: 1.5; color: var(--mist); }
-      .copy--next { opacity: 0; }
-      .hint { position: absolute; left: 50%; bottom: 20px; translate: -50% 0; margin: 0; font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mist); z-index: 2; }
-
-      .after { min-height: 60vh; display: grid; place-items: center; padding: 64px 24px; background: #0E0E18; }
-      .after p { max-width: 52ch; color: var(--mist); text-align: center; }
+      .approval.is-approved .ap-foot button { background: #E2E8F0; color: var(--ink); }
+      /* sections arrive with a short rise as they scroll in */
+      .js .panel, .js .approval { opacity: 0; transform: translateY(32px); transition: opacity 600ms var(--ease-out), transform 700ms var(--ease-out); }
+      .js .is-in .panel, .js .is-in .approval { opacity: 1; transform: none; }
 
       @media (max-width: 700px) {
+        .frame { padding-top: 96px; }
+        .frame--split { flex-direction: column; align-items: stretch; justify-content: flex-end; }
         .count { top: 76px; }
-        .theme { display: none; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .sun { animation: none; }
+        .js .panel, .js .approval { transition: none; }
       }
     </style>
 
@@ -224,22 +192,16 @@ import { BOOKING_URL } from '../../config';
       import * as THREE from 'three';
       import { loadPerson } from '../../lib/personModel';
 
+      document.documentElement.classList.add('js');
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const small = window.matchMedia('(max-width: 700px)').matches;
-      const section = document.querySelector<HTMLElement>('[data-flood]')!;
-      const canvas = document.querySelector<HTMLCanvasElement>('[data-canvas]')!;
-      const copy = document.querySelector<HTMLElement>('[data-copy]')!;
-      const next = document.querySelector<HTMLElement>('[data-next]')!;
-      const hint = document.querySelector<HTMLElement>('[data-hint]')!;
-      const counter = document.querySelector<HTMLElement>('[data-count]')!;
+      const $ = <T extends HTMLElement>(sel: string) => document.querySelector<T>(sel)!;
+      const canvas = $<HTMLCanvasElement>('[data-canvas]');
+      const sections = [...document.querySelectorAll<HTMLElement>('[data-frame]')];
+      const root = document.documentElement;
 
-      // ── Messages (sample content) and the clock slice each one falls into ──
-      const SLICES = [
-        { name: 'Reports', color: '#EF4444' },
-        { name: 'Follow-ups', color: '#F97316' },
-        { name: 'Doc updates', color: '#A855F7' },
-        { name: 'Replies', color: '#64748B' },
-      ];
+      // ── sample messages and the clock slice each one falls into ──
+      const SLICES = ['#EF4444', '#F97316', '#A855F7', '#64748B'];
       const MESSAGES: [string, number][] = [
         ['Reminder: weekly report due', 0], ['Client: any update on the shipment?', 3], ['#4812 customs hold', 1],
         ['3 missed calls', 3], ['Invoice mismatch, please check', 1], ['Re: Re: Re: documents', 3],
@@ -250,167 +212,104 @@ import { BOOKING_URL } from '../../config';
         ['Timesheets due today', 0], ['New starter details', 2],
       ];
 
-      // ── Renderer, scene, camera ──
-      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, small ? 1.5 : 1.75));
-      renderer.setClearColor(0x0b0b10, 0); // transparent: the CSS gradient shows through
+      // ── renderer, scene, camera, lights ──
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setClearColor(0x000000, 0);
       const scene = new THREE.Scene();
       scene.fog = new THREE.Fog(0x0b0b10, 6, 26);
-      const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 80);
+      const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 90);
+      scene.add(camera);
       const world = new THREE.Group();
       scene.add(world);
+      const ambient = new THREE.AmbientLight(0x8890b0, 0.9);
+      const hemi = new THREE.HemisphereLight(0xffe2b8, 0x9dc7b4, 0); // the morning light of the last frames
+      const redLight = new THREE.PointLight(0xef4444, 14, 12);
+      redLight.position.set(1.5, 1.5, 0);
+      scene.add(ambient, hemi, redLight);
 
-      // ── A message card drawn to a canvas texture ──
+      // ── the person ──
+      const person = await loadPerson();
+      const figure = person.group;
+      figure.scale.setScalar(1.3);
+      world.add(figure);
+      const key = new THREE.DirectionalLight(0xffffff, 1.8);
+      key.position.set(2, 3, 4);
+      key.target = figure;
+      camera.add(key);
+
+      // ── message cards ──
       function cardTexture(text: string, hot: boolean) {
-        const scale = 2;
-        const h = 44 * scale;
+        const k = 2;
+        const h = 44 * k;
         const ctx = document.createElement('canvas').getContext('2d')!;
-        ctx.font = `500 ${16 * scale}px "Inter Variable", Inter, sans-serif`;
-        const w = Math.ceil(ctx.measureText(text).width + 56 * scale);
+        const font = `500 ${16 * k}px "Inter Variable", Inter, sans-serif`;
+        ctx.font = font;
+        const w = Math.ceil(ctx.measureText(text).width + 56 * k);
         ctx.canvas.width = w;
         ctx.canvas.height = h;
-        ctx.font = `500 ${16 * scale}px "Inter Variable", Inter, sans-serif`;
+        ctx.font = font;
         ctx.fillStyle = hot ? 'rgba(239,68,68,0.22)' : 'rgba(248,250,252,0.10)';
         ctx.strokeStyle = hot ? 'rgba(239,68,68,0.65)' : 'rgba(248,250,252,0.28)';
-        ctx.lineWidth = 2 * scale;
+        ctx.lineWidth = 2 * k;
         ctx.beginPath();
-        ctx.roundRect(2, 2, w - 4, h - 4, 12 * scale);
+        ctx.roundRect(2, 2, w - 4, h - 4, 12 * k);
         ctx.fill();
         ctx.stroke();
         ctx.fillStyle = '#EF4444';
         ctx.beginPath();
-        ctx.arc(22 * scale, h / 2, 4.5 * scale, 0, Math.PI * 2);
+        ctx.arc(22 * k, h / 2, 4.5 * k, 0, Math.PI * 2);
         ctx.fill();
         ctx.fillStyle = '#E2E8F0';
         ctx.textBaseline = 'middle';
-        ctx.fillText(text, 36 * scale, h / 2 + scale);
+        ctx.fillText(text, 36 * k, h / 2 + k);
         const tex = new THREE.CanvasTexture(ctx.canvas);
         tex.colorSpace = THREE.SRGBColorSpace;
         tex.anisotropy = 4;
         return { tex, aspect: w / h };
       }
-
-      // ── The person: starts buried in admin (see src/lib/character.ts) ──
-      const person = await loadPerson();
-      const figure = { g: person.group };
-      figure.g.position.set(0, -1.35, 1.5);
-      figure.g.scale.setScalar(1.3);
-      world.add(figure.g);
-      scene.add(new THREE.AmbientLight(0x8890b0, 0.9));
-      // a soft key light that travels with the camera, so the person is always lit from the front
-      const key = new THREE.DirectionalLight(0xffffff, 1.7);
-      key.position.set(2, 3, 4);
-      key.target = figure.g;
-      camera.add(key);
-      scene.add(camera);
-      const redLight = new THREE.PointLight(0xef4444, 14, 12);
-      redLight.position.set(1.5, 1.5, 0);
-      scene.add(redLight);
-
-      // ── The cloud of cards ──
-      type Card = {
-        mesh: THREE.Mesh; base: THREE.Vector3; ring: THREE.Vector3; speed: number;
-        phase: number; slice: number; rot: THREE.Euler;
-      };
+      await document.fonts.ready;
+      const textures = MESSAGES.map(([t], i) => [cardTexture(t, false), cardTexture(t, i % 4 === 0)]);
+      type Card = { mesh: THREE.Mesh; base: THREE.Vector3; ring: THREE.Vector3; speed: number; phase: number; slice: number; rot: THREE.Euler };
       const cards: Card[] = [];
       const COUNT = small ? 42 : 84;
       const DEPTH = 34;
-      const textures = MESSAGES.map(([t], i) => [cardTexture(t, false), cardTexture(t, i % 4 === 0)]);
       const RING_Z = -21;
       const RING_R = small ? 2.1 : 3.1;
       const RING_X = small ? 0 : 2.4;
+      const ringCentre = new THREE.Vector3(RING_X, 0.6, RING_Z);
       const perSlice = [0, 0, 0, 0];
-
       for (let i = 0; i < COUNT; i++) {
         const m = i % MESSAGES.length;
-        const hot = Math.random() < 0.22;
-        const { tex, aspect } = textures[m][hot ? 1 : 0];
-        const height = 0.34;
-        const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false, side: THREE.DoubleSide });
-        const mesh = new THREE.Mesh(new THREE.PlaneGeometry(height * aspect, height), mat);
-        const base = new THREE.Vector3(
-          (Math.random() - 0.5) * (small ? 7 : 13),
-          (Math.random() - 0.5) * 7 + 0.3,
-          4 - Math.random() * DEPTH,
-        );
-        // its place on the week-clock ring, grouped by slice
-        const slice = MESSAGES[m][1];
-        const ring = new THREE.Vector3(); // placed after all cards exist, so each slice is spread evenly
-        perSlice[slice]++;
+        const { tex, aspect } = textures[m][Math.random() < 0.22 ? 1 : 0];
+        const mesh = new THREE.Mesh(new THREE.PlaneGeometry(0.34 * aspect, 0.34),
+          new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false, side: THREE.DoubleSide }));
         mesh.rotation.set((Math.random() - 0.5) * 0.4, (Math.random() - 0.5) * 0.6, (Math.random() - 0.5) * 0.3);
         world.add(mesh);
-        cards.push({ mesh, base, ring, speed: 0.6 + Math.random() * 1.6, phase: Math.random() * Math.PI * 2, slice, rot: mesh.rotation.clone() });
-      }
-      // lay each slice's cards around its arc of the week-clock, in two tidy lanes
-      const seen = [0, 0, 0, 0];
-      const total = perSlice.reduce((a, b) => a + b, 0);
-      let start = 0;
-      const sliceStart = perSlice.map((n) => { const s0 = start; start += n / total; return s0; });
-      for (const c of cards) {
-        const k = seen[c.slice]++;
-        const share = perSlice[c.slice] / total;
-        const t = sliceStart[c.slice] + (share * (k + 0.5)) / perSlice[c.slice];
-        const angle = t * Math.PI * 2 - Math.PI / 2;
-        const r = RING_R + (k % 2) * 0.55;
-        c.ring.set(RING_X + Math.cos(angle) * r, Math.sin(angle) * r + 0.6, RING_Z);
-      }
-
-      // ── Layout and input ──
-      function resize() {
-        const w = canvas.clientWidth;
-        const h = canvas.clientHeight;
-        renderer.setSize(w, h, false);
-        camera.aspect = w / h;
-        camera.fov = w < 700 ? 68 : 55;
-        camera.updateProjectionMatrix();
-      }
-      resize();
-      window.addEventListener('resize', resize);
-
-      const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
-      if (!reduce) {
-        window.addEventListener('pointermove', (e) => {
-          pointer.tx = (e.clientX / window.innerWidth - 0.5) * 2;
-          pointer.ty = (e.clientY / window.innerHeight - 0.5) * 2;
+        const slice = MESSAGES[m][1];
+        perSlice[slice]++;
+        cards.push({
+          mesh, slice, rot: mesh.rotation.clone(), ring: new THREE.Vector3(),
+          base: new THREE.Vector3((Math.random() - 0.5) * (small ? 7 : 13), (Math.random() - 0.5) * 7 + 0.3, 4 - Math.random() * DEPTH),
+          speed: 0.6 + Math.random() * 1.6, phase: Math.random() * Math.PI * 2,
         });
       }
-
-      let progress = 0;
-      function readScroll() {
-        const r = section.getBoundingClientRect();
-        const travel = section.offsetHeight - window.innerHeight;
-        progress = Math.min(1, Math.max(0, -r.top / travel));
-      }
-      window.addEventListener('scroll', readScroll, { passive: true });
-      readScroll();
-
-      const smooth = (a: number, b: number, x: number) => {
-        const t = Math.min(1, Math.max(0, (x - a) / (b - a)));
-        return t * t * (3 - 2 * t);
-      };
-      const tmp = new THREE.Vector3();
-      const ringPos = new THREE.Vector3();
-      const ringCentre = new THREE.Vector3(RING_X, 0.6, RING_Z);
-      const zAxis = new THREE.Vector3(0, 0, 1);
-      const screen = new THREE.Vector3();
-      const sliceLabels = [...document.querySelectorAll<HTMLElement>('[data-slice]')];
-      const hub = document.querySelector<HTMLElement>('[data-hub]')!;
-      function place(el: HTMLElement, world: THREE.Vector3, opacity: number) {
-        world.project(camera);
-        const half = el.offsetWidth / 2 + 12; // keep labels fully on screen
-        const x = Math.min(canvas.clientWidth - half, Math.max(half, (world.x * 0.5 + 0.5) * canvas.clientWidth));
-        const y = (-world.y * 0.5 + 0.5) * canvas.clientHeight;
-        el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
-        el.style.opacity = String(opacity);
+      const total = perSlice.reduce((a, b) => a + b, 0);
+      let acc = 0;
+      const sliceStart = perSlice.map((n) => { const s0 = acc; acc += n / total; return s0; });
+      const seen = [0, 0, 0, 0];
+      for (const c of cards) {
+        const k = seen[c.slice]++;
+        const t = sliceStart[c.slice] + ((perSlice[c.slice] / total) * (k + 0.5)) / perSlice[c.slice];
+        const a = t * Math.PI * 2 - Math.PI / 2;
+        const r = RING_R + (k % 2) * 0.55;
+        c.ring.set(RING_X + Math.cos(a) * r, Math.sin(a) * r + 0.6, RING_Z);
       }
 
-      // ── Frame 3: the liquid OGC core the clock drains into ──
+      // ── liquid shapes: the OGC core (frame 3) and the soft returned clock (frame 5) ──
       function makeLiquid(deep: string, rim: string, amp: number, speed: number) {
         return new THREE.ShaderMaterial({
-          uniforms: {
-            uTime: { value: 0 }, uLife: { value: 0 }, uAmp: { value: amp }, uSpeed: { value: speed },
-            uDeep: { value: new THREE.Color(deep) }, uRim: { value: new THREE.Color(rim) },
-          },
+          uniforms: { uTime: { value: 0 }, uLife: { value: 0 }, uAmp: { value: amp }, uSpeed: { value: speed }, uDeep: { value: new THREE.Color(deep) }, uRim: { value: new THREE.Color(rim) } },
           transparent: true,
           depthWrite: false,
           vertexShader: `
@@ -419,8 +318,7 @@ import { BOOKING_URL } from '../../config';
             void main() {
               vec3 p = position;
               float t = uTime * uSpeed;
-              float w = sin(p.x * 3.1 + t * 1.3) * sin(p.y * 3.7 + t * 1.1) * sin(p.z * 2.9 + t * 1.6);
-              p += normal * w * uAmp;
+              p += normal * sin(p.x * 3.1 + t * 1.3) * sin(p.y * 3.7 + t * 1.1) * sin(p.z * 2.9 + t * 1.6) * uAmp;
               vec4 mv = modelViewMatrix * vec4(p, 1.0);
               vN = normalize(normalMatrix * normal);
               vView = normalize(-mv.xyz);
@@ -436,218 +334,214 @@ import { BOOKING_URL } from '../../config';
         });
       }
       const coreMat = makeLiquid('#0E6B78', '#9EF7FF', 0.16, 1);
-      // frame 5: the week-clock again, but empty, pale and slow
-      const clockMat = makeLiquid('#F5F5F0', '#BFE7DD', 0.22, 0.4);
-      const clockBlob = new THREE.Mesh(new THREE.IcosahedronGeometry(1, 32), clockMat);
-      clockBlob.position.copy(ringCentre);
-      world.add(clockBlob);
-      const timeWord = document.querySelector<HTMLElement>('[data-time-word]')!;
-      const timeBack = document.querySelector<HTMLElement>('[data-time-back]')!;
-      const five = document.querySelector<HTMLElement>('[data-five]')!;
       const core = new THREE.Mesh(new THREE.IcosahedronGeometry(1, 24), coreMat);
       core.position.copy(ringCentre);
-      world.add(core);
+      const clockMat = makeLiquid('#FFF7EA', '#7FD1BE', 0.22, 0.4);
+      const clockBlob = new THREE.Mesh(new THREE.IcosahedronGeometry(1, 32), clockMat);
+      clockBlob.position.copy(ringCentre);
+      world.add(core, clockBlob);
       const coreLight = new THREE.PointLight(0x22d3ee, 0, 18);
       coreLight.position.copy(ringCentre).add(new THREE.Vector3(0, 0, 1.5));
       scene.add(coreLight);
-      const coreEl = document.querySelector<HTMLElement>('[data-core]')!;
-      const three = document.querySelector<HTMLElement>('[data-three]')!;
-      const stage = document.querySelector<HTMLElement>('.stage')!;
-      const teal = new THREE.Color('#22D3EE');
-      // background: night (frame 1), indigo (frame 2), deep teal (frame 3)
-      // night (frame 1), indigo (2), deep teal (3), sea glass (4)
-      const BG_A = ['#1B1B26', '#1E1B4B', '#0E5160', '#2A8C8C', '#F3EFE4', '#FBF8F0'].map((c) => new THREE.Color(c));
-      const BG_B = ['#0B0B10', '#0E0E18', '#062B33', '#0B4F5C', '#9CCFC3', '#F2F2EC'].map((c) => new THREE.Color(c));
-      const horizon = document.querySelector<HTMLElement>('[data-horizon]')!;
-      const sun = document.querySelector<HTMLElement>('[data-sun]')!;
-      const six = document.querySelector<HTMLElement>('[data-six]')!;
-      const card = document.querySelector<HTMLElement>('[data-approval]')!;
-      const four = document.querySelector<HTMLElement>('[data-four]')!;
-      const apState = document.querySelector<HTMLElement>('[data-ap-state]')!;
-      const apButton = document.querySelector<HTMLButtonElement>('[data-ap-approve]')!;
+
+      // ── overlay labels pinned to 3D points ──
+      const sliceLabels = [...document.querySelectorAll<HTMLElement>('[data-slice]')];
+      const hub = $('[data-hub]');
+      const coreEl = $('[data-core]');
+      const timeWord = $('[data-time-word]');
+      const horizon = $('[data-horizon]');
+      const sun = $('[data-sun]');
+      const pt = new THREE.Vector3();
+      function place(el: HTMLElement, world3: THREE.Vector3, opacity: number) {
+        pt.copy(world3).project(camera);
+        const half = el.offsetWidth / 2 + 12;
+        const x = Math.min(canvas.clientWidth - half, Math.max(half, (pt.x * 0.5 + 0.5) * canvas.clientWidth));
+        const y = (-pt.y * 0.5 + 0.5) * canvas.clientHeight;
+        el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
+        el.style.opacity = opacity.toFixed(3);
+      }
+
+      // ── the approval card ──
+      const card = $('[data-approval]');
+      const apState = $('[data-ap-state]');
+      const apButton = $<HTMLButtonElement>('[data-ap-approve]');
       apButton.addEventListener('click', () => {
         const done = card.classList.toggle('is-approved');
-        apState.textContent = done
-          ? 'Approved by you. In real life it would now go to Sample Freight Ltd.'
-          : 'Draft · nothing is sent until you approve';
+        apState.textContent = done ? 'Approved by you. In real life it would now go to Sample Freight Ltd.' : 'Draft · nothing is sent until you approve';
         apButton.lastChild!.textContent = done ? ' Undo' : ' Approve';
       });
+
+      // ── page → scene: which section is in view sets the target; the scene eases towards it ──
+      // each frame's resting point on the old single timeline
+      const REST = [0, 0.3, 0.5, 0.62, 0.82, 1];
+      let target = 0;
+      let scene01 = 0; // 0–5, the scene's current position between frames
+      let within = 0; // how far through the current section (for a gentle parallax)
+      function readScroll() {
+        const mid = window.innerHeight * 0.6;
+        sections.forEach((sec, i) => {
+          const r = sec.getBoundingClientRect();
+          if (r.top <= mid) { target = i; within = Math.min(1, Math.max(0, (mid - r.top) / r.height)); }
+          if (r.top < window.innerHeight * 0.85) sec.classList.add('is-in');
+        });
+        if (reduce) { scene01 = target; render(0); }
+      }
+      window.addEventListener('scroll', readScroll, { passive: true });
+
+      // ── layout ──
+      function resize() {
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+        camera.aspect = canvas.clientWidth / canvas.clientHeight;
+        camera.fov = canvas.clientWidth < 700 ? 68 : 55;
+        camera.updateProjectionMatrix();
+        if (reduce) render(0);
+      }
+      window.addEventListener('resize', resize);
+      const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
+      if (!reduce) window.addEventListener('pointermove', (e) => { pointer.tx = (e.clientX / innerWidth - 0.5) * 2; pointer.ty = (e.clientY / innerHeight - 0.5) * 2; });
+
+      const smooth = (a: number, b: number, x: number) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+      const tmp = new THREE.Vector3();
+      const ringPos = new THREE.Vector3();
+      const zAxis = new THREE.Vector3(0, 0, 1);
+      const sliceColors = SLICES.map((c) => new THREE.Color(c));
+      const white = new THREE.Color(0xffffff);
+      const teal = new THREE.Color('#22D3EE');
+      // night, indigo, deep teal, sea glass, morning, golden hour
+      const BG_A = ['#1B1B26', '#1E1B4B', '#0E5160', '#2A8C8C', '#F3EFE4', '#FFE3B8'].map((c) => new THREE.Color(c));
+      const BG_B = ['#0B0B10', '#0E0E18', '#062B33', '#0B4F5C', '#9CCFC3', '#BFE0D2'].map((c) => new THREE.Color(c));
       const bgA = new THREE.Color();
       const bgB = new THREE.Color();
-      const sliceColors = SLICES.map((s) => new THREE.Color(s.color));
-      const white = new THREE.Color(0xffffff);
-
-      // ── Frame loop ──
-      let last = performance.now();
       let time = 0;
-      function frame(now: number) {
-        const dt = Math.min(0.05, (now - last) / 1000);
-        last = now;
-        if (!reduce) time += dt;
 
-        // camera falls forward through the cloud as you scroll
-        // scroll: 0–27% frame 1 into the clock, 27–38% frame 2 turns, 38–58% frame 3 drains it,
-        // 60–72% frame 4 resolves it, 78–100% frame 5 returns the time (the longest, slowest stretch)
-        // frame 6 (82–100%): the clock dissolves, the horizon opens, and he walks off into his free time
+      function render(dt: number) {
+        // the scene's position on the old timeline, from the eased frame position
+        const i = Math.min(4, Math.floor(scene01));
+        const progress = REST[i] + (REST[i + 1] - REST[i]) * (scene01 - i);
         const p1 = Math.min(1, progress / 0.23);
+        const fly = smooth(0, 0.75, p1);
+        const settle = smooth(0.55, 1, p1);
         const hold = smooth(0.24, 0.32, progress);
         const flow = smooth(0.32, 0.48, progress);
         const resolve = smooth(0.5, 0.59, progress);
-        const cardOut = smooth(0.64, 0.7, progress);
         const ret = smooth(0.66, 0.8, progress);
         const calm = smooth(0.82, 0.97, progress);
         const away = smooth(0.84, 1, progress);
-        const fly = smooth(0, 0.75, p1);
-        const settle = smooth(0.55, 1, p1); // cloud resolves into the clock ring
         const turn = hold * 0.9;
-        camera.position.set(0, 0.2 - fly * 0.3, 8 - fly * 16);
+
+        // camera: falls through the flood, with a gentle drift tied to scrolling within a section
+        camera.position.set(0, 0.2 - fly * 0.3 + (0.5 - within) * 0.25, 8 - fly * 16);
         pointer.x += (pointer.tx - pointer.x) * 0.05;
         pointer.y += (pointer.ty - pointer.y) * 0.05;
-        world.rotation.y = pointer.x * 0.08 * (1 - settle);
-        world.rotation.x = pointer.y * 0.05 * (1 - settle);
+        world.rotation.y = pointer.x * 0.06;
+        world.rotation.x = pointer.y * 0.04;
         camera.lookAt(0, 0.1, camera.position.z - 10);
 
         const camZ = camera.position.z;
         for (const c of cards) {
-          // drift towards the viewer and wrap behind, so the flood never stops arriving
           if (!reduce) {
             c.base.z += c.speed * dt * (1 - settle);
             if (c.base.z > camZ + 1.5) c.base.z -= DEPTH;
           }
-          const jx = Math.sin(time * 1.7 + c.phase) * 0.04;
-          const jy = Math.cos(time * 2.1 + c.phase) * 0.05;
-          tmp.set(c.base.x + jx, c.base.y + jy, c.base.z);
+          tmp.set(c.base.x + Math.sin(time * 1.7 + c.phase) * 0.04, c.base.y + Math.cos(time * 2.1 + c.phase) * 0.05, c.base.z);
           ringPos.copy(c.ring).sub(ringCentre).applyAxisAngle(zAxis, -turn).add(ringCentre);
           tmp.lerp(ringPos, settle);
-          // frame 3: each card spirals into the centre, stretching like liquid as it goes
           let e = 0;
           let swirl = 0;
           if (flow > 0) {
             const u = Math.min(1, Math.max(0, flow * 1.45 - (c.phase / (Math.PI * 2)) * 0.45));
             e = u * u * (3 - 2 * u);
             ringPos.sub(ringCentre);
-            const r0 = ringPos.length();
             swirl = Math.atan2(ringPos.y, ringPos.x) - e * 2.4;
-            const r = r0 * Math.pow(1 - e, 1.3);
+            const r = ringPos.length() * Math.pow(1 - e, 1.3);
             tmp.set(ringCentre.x + Math.cos(swirl) * r, ringCentre.y + Math.sin(swirl) * r, ringCentre.z + e * 0.5);
           }
           c.mesh.position.copy(tmp);
           c.mesh.rotation.set(c.rot.x * (1 - settle), c.rot.y * (1 - settle), c.rot.z * (1 - settle) + (swirl + Math.PI / 2) * e);
           const shrink = (1 - settle * 0.18) * (1 - e * 0.9);
           c.mesh.scale.set(shrink * (1 + 1.8 * e * (1 - e)), shrink * (1 - 0.5 * e), 1);
-          // cards fade as they rush past the camera, so they never swamp the page
-          const near = camZ - tmp.z;
-          (c.mesh.material as THREE.MeshBasicMaterial).opacity = Math.min(1, Math.max(0, (near - 1.2) / 2.2)) * (1 - smooth(0.75, 1, e));
-          // tint towards the slice colour as the clock forms, then towards teal as it drains
-          (c.mesh.material as THREE.MeshBasicMaterial).color.copy(white).lerp(sliceColors[c.slice], settle * 0.85).lerp(teal, e);
+          const mat = c.mesh.material as THREE.MeshBasicMaterial;
+          mat.opacity = Math.min(1, Math.max(0, (camZ - tmp.z - 1.2) / 2.2)) * (1 - smooth(0.75, 1, e));
+          mat.color.copy(white).lerp(sliceColors[c.slice], settle * 0.85).lerp(teal, e);
         }
-        // the person lets go of their head as the scene starts to order itself, but is still drained
+
+        // the person
         person.setWellbeing(settle * 0.32 + flow * 0.14 + resolve * 0.24 + ret * 0.2 - calm * 0.15);
-        figure.g.rotation.y = resolve * (small ? 0.35 : 0.55) * (1 - ret) + Math.PI * smooth(0, 0.25, away); // then he turns and walks off
-        const walking = smooth(0.05, 0.25, away);
-        person.setWalk?.(walking, away * 26);
-        clockMat.uniforms.uLife.value = ret * (1 - calm);
-        clockMat.uniforms.uTime.value = time;
-        clockBlob.scale.setScalar(Math.max(0.0001, RING_R * (small ? 0.55 : 0.62) * smooth(0, 0.7, ret) * (1 + Math.sin(time * 0.7) * 0.025)));
+        person.setWalk?.(smooth(0.05, 0.25, away), away * 18);
+        if (!reduce) person.update(dt);
+        figure.position.z = (1.5 - fly * 14) * (1 - settle) + (RING_Z + (small ? 5 : 6)) * settle - away * 9;
+        // he steps into the open gap: between the text and the card in frame 4, beside the clock in frame 5
+        figure.position.x = settle * (small ? -0.55 - flow * 0.5 : RING_X - RING_R - 0.95) + away * (small ? 0.55 : 1.6)
+          + (small ? 0 : resolve * (1 - ret) * 2.2 + ret * (1 - calm) * 0.7);
+        figure.position.y = -1.35 - settle * 0.25;
+        figure.rotation.y = resolve * (small ? 0.35 : 0.55) * (1 - ret) + Math.PI * smooth(0, 0.25, away);
+        redLight.intensity = 14 * (1 - settle);
+        ambient.intensity = 0.9 + ret * 0.3;
+        hemi.intensity = 1.4 * Math.max(ret, calm);
+
+        // core and the returned clock
         const life = smooth(0.1, 0.9, flow);
         coreMat.uniforms.uLife.value = life;
         coreMat.uniforms.uTime.value = time;
-        core.scale.setScalar(Math.max(0.0001, RING_R * 0.48 * life * (1 - resolve) * (1 + Math.sin(time * 1.4) * 0.03)));
-        coreLight.intensity = 9 * life;
+        core.scale.setScalar(Math.max(0.0001, RING_R * 0.48 * life * (1 - resolve)));
+        coreLight.intensity = 9 * life * (1 - resolve);
+        clockMat.uniforms.uLife.value = ret * (1 - calm);
+        clockMat.uniforms.uTime.value = time;
+        clockBlob.scale.setScalar(Math.max(0.0001, RING_R * (small ? 0.55 : 0.62) * smooth(0, 0.7, ret) * (1 + Math.sin(time * 0.7) * 0.025)));
+
+        // colour of the world
         if (calm > 0) { bgA.copy(BG_A[4]).lerp(BG_A[5], calm); bgB.copy(BG_B[4]).lerp(BG_B[5], calm); }
         else if (ret > 0) { bgA.copy(BG_A[3]).lerp(BG_A[4], ret); bgB.copy(BG_B[3]).lerp(BG_B[4], ret); }
         else if (resolve > 0) { bgA.copy(BG_A[2]).lerp(BG_A[3], resolve); bgB.copy(BG_B[2]).lerp(BG_B[3], resolve); }
         else if (flow > 0) { bgA.copy(BG_A[1]).lerp(BG_A[2], flow); bgB.copy(BG_B[1]).lerp(BG_B[2], flow); }
         else { bgA.copy(BG_A[0]).lerp(BG_A[1], hold); bgB.copy(BG_B[0]).lerp(BG_B[1], hold); }
-        horizon.style.opacity = String(calm);
-        sun.style.opacity = String(calm);
-        stage.style.setProperty('--bg-a', '#' + bgA.getHexString());
-        stage.style.setProperty('--bg-b', '#' + bgB.getHexString());
+        root.style.setProperty('--bg-a', '#' + bgA.getHexString());
+        root.style.setProperty('--bg-b', '#' + bgB.getHexString());
         (scene.fog as THREE.Fog).color.copy(bgB);
-        if (!reduce) person.update(dt);
-        // the figure walks ahead of the camera, then stands beside the clock, smaller
-        // in frame 2 he stands in front of the clock, near enough to read clearly
-        figure.g.position.z = (1.5 - fly * 14) * (1 - settle) + (RING_Z + (small ? 5 : 6)) * settle;
-        figure.g.position.x = settle * (small ? -0.55 - flow * 0.5 : RING_X - RING_R - 0.95);
-        figure.g.position.y = -1.35 - settle * 0.25;
-        figure.g.position.z -= away * 22;
-        figure.g.position.x += away * (small ? 0.55 : 1.4);
-        redLight.intensity = 14 * (1 - settle);
         (scene.fog as THREE.Fog).far = 26 + settle * 16;
+        horizon.style.opacity = calm.toFixed(3);
+        sun.style.opacity = calm.toFixed(3);
+        const light = ret > 0.5;
+        root.style.setProperty('--bar', light ? '#0F172A' : '#F8FAFC');
+        root.style.setProperty('--cta-bg', light ? '#0F172A' : '#F8FAFC');
+        root.style.setProperty('--cta-fg', light ? '#F8FAFC' : '#0B0B10');
 
-        // copy hand-off between frame 1 and frame 2
-        const out = smooth(0.35, 0.6, p1);
-        copy.style.opacity = String(1 - out);
-        copy.style.transform = `translateY(${-out * 24}px)`;
-        const outTwo = 1 - smooth(0, 0.25, flow);
-        next.style.opacity = String(smooth(0.65, 0.9, p1) * outTwo);
-        three.style.opacity = String(smooth(0.3, 0.6, flow) * (1 - smooth(0, 0.35, resolve)));
-        four.style.opacity = String(smooth(0.4, 0.8, resolve) * (1 - cardOut));
-        five.style.opacity = String(smooth(0.35, 0.7, ret) * (1 - smooth(0, 0.3, calm)));
-        const sixIn = smooth(0.35, 0.75, calm);
-        six.style.opacity = String(sixIn);
-        six.style.visibility = sixIn > 0.05 ? 'visible' : 'hidden';
-        six.style.transform = `translateY(${(1 - sixIn) * 24}px)`;
-        five.style.transform = `translateY(${(1 - smooth(0.35, 0.7, ret)) * 24}px)`;
-        const light = ret > 0.55;
-        stage.style.setProperty('--dark-pool', String(1 - smooth(0.15, 0.55, ret)));
-        stage.style.setProperty('--light-pool', String(smooth(0.35, 0.75, ret)));
-        stage.classList.toggle('is-light', light);
-        document.body.classList.toggle('is-light', light);
-        screen.copy(ringCentre);
-        place(timeWord, screen, smooth(0.45, 0.8, ret) * (1 - smooth(0, 0.3, calm)));
-        timeBack.style.opacity = String(smooth(0.6, 0.9, ret) * (1 - smooth(0, 0.3, calm)));
-        four.style.transform = `translateY(${(1 - smooth(0.4, 0.8, resolve)) * 24}px)`;
-        three.style.transform = `translateY(${(1 - smooth(0.3, 0.6, flow)) * 24}px)`;
-        next.style.transform = `translateY(${(1 - smooth(0.65, 0.9, p1)) * 24}px)`;
-        // frame 2 labels: each slice's name sits just outside its arc, and the hub in the middle
+        // labels pinned to the 3D shapes
         const labelsIn = smooth(0.85, 1, p1) * (1 - smooth(0, 0.2, flow));
-        sliceLabels.forEach((el, i) => {
-          const t = sliceStart[i] + perSlice[i] / total / 2;
-          const a = t * Math.PI * 2 - Math.PI / 2 - turn;
+        sliceLabels.forEach((el, k) => {
+          const a = (sliceStart[k] + perSlice[k] / total / 2) * Math.PI * 2 - Math.PI / 2 - turn;
           const lr = RING_R + (small ? 0.95 : 1.5);
-          screen.set(RING_X + Math.cos(a) * lr, Math.sin(a) * lr + 0.6, RING_Z);
-          place(el, screen, labelsIn);
+          place(el, tmp.set(RING_X + Math.cos(a) * lr, Math.sin(a) * lr + 0.6, RING_Z), labelsIn);
         });
-        screen.copy(ringCentre);
-        place(hub, screen, labelsIn);
-        screen.copy(ringCentre);
-        place(coreEl, screen, smooth(0.5, 0.9, flow) * (1 - smooth(0, 0.4, resolve)));
-        // the card grows out of the core and lifts towards you
-        screen.copy(ringCentre).project(camera);
-        const cx = Math.min(canvas.clientWidth - card.offsetWidth / 2 - 16, Math.max(card.offsetWidth / 2 + 16, (screen.x * 0.5 + 0.5) * canvas.clientWidth));
-        const cy = Math.min(canvas.clientHeight * (small ? 0.34 : 0.62), Math.max(card.offsetHeight / 2 + 80, (-screen.y * 0.5 + 0.5) * canvas.clientHeight));
-        const cardIn = smooth(0.2, 0.75, resolve);
-        card.style.visibility = cardIn > 0.05 ? 'visible' : 'hidden';
-        card.style.opacity = String(cardIn * (1 - cardOut));
-        if (cardOut > 0.95) card.style.visibility = 'hidden';
-        card.style.transform = `translate(${(cx - card.offsetWidth / 2).toFixed(1)}px, ${(cy - card.offsetHeight / 2).toFixed(1)}px) scale(${((0.55 + 0.45 * cardIn) * (small ? 0.88 : 1) * (1 - cardOut * 0.15)).toFixed(3)}) translateY(${(-cardOut * 80).toFixed(1)}px)`;
-        hint.style.opacity = String(1 - smooth(0.02, 0.12, p1));
-        document.querySelector<HTMLElement>('.count')!.style.opacity = String(1 - smooth(0.3, 0.55, p1));
+        place(hub, tmp.copy(ringCentre), labelsIn);
+        place(coreEl, tmp.copy(ringCentre), smooth(0.5, 0.9, flow) * (1 - smooth(0, 0.4, resolve)));
+        place(timeWord, tmp.copy(ringCentre), smooth(0.45, 0.8, ret) * (1 - smooth(0, 0.3, calm)));
 
         renderer.render(scene, camera);
-        if (!reduce) requestAnimationFrame(frame);
       }
 
-      document.fonts.ready.then(() => {
-        // redraw textures once Inter has loaded
-        textures.flat().forEach(({ tex }) => (tex.needsUpdate = true));
-        if (reduce) {
-          frame(performance.now());
-          window.addEventListener('scroll', () => frame(performance.now()), { passive: true });
-        } else {
-          requestAnimationFrame(frame);
-        }
-      });
+      let last = performance.now();
+      function loop(now: number) {
+        const dt = Math.min(0.05, (now - last) / 1000);
+        last = now;
+        time += dt;
+        // ease towards the section in view: about a second per frame, whatever the scroll speed
+        scene01 += (target - scene01) * (1 - Math.exp(-dt * 2.6));
+        if (Math.abs(target - scene01) < 0.0005) scene01 = target;
+        render(dt);
+        requestAnimationFrame(loop);
+      }
+
+      resize();
+      readScroll();
+      if (reduce) render(0); else requestAnimationFrame(loop);
 
       // the unread counter keeps climbing while the flood is on screen
       if (!reduce) {
+        const counter = $('[data-count]');
         let n = 214;
         const tick = () => {
-          if (progress < 0.4 && document.visibilityState === 'visible') {
-            n += 1 + Math.floor(Math.random() * 3);
-            counter.textContent = String(n);
-          }
+          if (target === 0 && document.visibilityState === 'visible') { n += 1 + Math.floor(Math.random() * 3); counter.textContent = String(n); }
           setTimeout(tick, 700 + Math.random() * 900);
         };
         setTimeout(tick, 1200);
