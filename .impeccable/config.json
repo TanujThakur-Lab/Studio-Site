@@ -20,6 +20,15 @@
         "value": "inter",
         "createdAt": "2026-10-25T07:25:50.068Z",
         "reason": "user approved storyboard 1 (2026-10-25): Syncopate + Inter body for the OGC redesign"
+      },
+      {
+        "rule": "radial-halo",
+        "value": "*",
+        "files": [
+          "src/pages/prototype/flood.astro"
+        ],
+        "createdAt": "2026-10-27T15:49:58.048Z",
+        "reason": "the frame 6 sun from storyboard 2, approved by the user 2026-10-27: the morning sun is the subject, on a light page"
       }
     ]
   }
