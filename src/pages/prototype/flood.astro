@@ -6,6 +6,22 @@
 import '@fontsource/syncopate/latin-700.css';
 import '@fontsource-variable/inter';
 import { BOOKING_URL } from '../../config';
+
+// Six sample automations for frame 4. Every name, number and address is made up.
+const AUTOMATIONS = [
+  { id: 'report', tab: 'Weekly report', trigger: 'every Friday, 4 pm, from 23 tickets', title: 'Weekly report · Sample Freight Ltd', to: 'Sample Freight Ltd',
+    items: ['Customs hold cleared, documents re-sent', 'Invoice mismatch corrected', 'Bill of lading approved', '3 items waiting on you'] },
+  { id: 'chaser', tab: 'Invoice chaser', trigger: 'daily, from your accounts sheet', title: 'Reminder: invoice INV-2291 is 14 days overdue', meta: 'To: accounts@demo-exports.example · ₹1,84,500', to: 'Demo Exports',
+    body: 'Hi Arjun, a quick reminder that invoice INV-2291 for ₹1,84,500 was due on 14 October. Could you let us know when payment is scheduled? A copy is attached.' },
+  { id: 'delay', tab: 'Delay notice', trigger: 'when the carrier changes an ETA', title: 'Shipment SF-1188 now arrives Thursday', meta: 'To: 6 affected clients · personalised for each', to: 'the 6 affected clients',
+    body: 'Your shipment SF-1188 is now due at Jebel Ali on Thursday 30 October, two days later than planned. Nothing is needed from you; we’ll confirm the delivery slot on Wednesday.' },
+  { id: 'actions', tab: 'Meeting actions', trigger: 'after each recorded meeting', title: 'Monday ops meeting: actions', to: 'the 4 people in the meeting',
+    items: ['Priya: update the rate sheet by Wednesday', 'Ravi: chase the delivery order from the line', 'Meera: send the new SOP for sign-off', 'You: approve the Q4 freight budget'] },
+  { id: 'rates', tab: 'Rate sheet', trigger: 'when a new rate notice arrives', title: '3 changes from the March rate notice', meta: 'Updates the rate sheet, proposal template and 4 open quotes', to: 'your shared drive',
+    items: ['20ft Nhava Sheva to Jebel Ali: ₹48,500 → ₹52,000', 'Documentation fee: ₹2,500 → ₹3,000', 'Free days at destination: 7 → 5'] },
+  { id: 'ticket', tab: 'Ticket reply', trigger: 'for routine helpdesk tickets', title: 'Re: Ticket #4821 “Where is my container?”', meta: 'To: Meera, Example Consulting LLP', to: 'Example Consulting LLP',
+    body: 'Hi Meera, your container SFXU 482119 cleared customs this morning and is booked for delivery on Thursday between 10 am and 1 pm. I’ll send the proof of delivery as soon as it lands.' },
+];
 ---
 <!doctype html>
 <html lang="en-GB">
@@ -65,26 +81,32 @@ import { BOOKING_URL } from '../../config';
       <section class="frame frame--split" id="f4" data-frame aria-labelledby="t4">
         <div class="panel">
           <h2 id="t4">Nothing leaves without your yes.</h2>
-          <p>Out of it comes one finished draft. You read it, press approve, and it goes. That’s the whole job now.</p>
+          <p>Out of it comes one finished draft. You read it, press approve, and it goes. That’s the whole job now. Try six of the workflows we build.</p>
         </div>
-        <article class="approval" data-approval aria-labelledby="ap-title">
-          <p class="ap-sample">Sample data</p>
-          <h3 id="ap-title">Weekly report · Sample Freight Ltd</h3>
-          <ul>
-            <li>Customs hold cleared, documents re-sent</li>
-            <li>Invoice mismatch corrected</li>
-            <li>Bill of lading approved</li>
-            <li>3 items waiting on you</li>
-          </ul>
-          <div class="ap-foot">
-            <span data-ap-state aria-live="polite">Draft · nothing is sent until you approve</span>
-            <button type="button" data-ap-approve>
-              <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg>
-              Approve
-            </button>
+        <div class="automations" data-automations>
+          <div class="auto-tabs" role="tablist" aria-label="Sample automations">
+            {AUTOMATIONS.map((a, i) => (
+              <button type="button" role="tab" id={`tab-${a.id}`} aria-controls={`auto-${a.id}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>{a.tab}</button>
+            ))}
           </div>
-          <span class="ap-stamp" aria-hidden="true">Approved</span>
-        </article>
+          {AUTOMATIONS.map((a, i) => (
+            <article class="approval" id={`auto-${a.id}`} role="tabpanel" aria-labelledby={`tab-${a.id}`} hidden={i !== 0} data-to={a.to}>
+              <p class="ap-sample">Sample data · {a.trigger}</p>
+              <h3>{a.title}</h3>
+              {a.meta && <p class="ap-meta">{a.meta}</p>}
+              {a.body && <p class="ap-body">{a.body}</p>}
+              {a.items && <ul>{a.items.map((t) => <li>{t}</li>)}</ul>}
+              <div class="ap-foot">
+                <span data-ap-state aria-live="polite">Draft · nothing is sent until you approve</span>
+                <button type="button" data-ap-approve>
+                  <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                  Approve
+                </button>
+              </div>
+              <span class="ap-stamp" aria-hidden="true">Approved</span>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section class="frame frame--light" id="f5" data-frame aria-labelledby="t5">
@@ -168,6 +190,22 @@ import { BOOKING_URL } from '../../config';
       .approval ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; font-size: 15px; color: #334155; }
       .approval li::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #059669; margin: 0 8px 2px 0; }
       .ap-sample { margin: 0; font-size: 12px; font-weight: 600; color: #64748B; }
+      .automations { width: min(420px, 100%); display: grid; gap: 10px; }
+      .automations .approval { width: 100%; }
+      .auto-tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+      .auto-tabs button {
+        min-height: 40px; padding: 0 14px; border-radius: 99px; border: 1px solid rgba(248, 250, 252, 0.4);
+        background: rgba(11, 11, 16, 0.35); color: #F8FAFC; font: 600 13px var(--inter); cursor: pointer;
+        transition: background-color 200ms ease, color 200ms ease, transform 160ms var(--ease-out);
+      }
+      .auto-tabs button:active { transform: scale(0.96); }
+      .auto-tabs button[aria-selected='true'] { background: #F8FAFC; color: var(--ink); border-color: #F8FAFC; }
+      .ap-meta { margin: -4px 0 8px; font-size: 13px; color: #475569; }
+      .ap-body { margin: 0; font-size: 15px; line-height: 1.5; color: #334155; }
+      @media (max-width: 700px) {
+        .auto-tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-inline: -4px; padding-inline: 4px; }
+        .auto-tabs button { flex: none; }
+      }
       .ap-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; }
       .ap-foot span { font-size: 13px; color: #475569; line-height: 1.35; }
       .ap-foot button { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 18px; border: 0; border-radius: 99px; flex: none; background: var(--ink); color: #fff; font: 600 15px var(--inter); cursor: pointer; transition: transform 160ms var(--ease-out); }
@@ -177,8 +215,8 @@ import { BOOKING_URL } from '../../config';
       .approval.is-approved .ap-stamp { opacity: 1; transform: rotate(-8deg) scale(1); }
       .approval.is-approved .ap-foot button { background: #E2E8F0; color: var(--ink); }
       /* sections arrive with a short rise as they scroll in */
-      .js .panel, .js .approval { opacity: 0; transform: translateY(32px); transition: opacity 600ms var(--ease-out), transform 700ms var(--ease-out); }
-      .js .is-in .panel, .js .is-in .approval { opacity: 1; transform: none; }
+      .js .panel, .js .automations { opacity: 0; transform: translateY(32px); transition: opacity 600ms var(--ease-out), transform 700ms var(--ease-out); }
+      .js .is-in .panel, .js .is-in .automations { opacity: 1; transform: none; }
 
       @media (max-width: 700px) {
         .frame { padding-top: 96px; }
@@ -187,7 +225,7 @@ import { BOOKING_URL } from '../../config';
       }
       @media (prefers-reduced-motion: reduce) {
         .sun { animation: none; }
-        .js .panel, .js .approval { transition: none; }
+        .js .panel, .js .automations { transition: none; }
       }
     </style>
 
@@ -219,6 +257,10 @@ import { BOOKING_URL } from '../../config';
       const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.setClearColor(0x000000, 0);
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFShadowMap;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.15;
       const scene = new THREE.Scene();
       scene.fog = new THREE.Fog(0x0b0b10, 6, 26);
       const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 90);
@@ -259,6 +301,43 @@ import { BOOKING_URL } from '../../config';
       const wall = new THREE.Mesh(new THREE.PlaneGeometry(60, 20), wallMat);
       wall.position.set(P_X, FEET + 9, -5);
       room.add(floor, wall);
+      floor.receiveShadow = true;
+      wall.receiveShadow = true;
+      // wood planks and a faint wall texture, drawn once
+      const plankTex = (() => {
+        const c = document.createElement('canvas'); c.width = 512; c.height = 512;
+        const g = c.getContext('2d')!;
+        g.fillStyle = '#C9B79C'; g.fillRect(0, 0, 512, 512);
+        for (let y = 0; y < 512; y += 64) {
+          const off = (y / 64) % 2 ? 0 : 160;
+          for (let x = -off; x < 512; x += 320) {
+            g.fillStyle = `hsl(32, 24%, ${62 + ((x * 13 + y * 7) % 9)}%)`;
+            g.fillRect(x + 2, y + 2, 316, 60);
+          }
+        }
+        const t = new THREE.CanvasTexture(c);
+        t.wrapS = t.wrapT = THREE.RepeatWrapping;
+        t.repeat.set(14, 7);
+        t.colorSpace = THREE.SRGBColorSpace;
+        t.anisotropy = 8;
+        return t;
+      })();
+      floorMat.map = plankTex;
+      floorMat.needsUpdate = true;
+      const skirting = solid('#3A3C48');
+      box(60, 0.18, 0.06, skirting, P_X, FEET + 0.09, -4.96);
+      // the rug he stands on
+      const rugMat = new THREE.MeshStandardMaterial({ color: '#3B5566', roughness: 1, transparent: true });
+      const rugEdgeMat = new THREE.MeshStandardMaterial({ color: '#5E7480', roughness: 1, transparent: true });
+      roomMats.push(rugMat, rugEdgeMat);
+      const rugEdge = new THREE.Mesh(new THREE.PlaneGeometry(3.3, 2.1), rugEdgeMat);
+      const rug = new THREE.Mesh(new THREE.PlaneGeometry(3.14, 1.94), rugMat);
+      for (const [m, y] of [[rugEdge, 0.004], [rug, 0.007]] as const) {
+        m.rotation.x = -Math.PI / 2;
+        m.position.set(P_X, FEET + y, -0.2);
+        m.receiveShadow = true;
+        room.add(m);
+      }
 
       // the window behind him: a night city that becomes a morning sky
       function windowTexture(night: boolean) {
@@ -307,7 +386,7 @@ import { BOOKING_URL } from '../../config';
       const DZ = -2.4;
       const deskMat = solid('#2B2D3A');
       const deskTop = FEET + 1.25;
-      box(2.3, 0.08, 1.0, deskMat, DX, deskTop, DZ);
+      box(2.3, 0.08, 1.0, deskMat, DX, deskTop, DZ).castShadow = true;
       for (const [lx, lz] of [[-1.05, -0.4], [1.05, -0.4], [-1.05, 0.4], [1.05, 0.4]]) box(0.06, 1.25, 0.06, deskMat, DX + lx, FEET + 0.62, DZ + lz);
       box(1.0, 0.62, 0.05, solid('#121320'), DX - 0.2, deskTop + 0.5, DZ - 0.3);
       const screenMat = new THREE.MeshBasicMaterial({ color: '#BFDBFE', transparent: true });
@@ -329,6 +408,19 @@ import { BOOKING_URL } from '../../config';
       plant.add(pot, leaves);
       plant.position.set(DX + 0.7, deskTop + 0.14, DZ + 0.1);
       room.add(plant);
+      // his chair, pushed back from the desk
+      const chairMat = solid('#20222C');
+      box(0.55, 0.07, 0.5, chairMat, DX - 0.3, FEET + 0.62, DZ + 0.75);
+      box(0.55, 0.6, 0.07, chairMat, DX - 0.3, FEET + 0.95, DZ + 1.0);
+      box(0.06, 0.6, 0.06, chairMat, DX - 0.3, FEET + 0.3, DZ + 0.75);
+      box(0.5, 0.05, 0.05, chairMat, DX - 0.3, FEET + 0.03, DZ + 0.75);
+      // a shelf of binders: the paperwork that the workflow takes over
+      const shelfY = FEET + 3.0;
+      box(1.9, 0.06, 0.32, solid('#2B2D3A'), DX, shelfY, -4.8);
+      ['#3B82F6', '#EF4444', '#F59E0B', '#10B981', '#6366F1', '#64748B', '#EC4899'].forEach((col, i) => {
+        const h = 0.42 + ((i * 7) % 3) * 0.06;
+        box(0.17, h, 0.28, solid(col), DX - 0.78 + i * 0.24, shelfY + 0.03 + h / 2, -4.8);
+      });
       // sticky notes all over the wall at the start
       const noteMat = solid('#FDE68A');
       const notes = Array.from({ length: 9 }, (_, i) => {
@@ -347,6 +439,30 @@ import { BOOKING_URL } from '../../config';
       key.position.set(2, 3, 4);
       key.target = figure;
       camera.add(key);
+      key.castShadow = true;
+      key.shadow.mapSize.set(small ? 1024 : 2048, small ? 1024 : 2048);
+      key.shadow.camera.left = -6; key.shadow.camera.right = 6; key.shadow.camera.top = 6; key.shadow.camera.bottom = -6;
+      key.shadow.camera.near = 1; key.shadow.camera.far = 30;
+      key.shadow.bias = -0.0004;
+      key.shadow.radius = 4;
+      figure.traverse((o) => { if ((o as THREE.Mesh).isMesh) o.castShadow = true; });
+      const rim = new THREE.DirectionalLight(0x7aa2ff, 1.4);
+      rim.position.set(P_X - 3, FEET + 6, -6);
+      rim.target = figure;
+      scene.add(rim);
+      // a soft dark patch where he stands, so he never floats
+      const contactTex = (() => {
+        const c = document.createElement('canvas'); c.width = c.height = 128;
+        const g = c.getContext('2d')!;
+        const grad = g.createRadialGradient(64, 64, 4, 64, 64, 62);
+        grad.addColorStop(0, 'rgba(0,0,0,0.55)'); grad.addColorStop(1, 'rgba(0,0,0,0)');
+        g.fillStyle = grad; g.fillRect(0, 0, 128, 128);
+        return new THREE.CanvasTexture(c);
+      })();
+      const contact = new THREE.Mesh(new THREE.PlaneGeometry(1.6, 0.9), new THREE.MeshBasicMaterial({ map: contactTex, transparent: true, depthWrite: false }));
+      contact.rotation.x = -Math.PI / 2;
+      contact.position.set(P_X, FEET + 0.012, 0.05);
+      world.add(contact);
 
       // ── message cards ──
       function cardTexture(text: string, hot: boolean) {
@@ -386,9 +502,9 @@ import { BOOKING_URL } from '../../config';
       const DEPTH = 10;
       // the week-clock stands behind him like a halo; the returned clock floats above his shoulder
       const RING_Z = small ? -2.0 : -1.6;
-      const RING_R = small ? 1.45 : 2.2;
+      const RING_R = small ? 1.35 : 1.85;
       const RING_X = P_X;
-      const RING_Y = FEET + (small ? 1.5 : 1.75);
+      const RING_Y = FEET + (small ? 2.05 : 2.45); // high enough that the outer row never dips below the floor
       const ringCentre = new THREE.Vector3(RING_X, RING_Y, RING_Z);
       const blobPos = small ? new THREE.Vector3(0.75, FEET + 3.25, -1.8) : new THREE.Vector3(P_X + 2.4, FEET + 3.0, -1.4);
       const perSlice = [0, 0, 0, 0];
@@ -475,13 +591,31 @@ import { BOOKING_URL } from '../../config';
       }
 
       // ── the approval card ──
-      const card = $('[data-approval]');
-      const apState = $('[data-ap-state]');
-      const apButton = $<HTMLButtonElement>('[data-ap-approve]');
-      apButton.addEventListener('click', () => {
-        const done = card.classList.toggle('is-approved');
-        apState.textContent = done ? 'Approved by you. In real life it would now go to Sample Freight Ltd.' : 'Draft · nothing is sent until you approve';
-        apButton.lastChild!.textContent = done ? ' Undo' : ' Approve';
+      document.querySelectorAll<HTMLElement>('.approval').forEach((card) => {
+        const state = card.querySelector<HTMLElement>('[data-ap-state]')!;
+        const btn = card.querySelector<HTMLButtonElement>('[data-ap-approve]')!;
+        btn.addEventListener('click', () => {
+          const done = card.classList.toggle('is-approved');
+          state.textContent = done ? `Approved by you. In real life it would now go to ${card.dataset.to}.` : 'Draft · nothing is sent until you approve';
+          btn.lastChild!.textContent = done ? ' Undo' : ' Approve';
+        });
+      });
+      const tabs = [...document.querySelectorAll<HTMLButtonElement>('.auto-tabs [role="tab"]')];
+      const selectTab = (tab: HTMLButtonElement, focus = false) => {
+        tabs.forEach((t) => {
+          const on = t === tab;
+          t.setAttribute('aria-selected', String(on));
+          t.tabIndex = on ? 0 : -1;
+          document.getElementById(t.getAttribute('aria-controls')!)!.hidden = !on;
+        });
+        if (focus) tab.focus();
+      };
+      tabs.forEach((t, i) => {
+        t.addEventListener('click', () => selectTab(t));
+        t.addEventListener('keydown', (e) => {
+          const step = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+          if (step) { e.preventDefault(); selectTab(tabs[(i + step + tabs.length) % tabs.length], true); }
+        });
       });
 
       // ── page → scene: which section is in view sets the target; the scene eases towards it ──
@@ -595,6 +729,8 @@ import { BOOKING_URL } from '../../config';
         screenMat.opacity = 0.35 + 0.65 * (clutter * (0.85 + Math.sin(time * 9) * 0.15 * clutter));
         (dayWin.material as THREE.MeshBasicMaterial).opacity = Math.max(resolve * 0.35, ret);
         lamp.intensity = 6 * (1 - Math.max(resolve, ret));
+        rim.color.set(ret > 0.4 ? '#FFD9A8' : flow > 0.4 ? '#7FF0E6' : '#7AA2FF');
+        contact.material.opacity = 1 - smooth(0.6, 1, calm) * 0.4;
         const roomOpacity = 1 - smooth(0.2, 0.9, calm);
         roomMats.forEach((m) => { if (m !== dayWin.material) (m as THREE.MeshBasicMaterial).opacity = roomOpacity; });
         (dayWin.material as THREE.MeshBasicMaterial).opacity *= roomOpacity;
