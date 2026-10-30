@@ -3,8 +3,7 @@
 // six sections of content scroll normally over a fixed 3D world, and each section that arrives
 // sets the scene's target, which the scene then eases to over about a second.
 // Not linked from the live homepage.
-import '@fontsource/syncopate/latin-700.css';
-import '@fontsource-variable/inter';
+import '@fontsource-variable/albert-sans';
 import { BOOKING_URL } from '../../config';
 
 // Six sample automations for frame 4. Every name, number and address is made up.
@@ -34,20 +33,18 @@ const AUTOMATIONS = [
   </head>
   <body>
     <header class="bar">
-      <a class="brand" href="#f1">OGC STUDIO</a>
+      <a class="brand" href="#f1">OGC Studio</a>
       <button class="theme" type="button" aria-label="Theme switch (coming soon)" disabled>Theme</button>
       <a class="cta" href={BOOKING_URL}>Book a call</a>
     </header>
 
-    <!-- the fixed world behind the page -->
+    <!-- the fixed world behind the page: his office, painted in the colour of the hour -->
     <div class="world" aria-hidden="true">
-      <div class="horizon" data-horizon></div>
-      <div class="sun" data-sun></div>
       <canvas data-canvas></canvas>
-      <p class="slice-label" data-slice="0" style="color:#FCA5A5">Reports</p>
-      <p class="slice-label" data-slice="1" style="color:#FDBA74">Follow-ups</p>
-      <p class="slice-label" data-slice="2" style="color:#D8B4FE">Doc updates</p>
-      <p class="slice-label" data-slice="3" style="color:#CBD5E1">Replies</p>
+      <p class="slice-label" data-slice="0" style="--c:#FFC013">Reports</p>
+      <p class="slice-label" data-slice="1" style="--c:#FF6A3D">Follow-ups</p>
+      <p class="slice-label" data-slice="2" style="--c:#4D8FE0">Doc updates</p>
+      <p class="slice-label" data-slice="3" style="--c:#3FAE7A">Replies</p>
       <p class="hub" data-hub><b>40 h</b><span>one working week</span></p>
       <p class="core-label" data-core>OGC</p>
       <p class="time-word" data-time-word>Friday<br />3 pm<br />is yours</p>
@@ -57,31 +54,31 @@ const AUTOMATIONS = [
       <section class="frame" id="f1" data-frame aria-labelledby="t1">
         <p class="count"><b data-count>214</b><span>unread, and it’s 7:58 am</span></p>
         <div class="panel">
-          <h1 id="t1">Your week, before it’s even started.</h1>
-          <p>Reports, chasers, replies, updates. The same admin as last week, all arriving at once.</p>
+          <h1 id="t1">Your week, already full.</h1>
+          <p>Reports, chasers, replies, updates: the same admin as last week, all arriving at once. OGC Studio builds the AI workflows that take it off you.</p>
         </div>
-        <p class="hint">Scroll</p>
+        <p class="hint">Scroll to start the day</p>
       </section>
 
       <section class="frame" id="f2" data-frame aria-labelledby="t2">
         <div class="panel">
-          <h2 id="t2">Every hour, already spoken for.</h2>
-          <p>The messages fall into place: a week drawn as a clock, carved into the same four kinds of repeat work.</p>
+          <h2 id="t2">Every hour spoken for.</h2>
+          <p>By ten the messages have settled into a week drawn as a clock, carved into the same four kinds of repeat work.</p>
           <p class="stat"><b>40 h</b> one working week</p>
         </div>
       </section>
 
       <section class="frame" id="f3" data-frame aria-labelledby="t3">
         <div class="panel">
-          <h2 id="t3">Hand the repeat work over.</h2>
-          <p>We turn it into a workflow. The messages stop landing on you and flow into one place that drafts the work.</p>
+          <h2 id="t3">Hand the repeats over.</h2>
+          <p>We turn that work into a workflow. The messages stop landing on you and flow into one place that drafts it.</p>
         </div>
       </section>
 
       <section class="frame frame--split" id="f4" data-frame aria-labelledby="t4">
         <div class="panel">
-          <h2 id="t4">Nothing leaves without your yes.</h2>
-          <p>Out of it comes one finished draft. You read it, press approve, and it goes. That’s the whole job now. Try six of the workflows we build.</p>
+          <h2 id="t4">Sent only on your yes.</h2>
+          <p>Out comes one finished draft. You read it, press approve, and it goes. Try six of the workflows we build.</p>
         </div>
         <div class="automations" data-automations>
           <div class="auto-tabs" role="tablist" aria-label="Sample automations">
@@ -99,7 +96,7 @@ const AUTOMATIONS = [
               <div class="ap-foot">
                 <span data-ap-state aria-live="polite">Draft · nothing is sent until you approve</span>
                 <button type="button" data-ap-approve>
-                  <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                  <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" /></svg>
                   Approve
                 </button>
               </div>
@@ -109,123 +106,140 @@ const AUTOMATIONS = [
         </div>
       </section>
 
-      <section class="frame frame--light" id="f5" data-frame aria-labelledby="t5">
+      <section class="frame" id="f5" data-frame aria-labelledby="t5">
         <div class="panel">
           <h2 id="t5">The hours come back.</h2>
-          <p>The clock returns, but empty and soft. The slices that were admin are now open time.</p>
-          <p class="time-back">Time back this week <b>[ x h ]</b></p>
+          <p>By half past five the clock returns, empty and soft. The slices that were admin are open time again.</p>
+          <p class="time-back"><b>[ x h ]</b> back this week</p>
         </div>
       </section>
 
-      <section class="frame frame--light frame--last" id="f6" data-frame aria-labelledby="t6">
+      <section class="frame frame--dark frame--last" id="f6" data-frame aria-labelledby="t6">
         <div class="panel">
           <h2 id="t6">Get your time back.</h2>
-          <p>Start with one task. A free 20-minute call, and we’ll tell you honestly whether it’s worth automating.</p>
-          <a class="cta-big" href={BOOKING_URL}>Book a free 20-minute call</a>
+          <p>Start with one task. The evening is yours; the drafts wait for your yes in the morning.</p>
         </div>
+      </section>
+
+      <section class="close" aria-labelledby="t7">
+        <a class="band" href={BOOKING_URL}>
+          <span class="band-note">A free 20-minute call. We’ll tell you honestly whether it’s worth automating.</span>
+          <svg class="band-arrow" viewBox="0 0 48 48" aria-hidden="true"><path d="M12 36L36 12M16 12h20v20" fill="none" stroke="currentColor" stroke-width="4" /></svg>
+          <h2 class="band-word" id="t7">Book</h2>
+        </a>
       </section>
     </main>
 
     <style is:global>
       :root {
-        --paper: #F8FAFC; --mist: #CBD5E1; --ink: #0F172A;
-        --sync: 'Syncopate', sans-serif; --inter: 'Inter Variable', 'Inter', system-ui, sans-serif;
+        --field: #CBE4F2; --ink: #0A0A0A; --paper: #FFFFFF; --muted: #44606E; --bar: #0A0A0A;
+        --accent: #B0298F; --accent-ink: #FFFFFF; --alarm: #C81E1E;
+        --font: 'Albert Sans Variable', 'Albert Sans', system-ui, sans-serif;
+        --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+        --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+        --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+        --step-head: clamp(2rem, 1.3rem + 3.2vw, 4rem);
+        --step-display: clamp(2.75rem, 0.9rem + 5.4vw, 6rem);
+        --m: clamp(16px, 4vw, 56px);
         --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
-        --bg-a: #1B1B26; --bg-b: #0B0B10;
       }
       * { box-sizing: border-box; }
-      html { background: #0B0B10; }
-      body { margin: 0; color: var(--paper); font-family: var(--inter); -webkit-font-smoothing: antialiased; }
-      :focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+      html { background: var(--field); }
+      body { margin: 0; color: var(--ink); font-family: var(--font); font-size: var(--step-body); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+      :focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
 
-      /* nav */
-      .bar { position: fixed; inset: 0 0 auto; z-index: 10; display: flex; align-items: center; gap: 12px; padding: 16px clamp(16px, 3vw, 40px); color: var(--bar, var(--paper)); transition: color 400ms ease; }
-      .brand { font-family: var(--sync); font-weight: 700; font-size: 14px; letter-spacing: 0.08em; color: inherit; text-decoration: none; margin-right: auto; padding: 12px 0; }
-      .theme { min-height: 40px; padding: 0 14px; border-radius: 99px; border: 1px solid currentColor; background: transparent; color: inherit; font: 500 13px var(--inter); opacity: 0.6; }
-      .cta { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 99px; background: var(--cta-bg, var(--paper)); color: var(--cta-fg, #0B0B10); font-weight: 600; font-size: 14px; text-decoration: none; transition: transform 160ms var(--ease-out), background-color 400ms ease, color 400ms ease; }
+      /* nav: wordmark, one quiet placeholder, one action; its ink follows the chapter beneath */
+      .bar { position: fixed; inset: 0 0 auto; z-index: 10; display: flex; align-items: center; gap: 8px; padding: 16px var(--m); color: var(--bar); transition: color 300ms ease; }
+      .brand { margin-right: auto; padding: 10px 0; font-weight: 600; font-size: var(--step-lead); letter-spacing: -0.03em; color: inherit; text-decoration: none; }
+      .theme { min-height: 44px; padding: 0 12px; border: 0; background: none; color: inherit; font: 500 14px var(--font); opacity: 0.55; }
+      .cta { display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; background: var(--accent); color: var(--accent-ink); font-weight: 600; font-size: var(--step-body); text-decoration: none; transition: transform 160ms var(--ease-out), background-color 160ms ease; }
       .cta:active { transform: scale(0.97); }
-      @media (max-width: 700px) { .theme { display: none; } }
+      @media (hover: hover) and (pointer: fine) { .cta:hover { background: #8E1F73; } }
+      @media (max-width: 700px) { .theme { display: none; } .brand { font-size: 20px; } }
 
-      /* the fixed 3D world */
-      .world { position: fixed; inset: 0; z-index: 0; overflow: hidden; background: radial-gradient(120% 90% at 50% 35%, var(--bg-a) 0%, var(--bg-b) 62%); }
+      /* the fixed 3D world: one flat field of the hour's colour */
+      .world { position: fixed; inset: 0; z-index: 0; overflow: hidden; background: var(--field); }
       .world canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-      .horizon { position: absolute; left: 0; right: 0; bottom: 0; top: 50%; opacity: 0; background: linear-gradient(#A9CDB7, #D9E9DE); }
-      .sun { position: absolute; left: 50%; top: 50%; width: min(52vw, 600px); aspect-ratio: 1; translate: -50% -60%; border-radius: 50%; opacity: 0;
-        background: radial-gradient(circle, rgba(255, 196, 120, 0.95) 0%, rgba(255, 196, 120, 0.4) 38%, rgba(255, 196, 120, 0) 70%); animation: sun-breathe 6s ease-in-out infinite; }
-      @keyframes sun-breathe { 0%, 100% { scale: 1; } 50% { scale: 1.06; } }
       .slice-label, .hub, .core-label, .time-word { position: absolute; left: 0; top: 0; margin: 0; opacity: 0; pointer-events: none; translate: -50% -50%; will-change: transform; }
-      .slice-label { font-family: var(--sync); font-weight: 700; font-size: clamp(11px, 1vw, 14px); letter-spacing: 0.06em; white-space: nowrap; }
+      .slice-label { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: var(--step-body); letter-spacing: -0.01em; white-space: nowrap; color: var(--ink); }
+      .slice-label::before { content: ''; width: 12px; height: 12px; background: var(--c); }
       .hub { display: none; }
-      .stat { margin-top: 16px !important; font-size: 14px !important; }
-      .stat b { display: block; font-family: var(--sync); font-size: clamp(28px, 3vw, 44px); line-height: 1; color: var(--paper); }
-      .hub b { display: block; font-family: var(--sync); font-size: clamp(28px, 3.4vw, 52px); line-height: 1; }
-      .hub span { font-size: 14px; color: var(--mist); }
-      .core-label { font-family: var(--sync); font-weight: 700; font-size: clamp(16px, 1.6vw, 24px); letter-spacing: 0.14em; color: #ECFEFF; }
-      .time-word { text-align: center; font-family: var(--sync); font-weight: 700; font-size: clamp(18px, 2vw, 30px); line-height: 1.15; color: var(--ink); }
+      .core-label { font-weight: 600; font-size: var(--step-lead); letter-spacing: -0.03em; color: #FFFFFF; }
+      .time-word { text-align: center; font-weight: 600; font-size: var(--step-lead); line-height: 1.02; letter-spacing: -0.03em; color: var(--ink); }
 
-      /* the page that scrolls over it */
+      /* the page that scrolls over it: every chapter's heading starts on the same left edge */
       main { position: relative; z-index: 1; }
-      .frame { position: relative; min-height: 115vh; display: flex; align-items: flex-end; gap: 32px; padding: 120px clamp(16px, 5vw, 72px) clamp(64px, 14vh, 140px); }
+      .frame { position: relative; min-height: 115vh; display: flex; align-items: flex-end; gap: 32px; padding: 120px var(--m) clamp(56px, 12vh, 128px); }
       #f1 { min-height: 100svh; }
-      .frame--split { justify-content: space-between; align-items: center; flex-wrap: wrap; }
+      .frame--split { justify-content: space-between; align-items: flex-end; flex-wrap: wrap; }
       .frame--last { min-height: 100svh; }
-      .panel { max-width: min(600px, 100%); padding: 24px 26px; border-radius: 18px; background: rgba(11, 11, 16, 0.5); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
-      .frame--light .panel { background: rgba(250, 248, 242, 0.72); color: var(--ink); }
-      .panel h1, .panel h2 { font-family: var(--sync); font-weight: 700; margin: 0 0 14px; font-size: clamp(28px, 4vw, 60px); line-height: 1.04; letter-spacing: -0.01em; text-wrap: balance; }
-      .panel p { margin: 0; max-width: 46ch; font-size: clamp(16px, 1.25vw, 19px); line-height: 1.5; color: var(--mist); }
-      .frame--light .panel p { color: #334155; }
-      .count { position: absolute; right: clamp(16px, 5vw, 72px); top: clamp(84px, 16vh, 150px); margin: 0; text-align: right; }
-      .count b { display: block; font-family: var(--sync); font-weight: 700; font-size: clamp(44px, 7vw, 104px); line-height: 1; color: #EF4444; font-variant-numeric: tabular-nums; }
-      .count span { font-size: clamp(13px, 1.1vw, 16px); color: #FCA5A5; }
-      .hint { position: absolute; left: 50%; bottom: 20px; translate: -50% 0; margin: 0; font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mist); }
-      .time-back { margin-top: 18px !important; font-family: var(--sync); font-size: 12px !important; letter-spacing: 0.08em; color: var(--ink) !important; }
-      .time-back b { display: block; font-size: clamp(24px, 2.6vw, 36px); letter-spacing: 0; }
-      .cta-big { display: inline-flex; align-items: center; min-height: 56px; margin-top: 22px; padding: 0 26px; border-radius: 99px; background: var(--ink); color: #F8FAFC; font-weight: 600; font-size: 17px; text-decoration: none; transition: transform 160ms var(--ease-out), background-color 200ms ease; }
-      .cta-big:active { transform: scale(0.97); }
-      @media (hover: hover) and (pointer: fine) { .cta-big:hover { background: #1E293B; } }
+      .frame--dark { color: var(--bar); transition: color 300ms ease; }
+      .panel { max-width: min(46vw, 700px); }
+      .panel h1, .panel h2 { margin: 0 0 24px; font-weight: 600; font-size: var(--step-display); line-height: 0.98; letter-spacing: -0.035em; text-wrap: balance; }
+      .panel p { margin: 0; max-width: 36ch; font-size: var(--step-lead); line-height: 1.4; }
+      .count { position: absolute; right: var(--m); top: clamp(88px, 15vh, 140px); margin: 0; text-align: right; }
+      .count b { display: block; font-weight: 600; font-size: clamp(64px, 9vw, 140px); line-height: 0.9; letter-spacing: -0.045em; color: var(--alarm); font-variant-numeric: tabular-nums; }
+      .count span { font-weight: 500; font-size: var(--step-body); }
+      .hint { position: absolute; left: 50%; bottom: 20px; translate: -50% 0; margin: 0; font-weight: 500; font-size: 14px; }
+      .panel .stat, .panel .time-back { margin-top: 28px; font-size: var(--step-body); font-weight: 500; }
+      .stat b, .time-back b { display: block; font-weight: 600; font-size: var(--step-head); line-height: 1; letter-spacing: -0.04em; }
 
-      /* the approval card (a real part of the page) */
-      .approval { position: relative; width: min(380px, 100%); padding: 22px 22px 18px; border-radius: 14px; background: #F8FAFC; color: var(--ink); box-shadow: 0 40px 80px -30px rgba(2, 20, 26, 0.6); }
-      .approval h3 { font-size: 18px; font-weight: 600; line-height: 1.3; margin: 6px 0 10px; }
-      .approval ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; font-size: 15px; color: #334155; }
-      .approval li::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #059669; margin: 0 8px 2px 0; }
-      .ap-sample { margin: 0; font-size: 12px; font-weight: 600; color: #64748B; }
-      .automations { width: min(420px, 100%); display: grid; gap: 10px; }
-      .automations .approval { width: 100%; }
-      .auto-tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+      /* the draft to approve: plain paper, square corners, nothing floating at rest */
+      .automations { width: min(440px, 100%); display: grid; gap: 8px; }
+      .auto-tabs { display: flex; flex-wrap: wrap; gap: 4px; }
       .auto-tabs button {
-        min-height: 40px; padding: 0 14px; border-radius: 99px; border: 1px solid rgba(248, 250, 252, 0.4);
-        background: rgba(11, 11, 16, 0.35); color: #F8FAFC; font: 600 13px var(--inter); cursor: pointer;
-        transition: background-color 200ms ease, color 200ms ease, transform 160ms var(--ease-out);
+        min-height: 44px; padding: 0 14px; border: 0; background: var(--paper); color: var(--ink); font: 500 var(--step-body) var(--font); cursor: pointer;
+        transition: background-color 160ms ease, color 160ms ease, transform 160ms var(--ease-out);
       }
+      @media (hover: hover) and (pointer: fine) { .auto-tabs button:hover { background: #E6E6E6; } }
       .auto-tabs button:active { transform: scale(0.96); }
-      .auto-tabs button[aria-selected='true'] { background: #F8FAFC; color: var(--ink); border-color: #F8FAFC; }
-      .ap-meta { margin: -4px 0 8px; font-size: 13px; color: #475569; }
-      .ap-body { margin: 0; font-size: 15px; line-height: 1.5; color: #334155; }
-      @media (max-width: 700px) {
-        .auto-tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-inline: -4px; padding-inline: 4px; }
-        .auto-tabs button { flex: none; }
-      }
-      .ap-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; }
-      .ap-foot span { font-size: 13px; color: #475569; line-height: 1.35; }
-      .ap-foot button { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 18px; border: 0; border-radius: 99px; flex: none; background: var(--ink); color: #fff; font: 600 15px var(--inter); cursor: pointer; transition: transform 160ms var(--ease-out); }
+      .auto-tabs button[aria-selected='true'] { background: var(--ink); color: var(--paper); }
+      .approval { position: relative; padding: 24px; background: var(--paper); color: var(--ink); }
+      .approval h3 { margin: 6px 0 10px; font-size: var(--step-lead); font-weight: 600; line-height: 1.25; letter-spacing: -0.015em; }
+      .approval ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; font-size: var(--step-body); }
+      .approval li::before { content: ''; display: inline-block; width: 7px; height: 7px; background: var(--ink); margin: 0 10px 2px 0; }
+      .ap-sample { margin: 0; font-size: 14px; font-weight: 500; color: var(--muted); }
+      .ap-meta { margin: -2px 0 10px; font-size: 14px; color: var(--muted); }
+      .ap-body { margin: 0; font-size: var(--step-body); line-height: 1.5; }
+      .ap-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 20px; }
+      .ap-foot span { font-size: 14px; line-height: 1.35; color: var(--muted); }
+      .ap-foot button { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 20px; border: 0; flex: none; background: var(--ink); color: var(--paper); font: 600 var(--step-body) var(--font); cursor: pointer; transition: transform 160ms var(--ease-out), background-color 160ms ease; }
       .ap-foot button:active { transform: scale(0.96); }
-      .ap-stamp { position: absolute; right: 14px; top: 12px; padding: 6px 12px; border-radius: 8px; background: #22D3EE; color: #06303A; font-family: var(--sync); font-weight: 700; font-size: 13px; letter-spacing: 0.06em;
-        opacity: 0; transform: rotate(-8deg) scale(1.4); transition: opacity 200ms ease, transform 420ms cubic-bezier(0.34, 1.56, 0.64, 1); }
-      .approval.is-approved .ap-stamp { opacity: 1; transform: rotate(-8deg) scale(1); }
-      .approval.is-approved .ap-foot button { background: #E2E8F0; color: var(--ink); }
+      .ap-stamp { position: absolute; right: 16px; top: 14px; padding: 6px 12px; background: var(--ink); color: var(--paper); font-weight: 600; font-size: 14px;
+        opacity: 0; transform: rotate(-6deg) scale(1.4); transition: opacity 200ms ease, transform 420ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+      .approval.is-approved .ap-stamp { opacity: 1; transform: rotate(-6deg) scale(1); }
+      .approval.is-approved .ap-foot button { background: rgba(10, 10, 10, 0.1); color: var(--ink); }
+
+      /* the close: one word is the button */
+      .close { position: relative; z-index: 1; }
+      .band {
+        display: grid; grid-template: 'note arrow' auto 'word word' 1fr / 1fr auto; gap: 24px; min-height: 64svh; padding: 28px var(--m) 24px;
+        background: var(--accent); color: var(--accent-ink); text-decoration: none; overflow: hidden;
+      }
+      .band:hover, .band:focus-visible { background: var(--accent-ink); color: var(--accent); }
+      .band:focus-visible { outline: 4px solid var(--accent); outline-offset: -10px; }
+      .band-note { grid-area: note; max-width: 30ch; font-weight: 500; font-size: var(--step-lead); line-height: 1.35; }
+      .band-arrow { grid-area: arrow; width: 48px; height: 48px; }
+      .band-word { grid-area: word; align-self: end; margin: 0 0 0 -0.075em; font-weight: 700; font-size: clamp(120px, 41.5vw, 720px); line-height: 0.74; letter-spacing: -0.06em; }
+      @media (max-width: 700px) {
+        .band { min-height: 46svh; }
+        .band-arrow { width: 32px; height: 32px; }
+      }
+
       /* sections arrive with a short rise as they scroll in */
-      .js .panel, .js .automations { opacity: 0; transform: translateY(32px); transition: opacity 600ms var(--ease-out), transform 700ms var(--ease-out); }
-      .js .is-in .panel, .js .is-in .automations { opacity: 1; transform: none; }
+      .js .panel > *, .js .automations, .js .count { opacity: 0; transform: translateY(28px); transition: opacity 600ms var(--ease-out), transform 700ms var(--ease-out); }
+      .js .panel > :nth-child(2) { transition-delay: 80ms; }
+      .js .panel > :nth-child(3), .js .automations { transition-delay: 160ms; }
+      .js .is-in .panel > *, .js .is-in .automations, .js .is-in .count { opacity: 1; transform: none; }
 
       @media (max-width: 700px) {
         .frame { padding-top: 96px; }
+        .panel { max-width: none; margin-inline: calc(var(--m) * -1); padding: 20px var(--m) 24px; background: var(--field); }
         .frame--split { flex-direction: column; align-items: stretch; justify-content: flex-end; }
-        .count { top: 76px; }
+        .count { top: 80px; }
       }
       @media (prefers-reduced-motion: reduce) {
-        .sun { animation: none; }
-        .js .panel, .js .automations { transition: none; }
+        .js .panel > *, .js .automations, .js .count { transition: none; }
       }
     </style>
 
@@ -242,7 +256,7 @@ const AUTOMATIONS = [
       const root = document.documentElement;
 
       // ── sample messages and the clock slice each one falls into ──
-      const SLICES = ['#EF4444', '#F97316', '#A855F7', '#64748B'];
+      const SLICES = ['#FFC013', '#FF6A3D', '#4D8FE0', '#3FAE7A'];
       const MESSAGES: [string, number][] = [
         ['Reminder: weekly report due', 0], ['Client: any update on the shipment?', 3], ['#4812 customs hold', 1],
         ['3 missed calls', 3], ['Invoice mismatch, please check', 1], ['Re: Re: Re: documents', 3],
@@ -262,16 +276,13 @@ const AUTOMATIONS = [
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
       renderer.toneMappingExposure = 1.15;
       const scene = new THREE.Scene();
-      scene.fog = new THREE.Fog(0x0b0b10, 6, 26);
       const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 90);
       scene.add(camera);
       const world = new THREE.Group();
       scene.add(world);
-      const ambient = new THREE.AmbientLight(0x8890b0, 0.9);
-      const hemi = new THREE.HemisphereLight(0xffe2b8, 0x9dc7b4, 0); // the morning light of the last frames
-      const redLight = new THREE.PointLight(0xef4444, 14, 12);
-      redLight.position.set(1.5, 1.5, 0);
-      scene.add(ambient, hemi, redLight);
+      const ambient = new THREE.AmbientLight(0xffffff, 0.55);
+      const hemi = new THREE.HemisphereLight(0xffffff, 0xd9d2c5, 1.1);
+      scene.add(ambient, hemi);
 
       // ── the person ──
       const person = await loadPerson();
@@ -293,88 +304,80 @@ const AUTOMATIONS = [
         room.add(b);
         return b;
       };
-      const floorMat = solid('#15161F');
-      const wallMat = solid('#1A1B26');
-      const floor = new THREE.Mesh(new THREE.PlaneGeometry(60, 30), floorMat);
+      // wall and floor are the page's own colour field: unlit, exact, and shadows laid over them
+      const wallMat = new THREE.MeshBasicMaterial({ color: '#CBE4F2', toneMapped: false, transparent: true });
+      const floorMat = new THREE.MeshBasicMaterial({ color: '#B6D2E2', toneMapped: false });
+      const floorGeo = new THREE.PlaneGeometry(80, 70);
+      const wallGeo = new THREE.PlaneGeometry(80, 24);
+      const floor = new THREE.Mesh(floorGeo, floorMat);
       floor.rotation.x = -Math.PI / 2;
       floor.position.set(P_X, FEET, -6);
-      const wall = new THREE.Mesh(new THREE.PlaneGeometry(60, 20), wallMat);
-      wall.position.set(P_X, FEET + 9, -5);
-      room.add(floor, wall);
-      floor.receiveShadow = true;
-      wall.receiveShadow = true;
-      // wood planks and a faint wall texture, drawn once
-      const plankTex = (() => {
-        const c = document.createElement('canvas'); c.width = 512; c.height = 512;
-        const g = c.getContext('2d')!;
-        g.fillStyle = '#C9B79C'; g.fillRect(0, 0, 512, 512);
-        for (let y = 0; y < 512; y += 64) {
-          const off = (y / 64) % 2 ? 0 : 160;
-          for (let x = -off; x < 512; x += 320) {
-            g.fillStyle = `hsl(32, 24%, ${62 + ((x * 13 + y * 7) % 9)}%)`;
-            g.fillRect(x + 2, y + 2, 316, 60);
-          }
-        }
-        const t = new THREE.CanvasTexture(c);
-        t.wrapS = t.wrapT = THREE.RepeatWrapping;
-        t.repeat.set(14, 7);
-        t.colorSpace = THREE.SRGBColorSpace;
-        t.anisotropy = 8;
-        return t;
-      })();
-      floorMat.map = plankTex;
-      floorMat.needsUpdate = true;
-      const skirting = solid('#3A3C48');
-      box(60, 0.18, 0.06, skirting, P_X, FEET + 0.09, -4.96);
-      // the rug he stands on
-      const rugMat = new THREE.MeshStandardMaterial({ color: '#3B5566', roughness: 1, transparent: true });
-      const rugEdgeMat = new THREE.MeshStandardMaterial({ color: '#5E7480', roughness: 1, transparent: true });
-      roomMats.push(rugMat, rugEdgeMat);
-      const rugEdge = new THREE.Mesh(new THREE.PlaneGeometry(3.3, 2.1), rugEdgeMat);
-      const rug = new THREE.Mesh(new THREE.PlaneGeometry(3.14, 1.94), rugMat);
-      for (const [m, y] of [[rugEdge, 0.004], [rug, 0.007]] as const) {
-        m.rotation.x = -Math.PI / 2;
-        m.position.set(P_X, FEET + y, -0.2);
-        m.receiveShadow = true;
-        room.add(m);
-      }
+      const wall = new THREE.Mesh(wallGeo, wallMat);
+      wall.position.set(P_X, FEET + 11, -5);
+      const floorShadow = new THREE.Mesh(floorGeo, new THREE.ShadowMaterial({ opacity: 0.16 }));
+      floorShadow.rotation.x = -Math.PI / 2;
+      floorShadow.position.set(P_X, FEET + 0.003, -6);
+      floorShadow.receiveShadow = true;
+      const wallShadowMat = new THREE.ShadowMaterial({ opacity: 0.1 });
+      const wallShadow = new THREE.Mesh(wallGeo, wallShadowMat);
+      wallShadow.position.set(P_X, FEET + 11, -4.99);
+      wallShadow.receiveShadow = true;
+      room.add(floor, wall, floorShadow, wallShadow);
+      // the sun that sets behind the floor at the end of the day
+      const sunMat = new THREE.MeshBasicMaterial({ color: '#FFC013', toneMapped: false, transparent: true, opacity: 0 });
+      const sunDisc = new THREE.Mesh(new THREE.CircleGeometry(small ? 2.6 : 3.6, 64), sunMat);
+      sunDisc.position.set(P_X + (small ? 0 : 1.6), FEET - 0.4, -36);
+      world.add(sunDisc);
 
-      // the window behind him: a night city that becomes a morning sky
-      function windowTexture(night: boolean) {
-        const c = document.createElement('canvas');
-        c.width = 512; c.height = 360;
-        const g = c.getContext('2d')!;
-        const sky = g.createLinearGradient(0, 0, 0, 360);
-        sky.addColorStop(0, night ? '#0A0E22' : '#FFDDAA');
-        sky.addColorStop(1, night ? '#1C2246' : '#BFE3D6');
-        g.fillStyle = sky;
-        g.fillRect(0, 0, 512, 360);
-        if (night) {
-          for (let i = 0; i < 14; i++) {
-            const x = i * 38 - 10, w = 30 + (i % 3) * 8, h = 90 + ((i * 53) % 150);
-            g.fillStyle = '#0D1124';
-            g.fillRect(x, 360 - h, w, h);
-            g.fillStyle = 'rgba(255, 210, 122, 0.85)';
-            for (let y = 360 - h + 10; y < 350; y += 18) for (let xx = x + 5; xx < x + w - 6; xx += 10) if ((xx * 7 + y * 13) % 5 === 0) g.fillRect(xx, y, 4, 6);
-          }
-        } else {
-          g.fillStyle = 'rgba(255, 190, 110, 0.9)';
-          g.beginPath(); g.arc(330, 170, 46, 0, Math.PI * 2); g.fill();
-          g.fillStyle = '#9CCBB4';
-          g.beginPath(); g.moveTo(0, 300); g.quadraticCurveTo(160, 230, 300, 290); g.quadraticCurveTo(420, 250, 512, 280); g.lineTo(512, 360); g.lineTo(0, 360); g.fill();
-        }
-        const t = new THREE.CanvasTexture(c);
-        t.colorSpace = THREE.SRGBColorSpace;
-        return t;
-      }
+      // the window behind him: its sky follows the clock, hour by hour
       const WIN = { w: small ? 2.6 : 3.6, h: small ? 1.9 : 2.5, x: P_X - (small ? 0 : 0.3), y: FEET + (small ? 3.2 : 3.5), z: -4.95 };
-      const nightWin = new THREE.Mesh(new THREE.PlaneGeometry(WIN.w, WIN.h), new THREE.MeshBasicMaterial({ map: windowTexture(true), transparent: true }));
-      const dayWin = new THREE.Mesh(new THREE.PlaneGeometry(WIN.w, WIN.h), new THREE.MeshBasicMaterial({ map: windowTexture(false), transparent: true, opacity: 0 }));
-      nightWin.position.set(WIN.x, WIN.y, WIN.z);
-      dayWin.position.set(WIN.x, WIN.y, WIN.z + 0.01);
-      roomMats.push(nightWin.material, dayWin.material);
-      room.add(nightWin, dayWin);
-      const frameMat = solid('#2A2C38');
+      const winCanvas = document.createElement('canvas');
+      winCanvas.width = 512; winCanvas.height = 356;
+      const winG = winCanvas.getContext('2d')!;
+      const winTex = new THREE.CanvasTexture(winCanvas);
+      winTex.colorSpace = THREE.SRGBColorSpace;
+      winTex.anisotropy = 8;
+      const winMat = new THREE.MeshBasicMaterial({ map: winTex, toneMapped: false, transparent: true });
+      roomMats.push(winMat);
+      const win = new THREE.Mesh(new THREE.PlaneGeometry(WIN.w, WIN.h), winMat);
+      win.position.set(WIN.x, WIN.y, WIN.z);
+      room.add(win);
+      // [hour, sky, far towers, near towers, sun x, sun y (0 = top, 1 = horizon)]
+      const SKY: [number, string, string, string, number, number][] = [
+        [7.97, '#F7D9BC', '#D9B39A', '#A88470', 0.2, 0.8],   // 7:58 am: low sun, pale morning
+        [10, '#B4DCF4', '#8FB5CC', '#6A8EA5', 0.34, 0.42],
+        [13, '#86C8F0', '#7DA9C4', '#55809A', 0.56, 0.14],   // midday, sun high
+        [15, '#9FD0EE', '#86ABC1', '#5D8299', 0.72, 0.34],
+        [17.5, '#F5A35A', '#CF7E4F', '#8E4F36', 0.84, 0.74], // golden hour
+        [18.75, '#24304A', '#1B2438', '#111827', 0.9, 1.2],  // evening, the city lights come on
+      ];
+      const FAR = Array.from({ length: 11 }, (_, i) => [i * 50 - 10, 44, 120 + ((i * 71) % 110)]);
+      const NEAR = Array.from({ length: 9 }, (_, i) => [i * 64 - 22, 54 + (i % 3) * 10, 70 + ((i * 53) % 120)]);
+      const cA = new THREE.Color(), cB = new THREE.Color();
+      const mix = (a: string, b: string, t: number) => '#' + cA.set(a).lerp(cB.set(b), t).getHexString();
+      function drawWindow(hour: number) {
+        let k = 0;
+        while (k < SKY.length - 2 && hour > SKY[k + 1][0]) k++;
+        const [h0, s0, f0, n0, x0, y0] = SKY[k];
+        const [h1, s1, f1, n1, x1, y1] = SKY[k + 1];
+        const t = Math.min(1, Math.max(0, (hour - h0) / (h1 - h0)));
+        const W = 512, H = 356;
+        winG.fillStyle = mix(s0, s1, t); winG.fillRect(0, 0, W, H);
+        winG.fillStyle = '#FFD84D';
+        winG.beginPath(); winG.arc((x0 + (x1 - x0) * t) * W, (y0 + (y1 - y0) * t) * H, 34, 0, Math.PI * 2); winG.fill();
+        winG.fillStyle = mix(f0, f1, t);
+        for (const [x, w, h] of FAR) winG.fillRect(x, H - h, w, h);
+        winG.fillStyle = mix(n0, n1, t);
+        for (const [x, w, h] of NEAR) winG.fillRect(x, H - h, w, h);
+        const lit = Math.min(1, Math.max(0, (hour - 17.9) / 0.6));
+        if (lit > 0) {
+          winG.fillStyle = `rgba(255, 210, 110, ${lit})`;
+          for (const [x, w, h] of NEAR) for (let y = H - h + 12; y < H - 8; y += 18) for (let xx = x + 6; xx < x + w - 8; xx += 12) if ((xx * 7 + y * 13) % 4 === 0) winG.fillRect(xx, y, 5, 7);
+        }
+        winTex.needsUpdate = true;
+      }
+      drawWindow(SKY[0][0]);
+      const frameMat = solid('#0A0A0A');
       box(WIN.w + 0.16, 0.08, 0.06, frameMat, WIN.x, WIN.y + WIN.h / 2, WIN.z + 0.02);
       box(WIN.w + 0.16, 0.08, 0.06, frameMat, WIN.x, WIN.y - WIN.h / 2, WIN.z + 0.02);
       box(0.08, WIN.h, 0.06, frameMat, WIN.x - WIN.w / 2, WIN.y, WIN.z + 0.02);
@@ -384,45 +387,46 @@ const AUTOMATIONS = [
       // his desk, to his right: monitor, piles of paper, a mug; a plant arrives in the morning
       const DX = P_X + (small ? 1.9 : 2.7);
       const DZ = -2.4;
-      const deskMat = solid('#2B2D3A');
+      const deskMat = solid('#0A0A0A');
       const deskTop = FEET + 1.25;
-      box(2.3, 0.08, 1.0, deskMat, DX, deskTop, DZ).castShadow = true;
+      const deskTopMesh = box(2.3, 0.08, 1.0, deskMat, DX, deskTop, DZ);
+      deskTopMesh.castShadow = true;
       for (const [lx, lz] of [[-1.05, -0.4], [1.05, -0.4], [-1.05, 0.4], [1.05, 0.4]]) box(0.06, 1.25, 0.06, deskMat, DX + lx, FEET + 0.62, DZ + lz);
-      box(1.0, 0.62, 0.05, solid('#121320'), DX - 0.2, deskTop + 0.5, DZ - 0.3);
-      const screenMat = new THREE.MeshBasicMaterial({ color: '#BFDBFE', transparent: true });
+      box(1.0, 0.62, 0.05, solid('#0A0A0A'), DX - 0.2, deskTop + 0.5, DZ - 0.3);
+      const screenMat = new THREE.MeshBasicMaterial({ color: '#FFFFFF', transparent: true, toneMapped: false });
       roomMats.push(screenMat);
       const screen = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 0.52), screenMat);
       screen.position.set(DX - 0.2, deskTop + 0.5, DZ - 0.27);
       room.add(screen);
-      box(0.08, 0.3, 0.08, solid('#121320'), DX - 0.2, deskTop + 0.15, DZ - 0.3);
-      const paperMat = solid('#E5E7EB');
+      box(0.08, 0.3, 0.08, solid('#0A0A0A'), DX - 0.2, deskTop + 0.15, DZ - 0.3);
+      const paperMat = solid('#FFFFFF');
       const piles = [[0.55, 0.0, 0.34], [0.85, 0.2, 0.22], [0.25, 0.28, 0.16]].map(([px, pz, h]) => {
         const p = box(0.36, h, 0.27, paperMat, DX + px, deskTop + 0.04 + h / 2, DZ + pz);
         return { p, h };
       });
-      box(0.1, 0.12, 0.1, solid('#B91C1C'), DX - 0.85, deskTop + 0.1, DZ + 0.2);
+      box(0.1, 0.12, 0.1, solid('#FF6A3D'), DX - 0.85, deskTop + 0.1, DZ + 0.2);
       const plant = new THREE.Group();
-      const pot = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.09, 0.2, 16), solid('#C2733F'));
-      const leaves = new THREE.Mesh(new THREE.SphereGeometry(0.22, 16, 12), solid('#4C9A6A'));
+      const pot = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.09, 0.2, 16), solid('#0A0A0A'));
+      const leaves = new THREE.Mesh(new THREE.SphereGeometry(0.22, 16, 12), solid('#2F9E5B'));
       leaves.position.y = 0.26;
       plant.add(pot, leaves);
       plant.position.set(DX + 0.7, deskTop + 0.14, DZ + 0.1);
       room.add(plant);
       // his chair, pushed back from the desk
-      const chairMat = solid('#20222C');
+      const chairMat = solid('#0A0A0A');
       box(0.55, 0.07, 0.5, chairMat, DX - 0.3, FEET + 0.62, DZ + 0.75);
       box(0.55, 0.6, 0.07, chairMat, DX - 0.3, FEET + 0.95, DZ + 1.0);
       box(0.06, 0.6, 0.06, chairMat, DX - 0.3, FEET + 0.3, DZ + 0.75);
       box(0.5, 0.05, 0.05, chairMat, DX - 0.3, FEET + 0.03, DZ + 0.75);
       // a shelf of binders: the paperwork that the workflow takes over
       const shelfY = FEET + 3.0;
-      box(1.9, 0.06, 0.32, solid('#2B2D3A'), DX, shelfY, -4.8);
-      ['#3B82F6', '#EF4444', '#F59E0B', '#10B981', '#6366F1', '#64748B', '#EC4899'].forEach((col, i) => {
+      box(1.9, 0.06, 0.32, solid('#0A0A0A'), DX, shelfY, -4.8);
+      ['#FFC013', '#FF6A3D', '#4D8FE0', '#3FAE7A', '#FFFFFF', '#0A0A0A', '#4D8FE0'].forEach((col, i) => {
         const h = 0.42 + ((i * 7) % 3) * 0.06;
         box(0.17, h, 0.28, solid(col), DX - 0.78 + i * 0.24, shelfY + 0.03 + h / 2, -4.8);
       });
       // sticky notes all over the wall at the start
-      const noteMat = solid('#FDE68A');
+      const noteMat = solid('#FFD84D');
       const notes = Array.from({ length: 9 }, (_, i) => {
         const n = new THREE.Mesh(new THREE.PlaneGeometry(0.32, 0.32), noteMat);
         n.position.set(WIN.x + WIN.w / 2 + 0.4 + (i % 3) * 0.42, WIN.y + 0.6 - Math.floor(i / 3) * 0.42, WIN.z + 0.02);
@@ -430,10 +434,35 @@ const AUTOMATIONS = [
         room.add(n);
         return n;
       });
-      // a desk lamp's warm pool of light, on at night
-      const lamp = new THREE.PointLight(0xffb366, 6, 6);
-      lamp.position.set(DX - 0.9, deskTop + 0.9, DZ + 0.3);
-      scene.add(lamp);
+      // a wall clock: the same hour the window shows
+      const clock = new THREE.Group();
+      const flat = (color: string) => { const m = new THREE.MeshBasicMaterial({ color, toneMapped: false, transparent: true }); roomMats.push(m); return m; };
+      const rimDisc = new THREE.Mesh(new THREE.CircleGeometry(0.44, 48), flat('#0A0A0A'));
+      const face = new THREE.Mesh(new THREE.CircleGeometry(0.38, 48), flat('#FFFFFF'));
+      face.position.z = 0.005;
+      clock.add(rimDisc, face);
+      for (let q = 0; q < 12; q++) {
+        const tick = new THREE.Mesh(new THREE.PlaneGeometry(q % 3 ? 0.02 : 0.04, q % 3 ? 0.05 : 0.09), flat('#0A0A0A'));
+        const a = (q / 12) * Math.PI * 2;
+        tick.position.set(Math.sin(a) * 0.31, Math.cos(a) * 0.31, 0.01);
+        tick.rotation.z = -a;
+        clock.add(tick);
+      }
+      const hand = (len: number, w: number, color: string) => {
+        const pivot = new THREE.Group();
+        const m = new THREE.Mesh(new THREE.PlaneGeometry(w, len), flat(color));
+        m.position.set(0, len / 2 - 0.05, 0.015);
+        pivot.add(m);
+        clock.add(pivot);
+        return pivot;
+      };
+      const hourHand = hand(0.22, 0.05, '#0A0A0A');
+      const minHand = hand(0.32, 0.03, '#0A0A0A');
+      const pin = new THREE.Mesh(new THREE.CircleGeometry(0.035, 16), flat('#FF6A3D'));
+      pin.position.z = 0.02;
+      clock.add(pin);
+      clock.position.set(small ? WIN.x : WIN.x - WIN.w / 2 - 0.9, small ? WIN.y + WIN.h / 2 + 0.6 : WIN.y + 0.55, -4.93);
+      room.add(clock);
       world.add(figure);
       const key = new THREE.DirectionalLight(0xffffff, 1.8);
       key.position.set(2, 3, 4);
@@ -446,7 +475,7 @@ const AUTOMATIONS = [
       key.shadow.bias = -0.0004;
       key.shadow.radius = 4;
       figure.traverse((o) => { if ((o as THREE.Mesh).isMesh) o.castShadow = true; });
-      const rim = new THREE.DirectionalLight(0x7aa2ff, 1.4);
+      const rim = new THREE.DirectionalLight(0xffffff, 0.9);
       rim.position.set(P_X - 3, FEET + 6, -6);
       rim.target = figure;
       scene.add(rim);
@@ -455,7 +484,7 @@ const AUTOMATIONS = [
         const c = document.createElement('canvas'); c.width = c.height = 128;
         const g = c.getContext('2d')!;
         const grad = g.createRadialGradient(64, 64, 4, 64, 64, 62);
-        grad.addColorStop(0, 'rgba(0,0,0,0.55)'); grad.addColorStop(1, 'rgba(0,0,0,0)');
+        grad.addColorStop(0, 'rgba(0,0,0,0.35)'); grad.addColorStop(1, 'rgba(0,0,0,0)');
         g.fillStyle = grad; g.fillRect(0, 0, 128, 128);
         return new THREE.CanvasTexture(c);
       })();
@@ -469,24 +498,17 @@ const AUTOMATIONS = [
         const k = 2;
         const h = 44 * k;
         const ctx = document.createElement('canvas').getContext('2d')!;
-        const font = `500 ${16 * k}px "Inter Variable", Inter, sans-serif`;
+        const font = `500 ${16 * k}px "Albert Sans Variable", "Albert Sans", sans-serif`;
         ctx.font = font;
         const w = Math.ceil(ctx.measureText(text).width + 56 * k);
         ctx.canvas.width = w;
         ctx.canvas.height = h;
         ctx.font = font;
-        ctx.fillStyle = hot ? 'rgba(239,68,68,0.22)' : 'rgba(248,250,252,0.10)';
-        ctx.strokeStyle = hot ? 'rgba(239,68,68,0.65)' : 'rgba(248,250,252,0.28)';
-        ctx.lineWidth = 2 * k;
-        ctx.beginPath();
-        ctx.roundRect(2, 2, w - 4, h - 4, 12 * k);
-        ctx.fill();
-        ctx.stroke();
-        ctx.fillStyle = '#EF4444';
-        ctx.beginPath();
-        ctx.arc(22 * k, h / 2, 4.5 * k, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = '#E2E8F0';
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = hot ? '#C81E1E' : '#0A0A0A';
+        ctx.fillRect(18 * k, h / 2 - 4 * k, 8 * k, 8 * k);
+        ctx.fillStyle = '#0A0A0A';
         ctx.textBaseline = 'middle';
         ctx.fillText(text, 36 * k, h / 2 + k);
         const tex = new THREE.CanvasTexture(ctx.canvas);
@@ -512,7 +534,7 @@ const AUTOMATIONS = [
         const m = i % MESSAGES.length;
         const { tex, aspect } = textures[m][Math.random() < 0.22 ? 1 : 0];
         const mesh = new THREE.Mesh(new THREE.PlaneGeometry(0.34 * aspect, 0.34),
-          new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false, side: THREE.DoubleSide }));
+          new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false, side: THREE.DoubleSide, toneMapped: false }));
         mesh.rotation.set((Math.random() - 0.5) * 0.4, (Math.random() - 0.5) * 0.6, (Math.random() - 0.5) * 0.3);
         world.add(mesh);
         const slice = MESSAGES[m][1];
@@ -562,14 +584,14 @@ const AUTOMATIONS = [
             }`,
         });
       }
-      const coreMat = makeLiquid('#0E6B78', '#9EF7FF', 0.16, 1);
+      const coreMat = makeLiquid('#0A0A0A', '#4A4A4A', 0.16, 1);
       const core = new THREE.Mesh(new THREE.IcosahedronGeometry(1, 24), coreMat);
       core.position.copy(ringCentre);
-      const clockMat = makeLiquid('#FFF7EA', '#7FD1BE', 0.22, 0.4);
+      const clockMat = makeLiquid('#FFFFFF', '#FFC013', 0.22, 0.4);
       const clockBlob = new THREE.Mesh(new THREE.IcosahedronGeometry(1, 32), clockMat);
       clockBlob.position.copy(blobPos);
       world.add(core, clockBlob);
-      const coreLight = new THREE.PointLight(0x22d3ee, 0, 18);
+      const coreLight = new THREE.PointLight(0xffffff, 0, 18);
       coreLight.position.copy(ringCentre).add(new THREE.Vector3(0, 0, 1.5));
       scene.add(coreLight);
 
@@ -578,8 +600,6 @@ const AUTOMATIONS = [
       const hub = $('[data-hub]');
       const coreEl = $('[data-core]');
       const timeWord = $('[data-time-word]');
-      const horizon = $('[data-horizon]');
-      const sun = $('[data-sun]');
       const pt = new THREE.Vector3();
       function place(el: HTMLElement, world3: THREE.Vector3, opacity: number) {
         pt.copy(world3).project(camera);
@@ -655,10 +675,13 @@ const AUTOMATIONS = [
       const zAxis = new THREE.Vector3(0, 0, 1);
       const sliceColors = SLICES.map((c) => new THREE.Color(c));
       const white = new THREE.Color(0xffffff);
-      const teal = new THREE.Color('#22D3EE');
-      // night, indigo, deep teal, sea glass, morning, golden hour
-      const BG_A = ['#1B1B26', '#1E1B4B', '#0E5160', '#2A8C8C', '#F3EFE4', '#FFE3B8'].map((c) => new THREE.Color(c));
-      const BG_B = ['#0B0B10', '#0E0E18', '#062B33', '#0B4F5C', '#9CCFC3', '#BFE0D2'].map((c) => new THREE.Color(c));
+      const inkC = new THREE.Color('#0A0A0A');
+      // one flat field per chapter, one hour of his day each: sky 7:58, sand 10:00, yellow noon, sky 3 pm, sand 5:30, night 6:45
+      const FIELD = ['#CBE4F2', '#F1E3B5', '#FFC013', '#BCDCEE', '#F1E3B5', '#0A0A0A'].map((c) => new THREE.Color(c));
+      const FLOOR = FIELD.map((c, k) => (k === 5 ? new THREE.Color('#222222') : c.clone().offsetHSL(0, 0, -0.07)));
+      const HOURS = [7.97, 10, 13, 15, 17.5, 18.75];
+      let lastHour = -1;
+      const sp = new THREE.Vector3();
       const bgA = new THREE.Color();
       const bgB = new THREE.Color();
       let time = 0;
@@ -686,7 +709,7 @@ const AUTOMATIONS = [
         world.rotation.x = pointer.y * 0.04;
         camera.lookAt(P_X * 0.3, small ? -0.7 : -0.25, 0);
 
-        const camZ = camera.position.z;
+        const rects = [...sections[target].querySelectorAll('.panel, .count')].map((el) => el.getBoundingClientRect());
         for (const c of cards) {
           if (!reduce) {
             c.base.z += c.speed * dt * (1 - settle);
@@ -711,7 +734,13 @@ const AUTOMATIONS = [
           c.mesh.scale.set(shrink * (1 + 1.8 * e * (1 - e)), shrink * (1 - 0.5 * e), 1);
           const mat = c.mesh.material as THREE.MeshBasicMaterial;
           mat.opacity = Math.min(1, Math.max(0, (1.8 - tmp.z) / 1.4)) * (1 - smooth(0.75, 1, e));
-          mat.color.copy(white).lerp(sliceColors[c.slice], settle * 0.85).lerp(teal, e);
+          mat.color.copy(white).lerp(sliceColors[c.slice], settle * 0.85).lerp(inkC, e);
+          // keep the words readable: slips fade out as they pass behind the text of the chapter
+          if (mat.opacity > 0) {
+            sp.copy(tmp).applyMatrix4(world.matrixWorld).project(camera);
+            const sx = (sp.x * 0.5 + 0.5) * canvas.clientWidth, sy = (-sp.y * 0.5 + 0.5) * canvas.clientHeight;
+            for (const r of rects) mat.opacity *= smooth(-20, 90, Math.max(r.left - sx, sx - r.right, r.top - sy, r.bottom === r.top ? 0 : sy - r.bottom));
+          }
         }
 
         // the person
@@ -725,47 +754,42 @@ const AUTOMATIONS = [
         piles.forEach(({ p }) => { p.scale.y = Math.max(0.05, clutter); p.position.y = deskTop + 0.04 + (p.geometry as THREE.BoxGeometry).parameters.height * p.scale.y / 2; });
         notes.forEach((n, k) => { n.scale.setScalar(Math.max(0.0001, 1 - smooth(k / 18, k / 18 + 0.5, flow))); });
         plant.scale.setScalar(Math.max(0.0001, smooth(0.2, 0.8, ret)));
-        screenMat.color.set(flow > 0.5 ? '#9EE7E0' : '#BFDBFE');
+        screenMat.color.set(flow > 0.5 ? '#FFD84D' : '#FFFFFF');
         screenMat.opacity = 0.35 + 0.65 * (clutter * (0.85 + Math.sin(time * 9) * 0.15 * clutter));
-        (dayWin.material as THREE.MeshBasicMaterial).opacity = Math.max(resolve * 0.35, ret);
-        lamp.intensity = 6 * (1 - Math.max(resolve, ret));
-        rim.color.set(ret > 0.4 ? '#FFD9A8' : flow > 0.4 ? '#7FF0E6' : '#7AA2FF');
         contact.material.opacity = 1 - smooth(0.6, 1, calm) * 0.4;
         const roomOpacity = 1 - smooth(0.2, 0.9, calm);
-        roomMats.forEach((m) => { if (m !== dayWin.material) (m as THREE.MeshBasicMaterial).opacity = roomOpacity; });
-        (dayWin.material as THREE.MeshBasicMaterial).opacity *= roomOpacity;
-        redLight.intensity = 14 * (1 - settle);
-        ambient.intensity = 0.9 + ret * 0.3;
-        hemi.intensity = 1.4 * Math.max(ret, calm);
+        roomMats.forEach((m) => { (m as THREE.MeshBasicMaterial).opacity = roomOpacity; });
+        wallMat.opacity = roomOpacity;
+        deskTopMesh.castShadow = roomOpacity > 0.5;
+        wallShadowMat.opacity = 0.1 * roomOpacity;
+        sunMat.opacity = calm;
+
+        // the hour: the window and the wall clock both follow it
+        const fi = Math.min(4, Math.floor(scene01));
+        const ft = scene01 - fi;
+        const hour = HOURS[fi] + (HOURS[fi + 1] - HOURS[fi]) * ft;
+        if (Math.abs(hour - lastHour) > 0.01) { drawWindow(hour); lastHour = hour; }
+        hourHand.rotation.z = -((hour % 12) / 12) * Math.PI * 2;
+        minHand.rotation.z = -(hour % 1) * Math.PI * 2;
 
         // core and the returned clock
         const life = smooth(0.1, 0.9, flow);
         coreMat.uniforms.uLife.value = life;
         coreMat.uniforms.uTime.value = time;
         core.scale.setScalar(Math.max(0.0001, RING_R * 0.48 * life * (1 - resolve)));
-        coreLight.intensity = 9 * life * (1 - resolve);
+        coreLight.intensity = 3 * life * (1 - resolve);
         clockMat.uniforms.uLife.value = ret * (1 - calm);
         clockMat.uniforms.uTime.value = time;
         clockBlob.scale.setScalar(Math.max(0.0001, (small ? 0.75 : 1.05) * smooth(0, 0.7, ret) * (1 + Math.sin(time * 0.7) * 0.025)));
 
         // colour of the world
-        if (calm > 0) { bgA.copy(BG_A[4]).lerp(BG_A[5], calm); bgB.copy(BG_B[4]).lerp(BG_B[5], calm); }
-        else if (ret > 0) { bgA.copy(BG_A[3]).lerp(BG_A[4], ret); bgB.copy(BG_B[3]).lerp(BG_B[4], ret); }
-        else if (resolve > 0) { bgA.copy(BG_A[2]).lerp(BG_A[3], resolve); bgB.copy(BG_B[2]).lerp(BG_B[3], resolve); }
-        else if (flow > 0) { bgA.copy(BG_A[1]).lerp(BG_A[2], flow); bgB.copy(BG_B[1]).lerp(BG_B[2], flow); }
-        else { bgA.copy(BG_A[0]).lerp(BG_A[1], hold); bgB.copy(BG_B[0]).lerp(BG_B[1], hold); }
-        root.style.setProperty('--bg-a', '#' + bgA.getHexString());
-        root.style.setProperty('--bg-b', '#' + bgB.getHexString());
-        (scene.fog as THREE.Fog).color.copy(bgB);
-        wallMat.color.copy(bgA).lerp(bgB, 0.35).offsetHSL(0, 0, 0.03);
-        floorMat.color.copy(wallMat.color).offsetHSL(0, 0, -0.05);
-        (scene.fog as THREE.Fog).far = 26 + settle * 16;
-        horizon.style.opacity = calm.toFixed(3);
-        sun.style.opacity = calm.toFixed(3);
-        const light = ret > 0.5;
-        root.style.setProperty('--bar', light ? '#0F172A' : '#F8FAFC');
-        root.style.setProperty('--cta-bg', light ? '#0F172A' : '#F8FAFC');
-        root.style.setProperty('--cta-fg', light ? '#F8FAFC' : '#0B0B10');
+        bgA.copy(FIELD[fi]).lerp(FIELD[fi + 1], ft);
+        bgB.copy(FLOOR[fi]).lerp(FLOOR[fi + 1], ft);
+        root.style.setProperty('--field', '#' + bgA.getHexString());
+        wallMat.color.copy(bgA);
+        floorMat.color.copy(bgB);
+        const lum = bgA.r * 0.2126 + bgA.g * 0.7152 + bgA.b * 0.0722;
+        root.style.setProperty('--bar', lum < 0.2 ? '#F2F2F2' : '#0A0A0A');
 
         // labels pinned to the 3D shapes
         const labelsIn = smooth(0.85, 1, p1) * (1 - smooth(0, 0.2, flow));
